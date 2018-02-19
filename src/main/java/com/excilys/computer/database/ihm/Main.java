@@ -1,9 +1,5 @@
 package main.java.com.excilys.computer.database.ihm;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
 import java.util.Scanner;
 
 import main.java.com.excilys.computer.database.ihm.observable.AccueilObservable;
@@ -44,34 +40,7 @@ public class Main {
 		System.out.print("\nThank you for visiting! :)\n");
 	}
 	
-	public static void main(String[] args) {
-		/*Properties prop = new Properties();
-		InputStream input = null;
-		
-		try {
-
-			input = new FileInputStream("src/main/resources/connect.properties");
-
-			// load a properties file
-			prop.load(input);
-
-			// get the property value and print it out
-			System.out.println(prop.getProperty("url"));
-			System.out.println(prop.getProperty("username"));
-			System.out.println(prop.getProperty("password"));
-
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		} finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}*/
-		
+	public static void main(String[] args) {		
 		Observer observer = new Observer();
 		
 		//INITIALISATION DES OBSERVABLES
