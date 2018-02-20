@@ -15,9 +15,9 @@ public class Connect {
 	private static Properties prop = new Properties();
 	private static InputStream input = null;
 	
-	private static String url;						// = "jdbc:mysql://127.0.0.1:3306/computer-database-db?useSSL=false"; 
-	private static String password;					// = "qwerty1234";
-	private static String username;					// = "admincdb";
+	private static String url;
+	private static String password;
+	private static String username;
 	
 	private static Connection connect = null;
 	final private static Logger logger = Logger.getLogger(Connect.class);

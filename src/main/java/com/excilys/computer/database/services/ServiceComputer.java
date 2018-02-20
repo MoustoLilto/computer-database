@@ -13,7 +13,7 @@ public class ServiceComputer {
 		
 	}
 	
-	private static Logger logger;
+	final private static Logger logger = Logger.getLogger(ServiceComputer.class);
 	private static ServiceComputer service = null;
 	
 	public static ServiceComputer getService() {

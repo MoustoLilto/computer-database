@@ -17,7 +17,7 @@ public class DAOCompany {
 	private static Statement stmt;
 	
 	private static List<Company> companys=null;  								//La liste des compagnies
-	private static Logger logger;
+	final private static Logger logger = Logger.getLogger(DAOCompany.class);
 	
 	/**
 	 * Permet d'initialiser la liste des companies

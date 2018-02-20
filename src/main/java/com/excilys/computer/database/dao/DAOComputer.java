@@ -21,7 +21,7 @@ public class DAOComputer {
 	private static PreparedStatement ps;
 	private static int  Nbre_Tuples_Modifie;
 	
-	private static Logger logger;
+	final private static Logger logger = Logger.getLogger(DAOComputer.class);
 	private static List<Computer> computers=null;
 	
 	/**
