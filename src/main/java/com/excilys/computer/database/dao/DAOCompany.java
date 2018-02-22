@@ -35,9 +35,9 @@ public class DAOCompany {
         	try {
         		results.close();
         		results = null;
-	        } catch (SQLException e1) {
+        	} catch (SQLException e1) {
 	        	logger.error("Erreur de fermeture du ResultSet! erreur:" + e1);
-			}
+	        }
         }
 		connect.closeConnection();
 	}
@@ -67,7 +67,6 @@ public class DAOCompany {
 		} catch (SQLException e1) {
 			logger.error("Erreur de traitement de l'execution de la requete pour company! erreur:" + e1);
 		}
-		
 		close(results);
 		return companys;
 	}

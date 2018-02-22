@@ -40,7 +40,7 @@ public class Connect {
 			logger.error("Erreur de connexion a la BDD! erreur:" + e1);
 		} 
 		return connection;
-    }
+	}
 
 	public void closeConnection() {           
         if (connection != null) {
@@ -49,7 +49,7 @@ public class Connect {
         		connection = null;
 	        } catch (SQLException e1) {
 	        	logger.error("Erreur de fermeture de la connexion a la BDD! erreur:" + e1);
-			}
+	        }
         }
-    }
+	}
 }
