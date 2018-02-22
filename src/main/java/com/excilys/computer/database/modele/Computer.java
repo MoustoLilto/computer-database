@@ -9,7 +9,8 @@ public class Computer {
 	private LocalDate discontinued; 
 	private long company_id;
 	
-	public Computer(String name, LocalDate introduced, LocalDate discontinued, int company_id) {
+	public Computer(long id, String name, LocalDate introduced, LocalDate discontinued, int company_id) {
+		this.id = id;
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;

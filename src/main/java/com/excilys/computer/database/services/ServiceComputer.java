@@ -8,13 +8,14 @@ import main.java.com.excilys.computer.database.dao.DAOComputer;
 import main.java.com.excilys.computer.database.modele.Computer;
 
 public class ServiceComputer {
+	private static ServiceComputer service = null;
+	DAOComputer daoComputer = DAOComputer.getInstance();
+	
+	final private static Logger logger = Logger.getLogger(ServiceComputer.class);
 
 	private ServiceComputer() {
 		
 	}
-	
-	final private static Logger logger = Logger.getLogger(ServiceComputer.class);
-	private static ServiceComputer service = null;
 	
 	public static ServiceComputer getService() {
 		if (service == null) {
@@ -28,12 +29,12 @@ public class ServiceComputer {
 	 * @return
 	 */
 	public List<Computer> getAllComputer(){
-		return DAOComputer.getAllComputer();
+		return daoComputer.getAllComputer();
 	}
 	
 	
-	public List<Computer> getSomeComputers(int backup, int numTuple, int nbreTuples){		
-		return DAOComputer.getSomeComputers(backup, numTuple, nbreTuples);		
+	public List<Computer> getSomeComputers(int numTuple, int nbreTuples){		
+		return daoComputer.getSomeComputers(numTuple, nbreTuples);		
 	}
 	
 	/**
@@ -43,7 +44,7 @@ public class ServiceComputer {
 	 */
 	public int addComputer(Computer computer)  {
 		
-		if (DAOComputer.addComputer(computer)==0) {
+		if (daoComputer.addComputer(computer)==0) {
 			logger.error("No rows have been added!\n\n");
 			return -1;
 		}
@@ -59,7 +60,7 @@ public class ServiceComputer {
 		if (detailComputer(computer.getId())==null) {
 			return -1;
 		}
-		if (DAOComputer.rmComputer(computer)==0) {
+		if (daoComputer.rmComputer(computer)==0) {
 			logger.error("No rows have been deleted!\n\n");
 			return -1;
 		}
@@ -72,7 +73,7 @@ public class ServiceComputer {
 	 * @return 0 si ca a fonctionne, sinon-1
 	 */
 	public int updateComputer(Computer computer) {
-		if (DAOComputer.updateComputer(computer)==0) {
+		if (daoComputer.updateComputer(computer)==0) {
 			logger.error("No rows have been updated!\n\n");
 			return -1;
 		}
@@ -85,7 +86,7 @@ public class ServiceComputer {
 	 * @return
 	 */
 	public Computer detailComputer(long id) {
-		return DAOComputer.detailComputer(id);
+		return daoComputer.detailComputer(id);
 	}
 
 }

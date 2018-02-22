@@ -6,7 +6,8 @@ public class Company {
 	
 	public Company() {
 	}
-	public Company(String name) {
+	public Company(long id, String name) {
+		this.id = id;
 		this.name = name;
 	}
 	public long getId() {

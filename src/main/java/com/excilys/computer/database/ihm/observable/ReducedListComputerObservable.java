@@ -17,7 +17,6 @@ public class ReducedListComputerObservable implements IObservable{  //TODO
 		int numTuple = 0;
 		int nbreTuples = 10;
 		String choix;
-		int backup = -1;																					//va stocker la position precedente
 		
 		System.out.print("Enter the number of rows to display: ");					
 		try {
@@ -30,11 +29,10 @@ public class ReducedListComputerObservable implements IObservable{  //TODO
 		do {
 			System.out.print("\n<<<<<<<<<<<<<<<<<<< PAGE "+numPage+" (From row "+(numTuple+1)+" to row "+(numTuple+nbreTuples+1)+") <<<<<<<<<<<<<<<<<<<\n");
 			
-			for (Computer computer : service.getSomeComputers(backup, numTuple, (nbreTuples))) {
+			for (Computer computer : service.getSomeComputers(numTuple, (nbreTuples))) {
 				System.out.println(computer);
 			}
 			
-			backup = numTuple;
 			System.out.print("\nPRESS 'q' to quit, 'b' to go back and 'n' to go next: ");
 			choix = sc.nextLine();
 			try {

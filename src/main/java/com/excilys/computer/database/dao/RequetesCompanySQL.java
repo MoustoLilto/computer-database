@@ -2,7 +2,8 @@ package main.java.com.excilys.computer.database.dao;
 
 public enum RequetesCompanySQL {
 	
-	ALL("SELECT id, name FROM company;");
+	ALL("SELECT id, name FROM company;"),
+	NOMBRE("SELECT COUNT(*) FROM company;");
 	
 	private String requete = "";
 	

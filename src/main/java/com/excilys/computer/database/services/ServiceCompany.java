@@ -6,12 +6,11 @@ import main.java.com.excilys.computer.database.dao.DAOCompany;
 import main.java.com.excilys.computer.database.modele.Company;
 
 public class ServiceCompany {
+	private static ServiceCompany service = null;
+	DAOCompany daoCompany = DAOCompany.getInstance();
 	
 	private ServiceCompany() {
-		
 	}
-	
-	private static ServiceCompany service = null;
 	
 	public static ServiceCompany getService() {
 		if (service == null) {
@@ -25,7 +24,7 @@ public class ServiceCompany {
 	 * @return
 	 */
 	public List<Company> getAllCompany(){
-		List<Company> allCompanies = DAOCompany.getAllCompany();
+		List<Company> allCompanies = daoCompany.getAllCompany();
 		return allCompanies;
 	}
 	

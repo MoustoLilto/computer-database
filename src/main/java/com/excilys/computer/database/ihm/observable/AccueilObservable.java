@@ -1,6 +1,6 @@
 package main.java.com.excilys.computer.database.ihm.observable;
 
-import main.java.com.excilys.computer.database.ihm.Main;
+import main.java.com.excilys.computer.database.ComputerDatabase;
 import main.java.com.excilys.computer.database.ihm.observer.IObservable;
 
 public class AccueilObservable implements IObservable{
@@ -21,7 +21,7 @@ public class AccueilObservable implements IObservable{
 	}
 	
 	public Boolean execute() {
-		Main.clear(20);
+		ComputerDatabase.clear(20);
 		System.out.print(accueil());
 		return true;
 	}
