@@ -1,6 +1,7 @@
 package test.java.database;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -22,6 +23,25 @@ public class TestDatabaseActions {
 			testDatabaseActions = new TestDatabaseActions();
 		}
 		return testDatabaseActions;
+	}
+	
+	public int getNombre() {
+		ResultSet results = null;
+		String query;
+		Statement stmt = null;
+		int nombre = 0;
+		try {
+			query = RequetesBaseTestSQL.NOMBRE.toString();
+			stmt = connection.createStatement();
+			results = stmt.executeQuery(query);
+			
+			while (results.next()) {
+				nombre = results.getInt(1);
+			}
+		} catch(SQLException e) {
+			logger.error("Erreur de recuperation du nombre de tuples dans la BDD, erreur: "+e);
+		}
+		return nombre;
 	}
 	
 	public void initDatabaseCompany() {

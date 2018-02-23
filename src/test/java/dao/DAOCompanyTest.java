@@ -32,10 +32,10 @@ public class DAOCompanyTest {
 		List<Company> companys = DAOCompany.getInstance().getAllCompany();
 		assertEquals(3, companys.size());
 		
-		Company company1 = new Company(1,"Apple Inc");
-		assertEquals(company1, companys.get(0));
+		Company company0 = new Company(0,"Apple Inc");
+		assertEquals(company0, companys.get(0));
 		
-		Company company3 = new Company(3,"Dell");
-		assertEquals(company3, companys.get(2));
+		Company company2 = new Company(2,"Dell");
+		assertEquals(company2, companys.get(2));
 	}
 }

@@ -16,6 +16,12 @@ public class Computer {
 		this.discontinued = discontinued;
 		this.company_id = company_id;
 	}
+	public Computer(String name, LocalDate introduced, LocalDate discontinued, int company_id) {
+		this.name = name;
+		this.introduced = introduced;
+		this.discontinued = discontinued;
+		this.company_id = company_id;
+	}
 	public Computer() {
 	}
 	public long getId() {
