@@ -3,19 +3,22 @@
   <groupId>computer-database</groupId>
   <artifactId>computer-database</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>war</packaging>
   <properties>
 	<maven-compiler-plugin>3.7.0</maven-compiler-plugin>
 	<maven-war-plugin>3.0.0</maven-war-plugin>
 	<mysql-connector-java>5.1.45</mysql-connector-java>
 	<log4j-core>2.10.0</log4j-core>
 	<log4j-api>2.10.0</log4j-api>
-	<log4j-1.2-api>2.10.0</log4j-1.2-api>
+	<log4j>1.2.17</log4j>
 	<log4j-iostreams>2.10.0</log4j-iostreams>
+	<log4j2>2.10.0</log4j2>
 	<junit>4.12</junit>
 	<mockito-core>2.15.0</mockito-core>
 	<slf4j-api>1.8.0-beta1</slf4j-api>
 	<slf4j-log4j12>1.8.0-beta1</slf4j-log4j12>
+	<standard>1.1.2</standard>
+	<javax.servlet-api>4.0.0</javax.servlet-api>
   </properties>
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -42,37 +45,36 @@
   		<groupId>mysql</groupId>
   		<artifactId>mysql-connector-java</artifactId>
   		<version>5.1.45</version>
-  		<scope>provided</scope>
   	</dependency>
   	<dependency>
 	    <groupId>org.apache.logging.log4j</groupId>
 	    <artifactId>log4j-core</artifactId>
 	    <version>2.10.0</version>
-	    <scope>provided</scope>
   	</dependency>
   	<dependency>
 	    <groupId>org.apache.logging.log4j</groupId>
 	    <artifactId>log4j-api</artifactId>
 	    <version>2.10.0</version>
-	    <scope>provided</scope>
   	</dependency>
   	<dependency>
-	    <groupId>org.apache.logging.log4j</groupId>
-	    <artifactId>log4j-1.2-api</artifactId>
-	    <version>2.10.0</version>
-	    <scope>provided</scope>
+	    <groupId>log4j</groupId>
+	    <artifactId>log4j</artifactId>
+	    <version>1.2.17</version>
   	</dependency>
   	<dependency>
 	    <groupId>org.apache.logging.log4j</groupId>
 	    <artifactId>log4j-iostreams</artifactId>
 	    <version>2.10.0</version>
-	    <scope>provided</scope>
+  	</dependency>
+  	<dependency>
+	    <groupId>org.apache.logging.log4j</groupId>
+	    <artifactId>log4j-web</artifactId>
+	    <version>2.10.0</version>
   	</dependency>
   	<dependency>
 	    <groupId>junit</groupId>
 	    <artifactId>junit</artifactId>
 	    <version>4.12</version>
-	    <scope>test</scope>
 	</dependency>
   	<dependency>
   		<groupId>org.mockito</groupId>
@@ -80,22 +82,36 @@
   		<version>2.15.0</version>
   		<scope>test</scope>
   	</dependency>
-  	<dependency>
-	    <groupId>org.slf4j</groupId>
-	    <artifactId>slf4j-api</artifactId>
-	    <version>1.8.0-beta1</version>
-	</dependency>
-  	<dependency>
-	    <groupId>org.slf4j</groupId>
-	    <artifactId>slf4j-log4j12</artifactId>
-	    <version>1.8.0-beta1</version>
-	    <scope>runtime</scope>
-	</dependency>
 	<dependency>
 		<groupId>org.hsqldb</groupId>
 		<artifactId>hsqldb</artifactId>
 		<version>2.3.4</version>
 		<scope>test</scope>
+	</dependency>
+	<dependency>
+	    <groupId>taglibs</groupId>
+	    <artifactId>standard</artifactId>
+	    <version>1.1.2</version>
+	</dependency>
+	<dependency>
+	    <groupId>javax.servlet</groupId>
+	    <artifactId>javax.servlet-api</artifactId>
+	    <version>4.0.0</version>
+	</dependency>
+	<!-- <dependency>
+	    <groupId>javax.servlet.jsp.jstl</groupId>
+	    <artifactId>jstl</artifactId>
+	    <version>1.2</version>
+	</dependency> -->
+	<dependency>
+		<groupId>javax.servlet.jsp.jstl</groupId>
+		<artifactId>jstl-api</artifactId> 
+		<version>1.2</version>
+	</dependency>
+	<dependency>
+		<groupId>org.glassfish.web</groupId>
+		<artifactId>jstl-impl</artifactId>
+		<version>1.2</version>
 	</dependency>
   </dependencies>
 </project>

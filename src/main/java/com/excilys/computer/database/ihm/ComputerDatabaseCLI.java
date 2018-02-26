@@ -1,4 +1,4 @@
-package main.java.com.excilys.computer.database;
+package main.java.com.excilys.computer.database.ihm;
 
 import java.util.Scanner;
 
@@ -12,7 +12,7 @@ import main.java.com.excilys.computer.database.ihm.observable.RmComputerObservab
 import main.java.com.excilys.computer.database.ihm.observable.UpdateComputerObservable;
 import main.java.com.excilys.computer.database.ihm.observer.Observer;
 
-public class ComputerDatabase {	
+public class ComputerDatabaseCLI {	
 	
 	public static void clear(int nbre) {
 		for (int i=0; i<nbre; i++) {
@@ -29,7 +29,7 @@ public class ComputerDatabase {
 		Scanner sc = new Scanner(System.in);
 		
 		do {
-			ComputerDatabase.clear(5);
+			ComputerDatabaseCLI.clear(5);
 			System.out.print("[Press Enter for MENU] Your choice: ");
 			str = sc.nextLine();
 			observer.Trigger(str);

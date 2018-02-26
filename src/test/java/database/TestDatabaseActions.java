@@ -5,13 +5,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import main.java.com.excilys.computer.database.dao.Connect;
 
 public class TestDatabaseActions {
 	Connection connection = Connect.getInstance().getConnection();
-	final private static Logger logger = Logger.getLogger(TestDatabaseActions.class);
+	final private static Logger logger = LogManager.getLogger(TestDatabaseActions.class);
 	
 	private static TestDatabaseActions testDatabaseActions = null;
 	

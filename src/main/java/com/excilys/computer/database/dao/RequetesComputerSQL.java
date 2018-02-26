@@ -8,7 +8,7 @@ public enum RequetesComputerSQL {
 	DELETE("DELETE FROM computer WHERE id = ?;"),
 	DETAIL("SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?;"),
 	UPDATE("UPDATE computer SET name = ?, introduced = ?, discontinued = ? WHERE id = ?;"),
-	NOMBRE("SELECT COUNT(*) FROM company;");
+	NOMBRE("SELECT COUNT(*) FROM computer;");
 	
 	private String requete = "";
 	

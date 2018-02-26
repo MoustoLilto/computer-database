@@ -2,7 +2,8 @@ package main.java.com.excilys.computer.database.services;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import main.java.com.excilys.computer.database.dao.DAOComputer;
 import main.java.com.excilys.computer.database.modele.Computer;
@@ -11,7 +12,7 @@ public class ServiceComputer {
 	private static ServiceComputer service = null;
 	DAOComputer daoComputer = DAOComputer.getInstance();
 	
-	final private static Logger logger = Logger.getLogger(ServiceComputer.class);
+	final static Logger logger = LogManager.getLogger(ServiceComputer.class);
 
 	private ServiceComputer() {
 		
@@ -22,6 +23,10 @@ public class ServiceComputer {
 			service = new ServiceComputer();
 		}
 		return service;
+	}
+	
+	public int getNombre() {
+		return DAOComputer.getInstance().getNombre();
 	}
 	
 	/**
@@ -45,7 +50,7 @@ public class ServiceComputer {
 	public int addComputer(Computer computer)  {
 		
 		if (daoComputer.addComputer(computer)==0) {
-			logger.error("No rows have been added!\n\n");
+			logger.info("No rows have been added!\n\n");
 			return -1;
 		}
 		return 0;
@@ -61,7 +66,7 @@ public class ServiceComputer {
 			return -1;
 		}
 		if (daoComputer.rmComputer(computer)==0) {
-			logger.error("No rows have been deleted!\n\n");
+			logger.info("No rows have been deleted!\n\n");
 			return -1;
 		}
 		return 0;
@@ -74,7 +79,7 @@ public class ServiceComputer {
 	 */
 	public int updateComputer(Computer computer) {
 		if (daoComputer.updateComputer(computer)==0) {
-			logger.error("No rows have been updated!\n\n");
+			logger.info("No rows have been updated!\n\n");
 			return -1;
 		}
 		return 0;

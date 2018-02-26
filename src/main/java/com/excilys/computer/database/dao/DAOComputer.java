@@ -7,15 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import main.java.com.excilys.computer.database.modele.Computer;
+
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 
 
 public class DAOComputer {	
-	final private static Logger logger = Logger.getLogger(DAOComputer.class);
+	final static Logger logger = LogManager.getLogger(DAOComputer.class);
 	Connect connect = Connect.getInstance();
 	
 	private static DAOComputer daoComputer = null;
@@ -43,6 +45,25 @@ public class DAOComputer {
 			}
         }
 		connect.closeConnection();
+	}
+	
+	public int getNombre() {
+		ResultSet results = null;
+		String query;
+		Statement stmt = null;
+		int nombre = 0;
+		try {
+			query = RequetesComputerSQL.NOMBRE.toString();
+			stmt = connect.getConnection().createStatement();
+			results = stmt.executeQuery(query);
+			
+			while (results.next()) {
+				nombre = results.getInt(1);
+			}
+		} catch(SQLException e) {
+			logger.error("Erreur de recuperation du nombre de tuples dans la BDD, erreur: "+e);
+		}
+		return nombre;
 	}
 	
 	/**

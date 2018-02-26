@@ -19,6 +19,10 @@ public class ServiceCompany {
 		return service;
 	}
 	
+	public int getNombre() {
+		return DAOCompany.getInstance().getNombre();
+	}
+	
 	/**
 	 * Permet de recuperer toutes les compagnies
 	 * @return

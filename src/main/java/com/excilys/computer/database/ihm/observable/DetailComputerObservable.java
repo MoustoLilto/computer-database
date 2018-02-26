@@ -2,7 +2,7 @@ package main.java.com.excilys.computer.database.ihm.observable;
 
 import java.util.Scanner;
 
-import main.java.com.excilys.computer.database.ComputerDatabase;
+import main.java.com.excilys.computer.database.ihm.ComputerDatabaseCLI;
 import main.java.com.excilys.computer.database.ihm.observer.IObservable;
 import main.java.com.excilys.computer.database.modele.Computer;
 import main.java.com.excilys.computer.database.services.ServiceComputer;
@@ -33,7 +33,7 @@ public class DetailComputerObservable implements IObservable {
 	public Boolean execute() {
 		
 		Computer computer = idComputer();
-		ComputerDatabase.clear(1);
+		ComputerDatabaseCLI.clear(1);
 		if (computer != null)
 			System.out.println(computer);
 		else 
