@@ -22,6 +22,9 @@
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <h1>Add Computer</h1>
+                    <c:if test="${retry}">
+                    	<p>Please enter a discontinued date greater than the introduced date and the year must be superior to 1970!</p>
+                    </c:if>
                     <form action="CreateComputer" method="POST">
                         <fieldset>
                             <div class="form-group">
@@ -30,7 +33,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>
-                                <input type="date" class="form-control" name="introduced" id="introduced" placeholder="Introduced date">
+                                <input type="date" class="form-control" name="introduced" id="introduced" min="1970-01-01" placeholder="Introduced date">
                             </div>
                             <div class="form-group">
                                 <label for="discontinued">Discontinued date</label>

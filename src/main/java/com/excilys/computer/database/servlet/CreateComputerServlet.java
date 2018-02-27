@@ -35,8 +35,13 @@ public class CreateComputerServlet extends HttpServlet {
 		String company_id = request.getParameter("companyId");
 		
 		DTOComputer dtoComputer = new DTOComputer();
-		dtoComputer.addComputer(name, introduced, discontinued, company_id);
-		
+		if (dtoComputer.addComputer(name, introduced, discontinued, company_id)) {
+			response.sendRedirect("ComputerDatabase");
+		}
+		else{
+			request.setAttribute("retry", "true");
+			doGet(request, response);
+		}
 	}
 
 }
