@@ -26,6 +26,14 @@ public class DAOCompanyTest {
 		TestDatabaseActions testDatabaseActions = TestDatabaseActions.getInstance();
 		testDatabaseActions.dropCompanyDatabase();
 	}
+	
+	@Test
+	public void testGetCompany() {
+		Company company = DAOCompany.getInstance().getCompany(0);
+		
+		Company company0 = new Company(0,"Apple Inc");
+		assertEquals(company0, company);
+	}
 
 	@Test
 	public void testGetAllCompany() {

@@ -4,10 +4,10 @@ public enum RequetesComputerSQL {
 	
 	ALL("SELECT id, name, introduced, discontinued, company_id FROM computer;"),
 	SOME("SELECT id, name, introduced, discontinued, company_id FROM computer LIMIT ? OFFSET ?;"),
-	ADD("INSERT INTO computer (name, introduced, discontinued) VALUES (?, ?, ?);"),
+	ADD("INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?);"),
 	DELETE("DELETE FROM computer WHERE id = ?;"),
 	DETAIL("SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?;"),
-	UPDATE("UPDATE computer SET name = ?, introduced = ?, discontinued = ? WHERE id = ?;"),
+	UPDATE("UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?;"),
 	NOMBRE("SELECT COUNT(*) FROM computer;");
 	
 	private String requete = "";

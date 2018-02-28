@@ -5,7 +5,9 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import main.java.com.excilys.computer.database.dao.DAOCompany;
 import main.java.com.excilys.computer.database.dao.DAOComputer;
+import main.java.com.excilys.computer.database.modele.Company;
 import main.java.com.excilys.computer.database.modele.Computer;
 
 public class ServiceComputer {
@@ -27,6 +29,10 @@ public class ServiceComputer {
 	
 	public int getNombre() {
 		return DAOComputer.getInstance().getNombre();
+	}
+	
+	public Company getCompany(long companyID) {
+		return DAOCompany.getInstance().getCompany(companyID);
 	}
 	
 	/**

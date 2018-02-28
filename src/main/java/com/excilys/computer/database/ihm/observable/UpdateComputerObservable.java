@@ -2,6 +2,7 @@ package main.java.com.excilys.computer.database.ihm.observable;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 import main.java.com.excilys.computer.database.ihm.observer.IObservable;
@@ -67,7 +68,7 @@ public class UpdateComputerObservable implements IObservable {
 							System.out.print("The year must be superior to 1970!\n");
 							validation = 0;
 						}
-					}catch(Exception e) {
+					}catch(DateTimeParseException e) {
 						System.out.print("Please enter a valid Date on the good format!\n");
 						validation = 0;
 					}				
@@ -106,7 +107,7 @@ public class UpdateComputerObservable implements IObservable {
 							System.out.print("Please enter a date greater than the introduced date and the year must be superior to 1970!\n");
 							validation = 0;
 						}
-					}catch(Exception e) {
+					}catch(DateTimeParseException e) {
 						System.out.print("Please enter a valid Date on the good format!\n");
 						validation = 0;
 					}				

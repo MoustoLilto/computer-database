@@ -14,6 +14,7 @@ import main.java.com.excilys.computer.database.modele.Computer;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.sql.Types;
 
 
 public class DAOComputer {	
@@ -75,6 +76,7 @@ public class DAOComputer {
 		ResultSet results = null;
 		String query;
 		Statement stmt;
+		DAOCompany daoCompany = DAOCompany.getInstance();
 			
 		try {
 			query = RequetesComputerSQL.ALL.toString();
@@ -98,7 +100,8 @@ public class DAOComputer {
             	else {
             		computer.setDiscontinued(results.getTimestamp(4).toLocalDateTime().toLocalDate());
             	}
-            	computer.setCompany_id(results.getLong(5));
+            	long companyID = results.getLong(5);
+            	computer.setCompany(daoCompany.getCompany(companyID));
 
             	computers.add(computer); 													//Ajout du tuple a la liste
             }
@@ -121,6 +124,7 @@ public class DAOComputer {
 		String query;
 		PreparedStatement ps = null;
 		List<Computer> computers = new ArrayList<Computer>();
+		DAOCompany daoCompany = DAOCompany.getInstance();
 		try {
 			query = RequetesComputerSQL.SOME.toString();
 			ps = connect.getConnection().prepareStatement(query);
@@ -146,7 +150,8 @@ public class DAOComputer {
 	        	else {
 	        		computer.setDiscontinued(results.getTimestamp(4).toLocalDateTime().toLocalDate());
 	        	}
-	        	computer.setCompany_id(results.getLong(5));	
+	        	long companyID = results.getLong(5);
+            	computer.setCompany(daoCompany.getCompany(companyID));
 	        	
 	        	computers.add(computer); 														//Ajout du tuple a la liste
 	        }
@@ -185,6 +190,12 @@ public class DAOComputer {
 			}
 			else { 
 				ps.setDate(3, Date.valueOf(computer.getDiscontinued()));
+			}
+			if (computer.getCompany() == null) {
+				ps.setNull(4, Types.LONGNVARCHAR);
+			}
+			else { 
+				ps.setLong(4, computer.getCompany().getId());
 			}
 			
 			Nbre_Tuples_Modifie = ps.executeUpdate();									
@@ -229,6 +240,7 @@ public class DAOComputer {
 		String query;
 		PreparedStatement ps = null;
 		Computer computer = null;
+		DAOCompany daoCompany = DAOCompany.getInstance();
 		try {
 			query = RequetesComputerSQL.DETAIL.toString();
 			ps = connect.getConnection().prepareStatement(query);
@@ -237,8 +249,7 @@ public class DAOComputer {
 			results = ps.executeQuery();
 						
 			while (results.next()) {
-	        	computer = new Computer(); 														//Creation du tuple
-	        	
+				computer = new Computer();
 	        	computer.setId(results.getLong(1));												//Ajout des attributs au tuple
 	        	computer.setName(results.getString(2));
 	        	if (results.getTimestamp(3) == null) {
@@ -253,7 +264,8 @@ public class DAOComputer {
 	        	else {
 	        		computer.setDiscontinued(results.getTimestamp(4).toLocalDateTime().toLocalDate());
 	        	}
-	        	computer.setCompany_id(results.getLong(5));	
+	        	long companyID = results.getLong(5);
+            	computer.setCompany(daoCompany.getCompany(companyID));
 	        }
 		} catch (SQLException e1) {
 			computer = null;
@@ -293,7 +305,13 @@ public class DAOComputer {
 			else { 
 				ps.setDate(3, Date.valueOf(computer.getDiscontinued()));
 			}
-			ps.setLong(4, computer.getId());
+			if (computer.getCompany() == null) {
+				ps.setNull(4, Types.LONGNVARCHAR);
+			}
+			else { 
+				ps.setLong(4, computer.getCompany().getId());
+			}
+			ps.setLong(5, computer.getId());
 			
 			Nbre_Tuples_Modifie = ps.executeUpdate();			
 		} catch (SQLException e) {

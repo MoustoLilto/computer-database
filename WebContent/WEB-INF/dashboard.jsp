@@ -87,7 +87,7 @@
 	                        </td>
 	                        <td>${computer.introduced}</td>
 	                        <td>${computer.discontinued}</td>
-	                        <td>${computer.company_id}</td>
+	                        <td>${computer.companyName}</td>
 	
 	                    </tr>
 	                

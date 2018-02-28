@@ -20,7 +20,7 @@ public enum RequetesBaseTestSQL {
 	INSERT_COMPANY_3("insert into company (name) values (  'Dell');"),
 	INSERT_COMPUTER_1("insert into computer (name,introduced,discontinued,company_id) values (  'MacBook Pro 15.4 inch\',NULL,NULL,1);"),
 	INSERT_COMPUTER_2("insert into computer (name,introduced,discontinued,company_id) values (  'MacBook retina\',NULL,NULL,1);"),
-	INSERT_COMPUTER_3("insert into computer (name,introduced,discontinued,company_id) values (  'Monster Black',NULL,NULL,3);"),
+	INSERT_COMPUTER_3("insert into computer (name,introduced,discontinued,company_id) values (  'Monster Black',NULL,NULL,2);"),
 	INSERT_COMPUTER_4("insert into computer (name,introduced,discontinued,company_id) values (  'Asus Boss',NULL,NULL,2);"),
 	
 	NOMBRE("SELECT COUNT(*) FROM computer;");

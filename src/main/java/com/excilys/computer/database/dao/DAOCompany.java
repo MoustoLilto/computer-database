@@ -1,9 +1,11 @@
 package main.java.com.excilys.computer.database.dao;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -61,6 +63,35 @@ public class DAOCompany {
 			logger.error("Erreur de recuperation du nombre de tuples dans la BDD, erreur: "+e);
 		}
 		return nombre;
+	}
+	
+	public Company getCompany(long companyId) {
+		ResultSet results = null;
+		String query;
+		PreparedStatement ps = null;
+		Company company = null;
+		try {
+			query = RequetesCompanySQL.DETAIL.toString();
+			ps = connect.getConnection().prepareStatement(query);
+			ps.setLong(1, companyId);
+			
+			results = ps.executeQuery();
+						
+			while (results.next()) {
+				company = new Company();
+				company.setId(results.getLong(1));	
+				company.setName(results.getString(2));
+			} 
+		} catch (SQLException e1) {
+			company = null;
+			logger.error("Error getting the details of the company! erreur:" + e1);
+		}
+			
+		close(results);																
+		if (Optional.ofNullable(company).isPresent()) {
+			return Optional.ofNullable(company).get();
+		}
+		return null;
 	}
 	
 	/**
