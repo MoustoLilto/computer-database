@@ -20,12 +20,15 @@ import main.java.com.excilys.computer.database.dto.DTOComputer;
 import main.java.com.excilys.computer.database.dto.MapperCompany;
 import main.java.com.excilys.computer.database.dto.MapperComputer;
 import main.java.com.excilys.computer.database.dto.Validator;
+import main.java.com.excilys.computer.database.modele.Computer;
 import main.java.com.excilys.computer.database.services.ServiceCompany;
+import main.java.com.excilys.computer.database.services.ServiceComputer;
 
 @WebServlet("/CreateComputer")
 public class CreateComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
+	ServiceComputer serviceComputer = ServiceComputer.getService();
 	Validator validator = Validator.getIntsance();
 	MapperCompany mapperCompany = MapperCompany.getInstance();
 	MapperComputer mapperComputer = MapperComputer.getInstance();
@@ -54,20 +57,31 @@ public class CreateComputerServlet extends HttpServlet {
 		} catch(YearLimitException e) {
 			request.setAttribute("retry", ErreurUtilisitauer.YEAR_LIMIT.value());
 			doGet(request, response);
+			return;
 		} catch(DateTimeParseException e) {
 			request.setAttribute("retry", ErreurUtilisitauer.DATE_PARSE.value());
 			doGet(request, response);
+			return;
 		} catch(NumberFormatException e) {
 			request.setAttribute("retry", ErreurUtilisitauer.NUMBER_FORMAT.value());
 			doGet(request, response);
+			return;
 		}
 		
-		if (!introduced.equals("") && introduced != null && !discontinued.equals("") && discontinued != null) {
-			try{
-				validator.compareDate(LocalDate.parse(introduced, formatter), LocalDate.parse(discontinued, formatter)); 
-			} catch(IntroducedSuperiorException e) {
+		if (!discontinued.equals("") && discontinued != null) {
+			if(!introduced.equals("") && introduced != null) {
+				try{
+					validator.compareDate(LocalDate.parse(introduced, formatter), LocalDate.parse(discontinued, formatter)); 
+				} catch(IntroducedSuperiorException e) {
+					request.setAttribute("retry", ErreurUtilisitauer.INTRODUCED_SUPERIOR.value());
+					doGet(request, response);
+					return;
+				}
+			}
+			else {
 				request.setAttribute("retry", ErreurUtilisitauer.INTRODUCED_SUPERIOR.value());
 				doGet(request, response);
+				return;
 			}
 		}
 		
@@ -77,8 +91,13 @@ public class CreateComputerServlet extends HttpServlet {
 		dtoComputer.setIntroduced(introduced);
 		dtoComputer.setDiscontinued(discontinued);
 		dtoComputer.setCompanyID(companyID);
+		//System.out.println(dtoComputer);
 		
-		System.out.println(dtoComputer);
+		//CREATION DU COMPUTER ET AJOUT DANS LA BDD
+		Computer computer = mapperComputer.toComputer(dtoComputer);
+		//System.out.println(computer);
+		serviceComputer.addComputer(computer);
+		
 		response.sendRedirect("ComputerDatabase");
 	}
 }

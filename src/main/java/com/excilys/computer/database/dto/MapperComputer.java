@@ -62,10 +62,10 @@ public class MapperComputer {
 		if (dtoComputer.getName() != null) {
 			name = dtoComputer.getName();
 		}
-		if (dtoComputer.getIntroduced() != null) {
+		if (!dtoComputer.getIntroduced().equals("") && dtoComputer.getIntroduced() != null) {
 			introduced = LocalDate.parse(dtoComputer.getIntroduced(), formatter);
 		}
-		if (dtoComputer.getDiscontinued() != null) {
+		if (!dtoComputer.getDiscontinued().equals("") && dtoComputer.getDiscontinued() != null) {
 			discontinued = LocalDate.parse(dtoComputer.getDiscontinued(), formatter);
 		}
 		companyID = dtoComputer.getCompanyID();

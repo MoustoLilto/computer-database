@@ -22,8 +22,17 @@
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <h1>Add Computer</h1>
-                    <c:if test="${retry}">
-                    	<p>Please enter a discontinued date greater than the introduced date and the year must be superior to 1970!</p>
+				    <c:if test="${retry == 1}">
+                    	<p>Please enter a year greater than 1970!</p>
+                    </c:if>
+                    <c:if test="${retry == 2}">
+                    	<p>Please enter a valid Date!</p>
+                    </c:if>
+                    <c:if test="${retry == 3}">
+                    	<p>Please enter a discontinued date greater than the introduced date!</p>
+                    </c:if>
+                    <c:if test="${retry == 4}">
+                    	<p>Please enter a valid ID!</p>
                     </c:if>
                     <form action="CreateComputer" method="POST">
                         <fieldset>
