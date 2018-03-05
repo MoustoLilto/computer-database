@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="/WEB-INF/tld/cdb.tld" prefix="cdbTagLib" %>
 
 <!DOCTYPE html>
 <html>
@@ -17,6 +18,9 @@
             <a class="navbar-brand" href="ComputerDatabase"> Application - Computer Database </a>
         </div>
     </header>
+    
+    <c:set var="numPage" value = "${ (empty param.page) ? '1':param.page}" />
+   	<cdbTagLib:pagination numPage="${numPage}" nbreTuples="50"/>
 
     <section id="main">
         <div class="container">
@@ -104,9 +108,9 @@
                       <span aria-hidden="true">&laquo;</span>
                   </a>
               </li>
-              <li><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
+              <li><a href="ComputerDatabase?page=1">1</a></li>
+              <li><a href="ComputerDatabase?page=2">2</a></li>
+              <li><a href="#?page=3">3</a></li>
               <li><a href="#">4</a></li>
               <li><a href="#">5</a></li>
               <li>
@@ -115,12 +119,12 @@
                 </a>
             </li>
         </ul>
-        </div>
 
-        <div class="btn-group btn-group-sm pull-right" role="group" >
-            <button type="button" class="btn btn-default">10</button>
-            <button type="button" class="btn btn-default">50</button>
-            <button type="button" class="btn btn-default">100</button>
+	        <div class="btn-group btn-group-sm pull-right" role="group" >
+	            <input type="button" class="btn btn-default" onclick="location.href='ComputerDatabase?tuples=10'" value="10"/>
+	            <input type="button" class="btn btn-default" onclick="location.href='ComputerDatabase?tuples=50'" value="50"/>
+	            <input type="button" class="btn btn-default" onclick="location.href='ComputerDatabase?tuples=100'" value="100"/>
+	        </div>
         </div>
 
     </footer>

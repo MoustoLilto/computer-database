@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import main.java.com.excilys.computer.database.Exceptions.IntroducedSuperiorException;
+import main.java.com.excilys.computer.database.Exceptions.PageLimitException;
+import main.java.com.excilys.computer.database.Exceptions.TuplesLimitException;
 import main.java.com.excilys.computer.database.Exceptions.YearLimitException;
 
 public class Validator {
@@ -41,6 +43,22 @@ public class Validator {
 	
 	public Boolean controleID(String l) throws NumberFormatException{
 		Long.parseLong(l);
+		return true;
+	}
+	
+	public Boolean controlePage(String page, int nbrPageMax) throws NumberFormatException, PageLimitException{
+		int numPage = Integer.parseInt(page);
+		if (numPage > nbrPageMax || numPage < 1) {
+			throw new PageLimitException();
+		}
+		return true;
+	}
+	
+	public Boolean controleNbrTuples(String tuples, int nbrTupleMax) throws NumberFormatException, TuplesLimitException{
+		int nbrTuple = Integer.parseInt(tuples);
+		if (nbrTuple > nbrTupleMax || nbrTuple < 1) {
+			throw new TuplesLimitException();
+		}
 		return true;
 	}
 }
