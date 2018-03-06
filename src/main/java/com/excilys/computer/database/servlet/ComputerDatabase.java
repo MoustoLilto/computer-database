@@ -11,14 +11,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import main.java.com.excilys.computer.database.Exceptions.PageLimitException;
-import main.java.com.excilys.computer.database.Exceptions.TuplesLimitException;
 import main.java.com.excilys.computer.database.dto.DTOComputer;
-import main.java.com.excilys.computer.database.dto.MapperCompany;
-import main.java.com.excilys.computer.database.dto.MapperComputer;
-import main.java.com.excilys.computer.database.dto.Validator;
+import main.java.com.excilys.computer.database.exceptions.NumberFormatExceptionCDB;
+import main.java.com.excilys.computer.database.exceptions.PageLimitException;
+import main.java.com.excilys.computer.database.exceptions.TuplesLimitException;
+import main.java.com.excilys.computer.database.mapper.MapperCompany;
+import main.java.com.excilys.computer.database.mapper.MapperComputer;
 import main.java.com.excilys.computer.database.modele.Computer;
 import main.java.com.excilys.computer.database.services.ServiceComputer;
+import main.java.com.excilys.computer.database.validator.Validator;
 
 @WebServlet("/ComputerDatabase")
 public class ComputerDatabase extends HttpServlet {
@@ -28,44 +29,52 @@ public class ComputerDatabase extends HttpServlet {
 	Validator validator = Validator.getIntsance();
 	MapperCompany mapperCompany = MapperCompany.getInstance();
 	MapperComputer mapperComputer = MapperComputer.getInstance();
+	
+	int nbreTuples = 50;
+	int numeroPage = 1;
+	int nbrPageMax = 0;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int numberOfRows = ServiceComputer.getService().getNombre();
 		request.setAttribute("numberOfRows", numberOfRows);
-		
-		int nbreTuples = 50;
-		int numeroPage = 1;
-		int numTuple = 0;
 		
 		String numPage = request.getParameter("page");
 		String nbreTuple = request.getParameter("tuples");
 		if ( nbreTuple!= null && !nbreTuple.equals("")) {
 			try{
 				validator.controleNbrTuples(nbreTuple, numberOfRows);
-			}catch(NumberFormatException e) {
+			}catch(NumberFormatExceptionCDB e) {
+				request.getRequestDispatcher("/WEB-INF/500.jsp").forward(request,response);
 				return;
 			} catch(TuplesLimitException e) {
+				request.getRequestDispatcher("/WEB-INF/500.jsp").forward(request,response);
 				return;
 			}
-			nbreTuples = Integer.parseInt(nbreTuple);
+			numeroPage = 1;
 		}
+		nbreTuples = nbreTuple == null ? nbreTuples : Integer.parseInt(nbreTuple);
 		
-		int nbrPageMax = (int) Math.ceil(numberOfRows/nbreTuples);
+		nbrPageMax = (int) (Math.ceil(numberOfRows/nbreTuples)+1);
 		if ( numPage!= null && !numPage.equals("")) {
 			try{
 				validator.controlePage(numPage, nbrPageMax);
-			}catch(NumberFormatException e) {
+			}catch(NumberFormatExceptionCDB e) {
+				request.getRequestDispatcher("/WEB-INF/500.jsp").forward(request,response);
 				return;
 			} catch(PageLimitException e) {
+				request.getRequestDispatcher("/WEB-INF/404.jsp").forward(request,response);
 				return;
 			}
-			numeroPage = Integer.parseInt(numPage);
 		}
+		numeroPage = numPage == null ? numeroPage : Integer.parseInt(numPage);
 		
+		int numTuple = 0;
 		numTuple = (numeroPage*nbreTuples+1)-nbreTuples;
 		List<Computer> computers = serviceComputer.getSomeComputers(numTuple, nbreTuples);
 		List<DTOComputer> allComputers = mapperComputer.listToDTO(computers);
 		request.setAttribute("allComputers", allComputers);
+		request.setAttribute("numeroPage", numeroPage);
+		request.setAttribute("nbrPageMax", nbrPageMax);
 		
 		request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request,response);
 	}

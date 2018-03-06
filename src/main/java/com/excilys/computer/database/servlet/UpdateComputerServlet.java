@@ -3,7 +3,6 @@ package main.java.com.excilys.computer.database.servlet;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,17 +11,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import main.java.com.excilys.computer.database.Exceptions.ErreurUtilisitauer;
-import main.java.com.excilys.computer.database.Exceptions.IntroducedSuperiorException;
-import main.java.com.excilys.computer.database.Exceptions.YearLimitException;
 import main.java.com.excilys.computer.database.dto.DTOCompany;
 import main.java.com.excilys.computer.database.dto.DTOComputer;
-import main.java.com.excilys.computer.database.dto.MapperCompany;
-import main.java.com.excilys.computer.database.dto.MapperComputer;
-import main.java.com.excilys.computer.database.dto.Validator;
+import main.java.com.excilys.computer.database.exceptions.DateTimeParseExceptionCDB;
+import main.java.com.excilys.computer.database.exceptions.IntroducedSuperiorException;
+import main.java.com.excilys.computer.database.exceptions.NumberFormatExceptionCDB;
+import main.java.com.excilys.computer.database.exceptions.YearLimitException;
+import main.java.com.excilys.computer.database.mapper.MapperCompany;
+import main.java.com.excilys.computer.database.mapper.MapperComputer;
 import main.java.com.excilys.computer.database.modele.Computer;
 import main.java.com.excilys.computer.database.services.ServiceCompany;
 import main.java.com.excilys.computer.database.services.ServiceComputer;
+import main.java.com.excilys.computer.database.validator.Validator;
 
 @WebServlet("/UpdateComputer")
 public class UpdateComputerServlet extends HttpServlet {
@@ -38,7 +38,6 @@ public class UpdateComputerServlet extends HttpServlet {
 		request.setAttribute("allCompanies", allCompanies);
 		
 		String id = request.getParameter("id");
-		//request.setAttribute("id", id);
 		Computer computerBase = serviceComputer.detailComputer(Long.parseLong(id));
 		DTOComputer dtoComputerBase = mapperComputer.toDTO(computerBase);
 		request.setAttribute("dtoComputerBase", dtoComputerBase);
@@ -62,15 +61,15 @@ public class UpdateComputerServlet extends HttpServlet {
 			validator.controleDate(discontinued);
 			validator.controleID(companyID);
 		} catch(YearLimitException e) {
-			request.setAttribute("retry", ErreurUtilisitauer.YEAR_LIMIT.value());
+			request.setAttribute("error", e.getMessage());
 			doGet(request, response);
 			return;
-		} catch(DateTimeParseException e) {
-			request.setAttribute("retry", ErreurUtilisitauer.DATE_PARSE.value());
+		} catch(DateTimeParseExceptionCDB e) {
+			request.setAttribute("error", e.getMessage());
 			doGet(request, response);
 			return;
-		} catch(NumberFormatException e) {
-			request.setAttribute("retry", ErreurUtilisitauer.NUMBER_FORMAT.value());
+		} catch(NumberFormatExceptionCDB e) {
+			request.setAttribute("error", e.getMessage());
 			doGet(request, response);
 			return;
 		}
@@ -80,13 +79,14 @@ public class UpdateComputerServlet extends HttpServlet {
 				try{
 					validator.compareDate(LocalDate.parse(introduced, formatter), LocalDate.parse(discontinued, formatter)); 
 				} catch(IntroducedSuperiorException e) {
-					request.setAttribute("retry", ErreurUtilisitauer.INTRODUCED_SUPERIOR.value());
+					request.setAttribute("error", e.getMessage());
 					doGet(request, response);
 					return;
 				}
 			}
 			else {
-				request.setAttribute("retry", ErreurUtilisitauer.INTRODUCED_SUPERIOR.value());
+				IntroducedSuperiorException e = new IntroducedSuperiorException();
+				request.setAttribute("error", e.getMessage());
 				doGet(request, response);
 				return;
 			}

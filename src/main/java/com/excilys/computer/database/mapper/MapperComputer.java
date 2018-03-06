@@ -1,4 +1,4 @@
-package main.java.com.excilys.computer.database.dto;
+package main.java.com.excilys.computer.database.mapper;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.com.excilys.computer.database.dao.DAOCompany;
+import main.java.com.excilys.computer.database.dto.DTOComputer;
 import main.java.com.excilys.computer.database.modele.Company;
 import main.java.com.excilys.computer.database.modele.Computer;
 

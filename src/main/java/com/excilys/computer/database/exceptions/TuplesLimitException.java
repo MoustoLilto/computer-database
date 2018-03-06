@@ -1,4 +1,4 @@
-package main.java.com.excilys.computer.database.Exceptions;
+package main.java.com.excilys.computer.database.exceptions;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,5 +10,11 @@ public class TuplesLimitException extends Exception{
 	public TuplesLimitException() {
 		logger.info("Enter a valid number of tuples please!\n");
 	}
-
+	
+	final private String message = "Enter a valid number of tuples please!";
+	
+	@Override
+	public String getMessage() {
+		return this.message;
+	}
 }

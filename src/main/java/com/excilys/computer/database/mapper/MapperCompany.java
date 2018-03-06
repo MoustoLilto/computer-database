@@ -1,8 +1,9 @@
-package main.java.com.excilys.computer.database.dto;
+package main.java.com.excilys.computer.database.mapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import main.java.com.excilys.computer.database.dto.DTOCompany;
 import main.java.com.excilys.computer.database.modele.Company;
 
 public class MapperCompany {

@@ -1,4 +1,4 @@
-package main.java.com.excilys.computer.database.Exceptions;
+package main.java.com.excilys.computer.database.exceptions;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,5 +10,11 @@ public class PageLimitException extends Exception{
 	public PageLimitException() {
 		logger.info("Enter a valid number of page please!\n");
 	}
-
+	
+	final private String message = "Enter a valid number of page please!";
+	
+	@Override
+	public String getMessage() {
+		return this.message;
+	}
 }

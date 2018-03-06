@@ -103,22 +103,8 @@
     <footer class="navbar-fixed-bottom">
         <div class="container text-center">
             <ul class="pagination">
-                <li>
-                    <a href="#" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                  </a>
-              </li>
-              <li><a href="ComputerDatabase?page=1">1</a></li>
-              <li><a href="ComputerDatabase?page=2">2</a></li>
-              <li><a href="ComputerDatabase?page=3">3</a></li>
-              <li><a href="ComputerDatabase?page=4">4</a></li>
-              <li><a href="ComputerDatabase?page=5">5</a></li>
-              <li>
-                <a href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
+              <cdbTagLib:pagination numPage="${numeroPage}" nbrPageMax="${nbrPageMax}"/>
+        	</ul>
 
 	        <div class="btn-group btn-group-sm pull-right" role="group" >
 	            <input type="button" class="btn btn-default" onclick="location.href='ComputerDatabase?tuples=10'" value="10"/>

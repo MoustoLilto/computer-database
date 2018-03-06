@@ -11,7 +11,7 @@
 	
 	<tag>
 		<name>pagination</name>
-		<tagclass>main.java.com.excilys.computer.database.pagination.Pagination</tagclass>
+		<tagclass>main.java.com.excilys.computer.database.pagination.PaginationHandler</tagclass>
 		<info>Tag qui s'occupe de la pagination!</info>
 		
 		<attribute>

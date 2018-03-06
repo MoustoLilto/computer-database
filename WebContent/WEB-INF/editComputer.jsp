@@ -25,17 +25,8 @@
                         id: ${dtoComputerBase.id}
                     </div>
                     <h1>Edit Computer</h1>
-                    <c:if test="${retry == 1}">
-                    	<p>Please enter a year greater than 1970!</p>
-                    </c:if>
-                    <c:if test="${retry == 2}">
-                    	<p>Please enter a valid Date!</p>
-                    </c:if>
-                    <c:if test="${retry == 3}">
-                    	<p>Please enter a discontinued date greater than the introduced date!</p>
-                    </c:if>
-                    <c:if test="${retry == 4}">
-                    	<p>Please enter a valid ID!</p>
+                    <c:if test="${not empty error}">
+                    	<p>${error}</p>
                     </c:if>
                     <form action="UpdateComputer" method="POST">
                         <input type="hidden" name="id" id="id" value="${dtoComputerBase.id}" />
