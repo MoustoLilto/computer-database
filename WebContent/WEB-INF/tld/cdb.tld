@@ -20,7 +20,7 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
-			<name>nbreTuples</name>
+			<name>nbrPageMax</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>

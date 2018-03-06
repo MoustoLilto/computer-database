@@ -28,10 +28,6 @@ public class ComputerDatabase extends HttpServlet {
 	Validator validator = Validator.getIntsance();
 	MapperCompany mapperCompany = MapperCompany.getInstance();
 	MapperComputer mapperComputer = MapperComputer.getInstance();
-	
-//	int nbrPageMax = nbrPages();
-//	List<Computer> computers = computersPage(nbrPageMax);
-//	List<DTOComputer> allComputers = mapperComputer.listToDTO(computers);
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int numberOfRows = ServiceComputer.getService().getNombre();
@@ -39,6 +35,8 @@ public class ComputerDatabase extends HttpServlet {
 		
 		int nbreTuples = 50;
 		int numeroPage = 1;
+		int numTuple = 0;
+		
 		String numPage = request.getParameter("page");
 		String nbreTuple = request.getParameter("tuples");
 		if ( nbreTuple!= null && !nbreTuple.equals("")) {
@@ -63,6 +61,11 @@ public class ComputerDatabase extends HttpServlet {
 			}
 			numeroPage = Integer.parseInt(numPage);
 		}
+		
+		numTuple = (numeroPage*nbreTuples+1)-nbreTuples;
+		List<Computer> computers = serviceComputer.getSomeComputers(numTuple, nbreTuples);
+		List<DTOComputer> allComputers = mapperComputer.listToDTO(computers);
+		request.setAttribute("allComputers", allComputers);
 		
 		request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request,response);
 	}

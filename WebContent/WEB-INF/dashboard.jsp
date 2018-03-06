@@ -19,8 +19,8 @@
         </div>
     </header>
     
-    <c:set var="numPage" value = "${ (empty param.page) ? '1':param.page}" />
-   	<cdbTagLib:pagination numPage="${numPage}" nbreTuples="50"/>
+   <%--  <c:set var="numPage" value = "${ (empty param.page) ? '1':param.page}" />
+   	<cdbTagLib:pagination numPage="${numPage}" nbreTuples="50"/> --%>
 
     <section id="main">
         <div class="container">
@@ -110,9 +110,9 @@
               </li>
               <li><a href="ComputerDatabase?page=1">1</a></li>
               <li><a href="ComputerDatabase?page=2">2</a></li>
-              <li><a href="#?page=3">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
+              <li><a href="ComputerDatabase?page=3">3</a></li>
+              <li><a href="ComputerDatabase?page=4">4</a></li>
+              <li><a href="ComputerDatabase?page=5">5</a></li>
               <li>
                 <a href="#" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
