@@ -35,7 +35,17 @@ public class ComputerDatabase extends HttpServlet {
 	int nbrPageMax = 0;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int numberOfRows = ServiceComputer.getService().getNombre();
+		List<Computer> computers = null;
+		List<DTOComputer> allComputers = null;
+		int numberOfRows = 0;
+		String recherche = request.getParameter("search");
+		if (recherche != null && !recherche.equals("")) {
+			computers = serviceComputer.seachComputers(recherche);
+			allComputers = mapperComputer.listToDTO(computers);
+			numberOfRows = allComputers.size();
+		} else {
+			numberOfRows = ServiceComputer.getService().getNombre();
+		}
 		request.setAttribute("numberOfRows", numberOfRows);
 		
 		String numPage = request.getParameter("page");
@@ -44,9 +54,11 @@ public class ComputerDatabase extends HttpServlet {
 			try{
 				validator.controleNbrTuples(nbreTuple, numberOfRows);
 			}catch(NumberFormatExceptionCDB e) {
+				request.setAttribute("error", e.getMessage());
 				request.getRequestDispatcher("/WEB-INF/500.jsp").forward(request,response);
 				return;
 			} catch(TuplesLimitException e) {
+				request.setAttribute("error", e.getMessage());
 				request.getRequestDispatcher("/WEB-INF/500.jsp").forward(request,response);
 				return;
 			}
@@ -59,23 +71,27 @@ public class ComputerDatabase extends HttpServlet {
 			try{
 				validator.controlePage(numPage, nbrPageMax);
 			}catch(NumberFormatExceptionCDB e) {
+				request.setAttribute("error", e.getMessage());
 				request.getRequestDispatcher("/WEB-INF/500.jsp").forward(request,response);
 				return;
 			} catch(PageLimitException e) {
+				request.setAttribute("error", e.getMessage());
 				request.getRequestDispatcher("/WEB-INF/404.jsp").forward(request,response);
 				return;
 			}
 		}
 		numeroPage = numPage == null ? numeroPage : Integer.parseInt(numPage);
 		
-		int numTuple = 0;
-		numTuple = (numeroPage*nbreTuples+1)-nbreTuples;
-		List<Computer> computers = serviceComputer.getSomeComputers(numTuple, nbreTuples);
-		List<DTOComputer> allComputers = mapperComputer.listToDTO(computers);
-		request.setAttribute("allComputers", allComputers);
 		request.setAttribute("numeroPage", numeroPage);
 		request.setAttribute("nbrPageMax", nbrPageMax);
 		
+		if (recherche == null && recherche.equals("")) {
+			int numTuple = 0;
+			numTuple = (numeroPage*nbreTuples+1)-nbreTuples;
+			computers = serviceComputer.getSomeComputers(numTuple, nbreTuples);
+			allComputers = mapperComputer.listToDTO(computers);
+			request.setAttribute("allComputers", allComputers);
+		}
 		request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request,response);
 	}
 

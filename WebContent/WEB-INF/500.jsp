@@ -1,3 +1,5 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +22,9 @@
 			<div class="alert alert-danger">
 				Error 500: An error has occured!
 				<br/>
-				<!-- stacktrace -->
+				<c:if test="${not empty error}">
+                 	<p>${error}</p>
+                </c:if>
 			</div>
 		</div>
 	</section>

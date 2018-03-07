@@ -48,6 +48,10 @@ public class ServiceComputer {
 		return daoComputer.getSomeComputers(numTuple, nbreTuples);		
 	}
 	
+	public List<Computer> seachComputers(String recherche){
+		return daoComputer.searchComputers(recherche);
+	}
+	
 	/**
 	 * Permet d'ajouter un computer
 	 * @param computer

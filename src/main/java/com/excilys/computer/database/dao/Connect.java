@@ -1,11 +1,12 @@
 package main.java.com.excilys.computer.database.dao;
 
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.zaxxer.hikari.HikariDataSource;
 
 import java.sql.Connection;
 
@@ -18,48 +19,48 @@ public class Connect {
 	final private static Logger logger = LogManager.getLogger(Connect.class);	
 	
 	private static Connection connection = null;
-	private static Connect Connect;
+	private static HikariDataSource ds = new HikariDataSource();
+	private static Connect connect = null;
 
-	private Connect() {		
+	private Connect() {
+		ResourceBundle bundle = ResourceBundle.getBundle("connect");
+		url = bundle.getString("url");
+		username = bundle.getString("username");
+		password = bundle.getString("password");
+		driver = bundle.getString("driver");
+		
+		ds.setJdbcUrl(url);
+		ds.setUsername(username);
+		ds.setPassword(password);
+		ds.setDriverClassName(driver);
 	}
 	
 	public static Connect getInstance() {
-		if (Connect==null) {
-			Connect = new Connect();
+		if (connect==null) {
+			if (connect==null) {
+				connect = new Connect();
+			}
 		}
-		return Connect;
+		return connect;
 	}
 	
 	public Connection getConnection() {
 		try {
-			ResourceBundle bundle = ResourceBundle.getBundle("connect");
-			url = bundle.getString("url");
-			username = bundle.getString("username");
-			password = bundle.getString("password");
-			driver = bundle.getString("driver");
-			
-			Class.forName(driver).newInstance();
-			
-			connection = DriverManager.getConnection(url, username, password);
+			connection = ds.getConnection();
 		} catch (SQLException e1) {
 			logger.fatal("Erreur de connexion a la BDD! erreur:" + e1);
-		} catch (InstantiationException e) {
-			logger.fatal("Erreur d'instanciation a la BDD! erreur:" + e);
-		} catch (IllegalAccessException e) {
-			logger.fatal("Erreur droits d'acces a la BDD! erreur:" + e);
-		} catch (ClassNotFoundException e) {
-			logger.fatal("ClassForname non trouve! erreur:" + e);
-		} 
+		}
 		return connection;
 	}
 
-	public void closeConnection() {           
+	public void closeConnection() {    
         if (connection != null) {
         	try {
         		connection.close();
-        		connection = null;
 	        } catch (SQLException e1) {
 	        	logger.fatal("Erreur de fermeture de la connexion a la BDD! erreur:" + e1);
+	        } finally {
+	        	connection = null;
 	        }
         }
 	}
