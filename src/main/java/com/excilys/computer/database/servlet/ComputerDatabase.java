@@ -15,6 +15,7 @@ import main.java.com.excilys.computer.database.dto.DTOComputer;
 import main.java.com.excilys.computer.database.exceptions.NumberFormatExceptionCDB;
 import main.java.com.excilys.computer.database.exceptions.PageLimitException;
 import main.java.com.excilys.computer.database.exceptions.TuplesLimitException;
+import main.java.com.excilys.computer.database.exceptions.champInconnueException;
 import main.java.com.excilys.computer.database.mapper.MapperCompany;
 import main.java.com.excilys.computer.database.mapper.MapperComputer;
 import main.java.com.excilys.computer.database.modele.Computer;
@@ -32,66 +33,129 @@ public class ComputerDatabase extends HttpServlet {
 	
 	int nbreTuples = 50;
 	int numeroPage = 1;
-	int nbrPageMax = 0;
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<Computer> computers = null;
-		List<DTOComputer> allComputers = null;
-		int numberOfRows = 0;
-		String recherche = request.getParameter("search");
-		if (recherche != null && !recherche.equals("")) {
-			computers = serviceComputer.seachComputers(recherche);
-			allComputers = mapperComputer.listToDTO(computers);
-			numberOfRows = allComputers.size();
-		} else {
-			numberOfRows = ServiceComputer.getService().getNombre();
+	int nbrPageMax = 1;
+	int numberOfRows = 1;
+	int numTuple = 0;
+	String orderBy = "computer.id";
+	String order = "ASC";
+	
+	public void orderManagement(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, champInconnueException {
+		String ordreBy = request.getParameter("orderBy");
+		if ( ordreBy!= null && !ordreBy.equals("")) {
+			if (!validator.controleAttribute(ordreBy)) {
+				throw new champInconnueException();
+			}
+			if (ordreBy.equals(orderBy)) {
+				orderBy = ordreBy;
+				if (order.equals("ASC")) {
+					order = "DESC";
+				}
+				else {
+					order = "ASC";
+				}
+			} else {
+				orderBy = ordreBy;
+				order = "ASC";
+			}
 		}
-		request.setAttribute("numberOfRows", numberOfRows);
-		
-		String numPage = request.getParameter("page");
+	}
+	
+	public void nbrTupleManagement(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, NumberFormatExceptionCDB, TuplesLimitException {
 		String nbreTuple = request.getParameter("tuples");
 		if ( nbreTuple!= null && !nbreTuple.equals("")) {
 			try{
 				validator.controleNbrTuples(nbreTuple, numberOfRows);
-			}catch(NumberFormatExceptionCDB e) {
-				request.setAttribute("error", e.getMessage());
-				request.getRequestDispatcher("/WEB-INF/500.jsp").forward(request,response);
-				return;
+			} catch(NumberFormatExceptionCDB e) {
+				throw new NumberFormatExceptionCDB();
 			} catch(TuplesLimitException e) {
-				request.setAttribute("error", e.getMessage());
-				request.getRequestDispatcher("/WEB-INF/500.jsp").forward(request,response);
-				return;
+				throw new TuplesLimitException();
 			}
 			numeroPage = 1;
 		}
 		nbreTuples = nbreTuple == null ? nbreTuples : Integer.parseInt(nbreTuple);
-		
-		nbrPageMax = (int) (Math.ceil(numberOfRows/nbreTuples)+1);
+	}
+	
+	public void numPageManagement(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, NumberFormatExceptionCDB, PageLimitException {
+		String numPage = request.getParameter("page");
 		if ( numPage!= null && !numPage.equals("")) {
 			try{
 				validator.controlePage(numPage, nbrPageMax);
-			}catch(NumberFormatExceptionCDB e) {
-				request.setAttribute("error", e.getMessage());
-				request.getRequestDispatcher("/WEB-INF/500.jsp").forward(request,response);
-				return;
+			} catch(NumberFormatExceptionCDB e) {
+				throw new NumberFormatExceptionCDB();
 			} catch(PageLimitException e) {
-				request.setAttribute("error", e.getMessage());
-				request.getRequestDispatcher("/WEB-INF/404.jsp").forward(request,response);
-				return;
+				throw new PageLimitException();
 			}
 		}
 		numeroPage = numPage == null ? numeroPage : Integer.parseInt(numPage);
+	}
+	
+	public void nbrPageMaxManagement() {
+		nbrPageMax = (int) (Math.ceil(numberOfRows/nbreTuples)+1);
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<Computer> computers = null;
+		List<DTOComputer> allComputers = null;
 		
+		try {
+			orderManagement(request, response);
+		} catch (champInconnueException e) {
+			request.setAttribute("error", e.getMessage());
+			request.getRequestDispatcher("/WEB-INF/500.jsp").forward(request,response);
+			return;
+		}
+		
+		String recherche = request.getParameter("search");
+		if (recherche != null && !recherche.equals("")) {
+			numberOfRows = serviceComputer.getSearchNumber(recherche);
+			numeroPage = 1;
+		} 
+		else {
+			numberOfRows = ServiceComputer.getService().getNombre();
+		}
+		
+		try {
+			nbrTupleManagement(request, response);
+		} catch(NumberFormatExceptionCDB e) {
+			request.setAttribute("error", e.getMessage());
+			request.getRequestDispatcher("/WEB-INF/500.jsp").forward(request,response);
+			return;
+		} catch(TuplesLimitException e) {
+			request.setAttribute("error", e.getMessage());
+			request.getRequestDispatcher("/WEB-INF/500.jsp").forward(request,response);
+			return;
+		}
+		nbrPageMaxManagement();
+		try {
+			numPageManagement(request, response);
+		} catch(NumberFormatExceptionCDB e) {
+			request.setAttribute("error", e.getMessage());
+			request.getRequestDispatcher("/WEB-INF/500.jsp").forward(request,response);
+			return;
+		} catch(PageLimitException e) {
+			request.setAttribute("error", e.getMessage());
+			request.getRequestDispatcher("/WEB-INF/404.jsp").forward(request,response);
+			return;
+		}
+		
+		numTuple = (numeroPage*nbreTuples)-nbreTuples;
+		
+		
+		if (recherche != null && !recherche.equals("")) {
+			computers = serviceComputer.seachComputers(recherche, numTuple, nbreTuples, orderBy, order);
+			allComputers = mapperComputer.listToDTO(computers);	
+			request.setAttribute("search", recherche);
+		}
+		else {
+			computers = serviceComputer.getSomeComputers((numTuple), nbreTuples,  orderBy, order);
+			allComputers = mapperComputer.listToDTO(computers);
+		}
+		
+		request.setAttribute("numberOfRows", numberOfRows);
 		request.setAttribute("numeroPage", numeroPage);
 		request.setAttribute("nbrPageMax", nbrPageMax);
+		request.setAttribute("allComputers", allComputers);
 		
-		if (recherche == null && recherche.equals("")) {
-			int numTuple = 0;
-			numTuple = (numeroPage*nbreTuples+1)-nbreTuples;
-			computers = serviceComputer.getSomeComputers(numTuple, nbreTuples);
-			allComputers = mapperComputer.listToDTO(computers);
-			request.setAttribute("allComputers", allComputers);
-		}
 		request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request,response);
 	}
 

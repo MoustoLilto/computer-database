@@ -44,12 +44,16 @@ public class ServiceComputer {
 	}
 	
 	
-	public List<Computer> getSomeComputers(int numTuple, int nbreTuples){		
-		return daoComputer.getSomeComputers(numTuple, nbreTuples);		
+	public List<Computer> getSomeComputers(int numTuple, int nbreTuples, String orderBy, String order){		
+		return daoComputer.getSomeComputers(numTuple, nbreTuples, orderBy, order);		
 	}
 	
-	public List<Computer> seachComputers(String recherche){
-		return daoComputer.searchComputers(recherche);
+	public int getSearchNumber(String recherche) {
+		return daoComputer.getSearchNumber(recherche);
+	}
+	
+	public List<Computer> seachComputers(String recherche, long position, long numberOfRows, String orderBy, String order){
+		return daoComputer.searchComputers(recherche, position, numberOfRows, orderBy, order);
 	}
 	
 	/**

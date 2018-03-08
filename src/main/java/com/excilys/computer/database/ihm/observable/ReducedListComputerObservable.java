@@ -29,7 +29,7 @@ public class ReducedListComputerObservable implements IObservable{  //TODO
 		do {
 			System.out.print("\n<<<<<<<<<<<<<<<<<<< PAGE "+numPage+" (From row "+(numTuple+1)+" to row "+(numTuple+nbreTuples+1)+") <<<<<<<<<<<<<<<<<<<\n");
 			
-			for (Computer computer : service.getSomeComputers(numTuple, (nbreTuples))) {
+			for (Computer computer : service.getSomeComputers(numTuple, (nbreTuples), "computer.id", "ASC")) {
 				System.out.println(computer);
 			}
 			

@@ -12,6 +12,11 @@ public class PaginationHandler extends BodyTagSupport{
 	
 	int numPage;
 	int nbrPageMax;
+	String recherche;
+	
+	public void setRecherche(String recherche) {
+		this.recherche = recherche;
+	}
 
 	public void setNumPage(int numPage) {
 		this.numPage = numPage;
@@ -61,37 +66,37 @@ public class PaginationHandler extends BodyTagSupport{
 			//CHEVRONS
 			if (numPage >1) {
 				pageContext.getOut().print("<li>\n" + 
-						"                    <a href=\"ComputerDatabase?page="+1+"\" aria-label=\"Previous\">\n" + 
+						"                    <a href=\"ComputerDatabase?page="+1+"&search="+recherche+"\" aria-label=\"Previous\">\n" + 
 						"                      <span aria-hidden=\"true\">&laquo;</span>\n" + 
 						"                  </a>\n" + 
 						"              </li>");
 				pageContext.getOut().print("<li>\n" + 
-						"                    <a href=\"ComputerDatabase?page="+(numPage-1)+"\" aria-label=\"Previous\">\n" + 
+						"                    <a href=\"ComputerDatabase?page="+(numPage-1)+"&search="+recherche+"\" aria-label=\"Previous\">\n" + 
 						"                      <span aria-hidden=\"true\">&lsaquo;</span>\n" + 
 						"                  </a>\n" + 
 						"              </li>");
 			}
 			//PAGES
 			for (int compteur : compteursPrecedent) {
-				pageContext.getOut().print("<li><a href=\"ComputerDatabase?page="+compteur+"\">"+compteur+"</a></li>");
+				pageContext.getOut().print("<li><a href=\"ComputerDatabase?page="+compteur+"&search="+recherche+"\">"+compteur+"</a></li>");
 			}
 			
-			pageContext.getOut().print("<li><a href=\"ComputerDatabase?page="+numPage+"\">"+"["+numPage+"]"+"</a></li>");
+			pageContext.getOut().print("<li><a href=\"ComputerDatabase?page="+numPage+"&search="+recherche+"\">"+"["+numPage+"]"+"</a></li>");
 			
 			for (int compteur : compteursSuivant) {
-				pageContext.getOut().print("<li><a href=\"ComputerDatabase?page="+compteur+"\">"+compteur+"</a></li>");
+				pageContext.getOut().print("<li><a href=\"ComputerDatabase?page="+compteur+"&search="+recherche+"\">"+compteur+"</a></li>");
 			}
 			
 			//CHEVRONS 
 			if (numPage < nbrPageMax) {
 				pageContext.getOut().print("<li>\n" + 
-						"                    <a href=\"ComputerDatabase?page="+(numPage+1)+"\" aria-label=\"Next\">\n" + 
+						"                    <a href=\"ComputerDatabase?page="+(numPage+1)+"&search="+recherche+"\" aria-label=\"Next\">\n" + 
 						"                      <span aria-hidden=\"true\">&rsaquo;</span>\n" + 
 						"                  </a>\n" + 
 						"              </li>");
 			
 				pageContext.getOut().print("<li>\n" + 
-						"                    <a href=\"ComputerDatabase?page="+nbrPageMax+"\" aria-label=\"Next\">\n" + 
+						"                    <a href=\"ComputerDatabase?page="+nbrPageMax+"&search="+recherche+"\" aria-label=\"Next\">\n" + 
 						"                      <span aria-hidden=\"true\">&raquo;</span>\n" + 
 						"                  </a>\n" + 
 						"              </li>");

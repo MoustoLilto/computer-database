@@ -48,7 +48,7 @@ public class DAOComputerTest {
 
 	@Test
 	public void testGetSomeComputers() {
-		List<Computer> computers = DAOComputer.getInstance().getSomeComputers(0, 2);
+		List<Computer> computers = DAOComputer.getInstance().getSomeComputers(0, 2, "computer.id", "ASC");
 		assertEquals(2, computers.size());
 		
 		Company company1 = new Company(1,"IBM");

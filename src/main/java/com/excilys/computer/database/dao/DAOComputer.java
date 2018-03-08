@@ -92,8 +92,10 @@ public class DAOComputer {
 		return computers;
 	}
 	
-	public List<Computer> getSomeComputers(long position, long numberOfRows){
-		String query = RequetesComputerSQL.SOME.toString();
+	public List<Computer> getSomeComputers(long position, long numberOfRows, String orderBy, String order){
+		//String query = RequetesComputerSQL.SOME.toString();
+		String[] splittedQuerry = RequetesComputerSQL.SOME_WITH_ORDER.toString().split("---");
+		String query = splittedQuerry[0] + orderBy +splittedQuerry[1] + order + splittedQuerry[2];
 		List<Computer> computers = new ArrayList<Computer>();
 		
 		try (PreparedStatement ps = connect.getConnection().prepareStatement(query)){
@@ -137,13 +139,37 @@ public class DAOComputer {
 		return computers;
 	}
 	
-	public List<Computer> searchComputers(String recherche){
-		String query = RequetesComputerSQL.SEARCH.toString();
+	public int getSearchNumber(String recherche) {
+		String query = RequetesComputerSQL.SEARCH_NOMBRE.toString();
+		int nombre = 0;
+		
+		try (PreparedStatement ps = connect.getConnection().prepareStatement(query)){
+			ps.setString(1, "%" + recherche + "%");
+			ps.setString(2, "%" + recherche + "%");
+			ResultSet results = ps.executeQuery();
+			
+			while (results.next()) {
+				nombre = results.getInt(1);
+			}
+		} catch(SQLException e) {
+			logger.error("Erreur de recuperation du nombre de tuples dans la BDD lie a la recherche, erreur: "+e);
+		} finally {
+			connect.closeConnection();
+		}
+		return nombre;
+	}
+	
+	public List<Computer> searchComputers(String recherche, long position, long numberOfRows, String orderBy, String order){
+		//String query = RequetesComputerSQL.SEARCH.toString();
+		String[] splittedQuerry = RequetesComputerSQL.SEARCH_WITH_ORDER.toString().split("---");
+		String query = splittedQuerry[0] + orderBy +splittedQuerry[1] + order + splittedQuerry[2];
 		List<Computer> computers = new ArrayList<Computer>();
 		
 		try (PreparedStatement ps = connect.getConnection().prepareStatement(query)){
-			ps.setString(1, recherche);
-			ps.setString(2, recherche);
+			ps.setString(1, "%" + recherche + "%");
+			ps.setString(2, "%" + recherche + "%");
+			ps.setLong(3, (numberOfRows));
+			ps.setLong(4, (position));
 			ResultSet results = ps.executeQuery();
 						
 			while (results.next()) {

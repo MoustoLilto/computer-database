@@ -9,6 +9,7 @@ import main.java.com.excilys.computer.database.exceptions.NumberFormatExceptionC
 import main.java.com.excilys.computer.database.exceptions.PageLimitException;
 import main.java.com.excilys.computer.database.exceptions.TuplesLimitException;
 import main.java.com.excilys.computer.database.exceptions.YearLimitException;
+import main.java.com.excilys.computer.database.exceptions.champInconnueException;
 
 public class Validator {
 	private static Validator validator = null;
@@ -57,9 +58,17 @@ public class Validator {
 	
 	public Boolean controleNbrTuples(String tuples, int nbrTupleMax) throws NumberFormatExceptionCDB, TuplesLimitException{
 		int nbrTuple = Integer.parseInt(tuples);
-		if (nbrTuple > nbrTupleMax || nbrTuple < 1) {
+		if (nbrTuple > nbrTupleMax+100 || nbrTuple < 1) {
 			throw new TuplesLimitException();
 		}
 		return true;
+	}
+	
+	public Boolean controleAttribute(String attribute) throws champInconnueException{
+		if (attribute.equals("computer.id") || attribute.equals("company.name") || attribute.equals("computer.name") 
+				|| attribute.equals("introduced") || attribute.equals("discontinued")) {
+			return true;
+		}
+		throw new champInconnueException(); 
 	}
 }

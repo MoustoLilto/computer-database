@@ -19,9 +19,6 @@
         </div>
     </header>
     
-   <%--  <c:set var="numPage" value = "${ (empty param.page) ? '1':param.page}" />
-   	<cdbTagLib:pagination numPage="${numPage}" nbreTuples="50"/> --%>
-
     <section id="main">
         <div class="container">
             <h1 id="homeTitle">
@@ -31,7 +28,7 @@
                 <div class="pull-left">
                     <form id="searchForm" action="#" method="GET" class="form-inline">
 
-                        <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" />
+                        <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name"/>
                         <input type="submit" id="searchsubmit" value="Filter by name"
                         class="btn btn-primary" />
                     </form>
@@ -63,18 +60,18 @@
                             </span>
                         </th>
                         <th>
-                            Computer name
+                            <a href="ComputerDatabase?orderBy=computer.name">Computer name</a>
                         </th>
                         <th>
-                            Introduced date
+                            <a href="ComputerDatabase?orderBy=introduced">Introduced date</a>
                         </th>
                         <!-- Table header for Discontinued Date -->
                         <th>
-                            Discontinued date
+                            <a href="ComputerDatabase?orderBy=discontinued">Discontinued date</a>
                         </th>
                         <!-- Table header for Company -->
                         <th>
-                            Company
+                            <a href="ComputerDatabase?orderBy=company.name">Company</a>
                         </th>
 
                     </tr>
@@ -103,13 +100,13 @@
     <footer class="navbar-fixed-bottom">
         <div class="container text-center">
             <ul class="pagination">
-              <cdbTagLib:pagination numPage="${numeroPage}" nbrPageMax="${nbrPageMax}"/>
+              <cdbTagLib:pagination numPage="${numeroPage}" nbrPageMax="${nbrPageMax}" recherche="${search}"/>
         	</ul>
 
 	        <div class="btn-group btn-group-sm pull-right" role="group" >
-	            <input type="button" class="btn btn-default" onclick="location.href='ComputerDatabase?tuples=10'" value="10"/>
-	            <input type="button" class="btn btn-default" onclick="location.href='ComputerDatabase?tuples=50'" value="50"/>
-	            <input type="button" class="btn btn-default" onclick="location.href='ComputerDatabase?tuples=100'" value="100"/>
+	            <input type="button" class="btn btn-default" onclick="location.href='ComputerDatabase?tuples=10&search=${search}'" value="10"/>
+	            <input type="button" class="btn btn-default" onclick="location.href='ComputerDatabase?tuples=50&search=${search}'" value="50"/>
+	            <input type="button" class="btn btn-default" onclick="location.href='ComputerDatabase?tuples=100&search=${search}'" value="100"/>
 	        </div>
         </div>
 
