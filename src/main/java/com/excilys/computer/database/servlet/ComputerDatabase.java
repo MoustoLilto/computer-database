@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import main.java.com.excilys.computer.database.dto.DTOComputer;
+import main.java.com.excilys.computer.database.exceptions.IllegalCharacterException;
 import main.java.com.excilys.computer.database.exceptions.NumberFormatExceptionCDB;
 import main.java.com.excilys.computer.database.exceptions.PageLimitException;
 import main.java.com.excilys.computer.database.exceptions.TuplesLimitException;
@@ -90,7 +91,7 @@ public class ComputerDatabase extends HttpServlet {
 	}
 	
 	public void nbrPageMaxManagement() {
-		nbrPageMax = (int) (Math.ceil(numberOfRows/nbreTuples)+1);
+		nbrPageMax = (int) (Math.ceil((double)numberOfRows/(double)nbreTuples));
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -104,16 +105,21 @@ public class ComputerDatabase extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/500.jsp").forward(request,response);
 			return;
 		}
-		
 		String recherche = request.getParameter("search");
 		if (recherche != null && !recherche.equals("")) {
+			try {
+				validator.controleText(recherche);
+			} catch (IllegalCharacterException e) {
+				request.setAttribute("error", e.getMessage());
+				request.getRequestDispatcher("/WEB-INF/500.jsp").forward(request,response);
+				return;
+			}
 			numberOfRows = serviceComputer.getSearchNumber(recherche);
 			numeroPage = 1;
 		} 
 		else {
 			numberOfRows = ServiceComputer.getService().getNombre();
 		}
-		
 		try {
 			nbrTupleManagement(request, response);
 		} catch(NumberFormatExceptionCDB e) {
@@ -137,9 +143,7 @@ public class ComputerDatabase extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/404.jsp").forward(request,response);
 			return;
 		}
-		
 		numTuple = (numeroPage*nbreTuples)-nbreTuples;
-		
 		
 		if (recherche != null && !recherche.equals("")) {
 			computers = serviceComputer.seachComputers(recherche, numTuple, nbreTuples, orderBy, order);

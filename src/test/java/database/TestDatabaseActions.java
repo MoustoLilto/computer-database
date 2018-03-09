@@ -26,13 +26,13 @@ public class TestDatabaseActions {
 		return testDatabaseActions;
 	}
 	
-	public int getNombre() {
+	public int getNombreComputer() {
 		ResultSet results = null;
 		String query;
 		Statement stmt = null;
 		int nombre = 0;
 		try {
-			query = RequetesBaseTestSQL.NOMBRE.toString();
+			query = RequetesBaseTestSQL.NOMBRE_COMPUTER.toString();
 			stmt = connection.createStatement();
 			results = stmt.executeQuery(query);
 			
@@ -40,7 +40,26 @@ public class TestDatabaseActions {
 				nombre = results.getInt(1);
 			}
 		} catch(SQLException e) {
-			logger.error("Erreur de recuperation du nombre de tuples dans la BDD, erreur: "+e);
+			logger.error("Erreur de recuperation du nombre de tuples dans la table computer de la BDD, erreur: "+e);
+		}
+		return nombre;
+	}
+	
+	public int getNombreCompany() {
+		ResultSet results = null;
+		String query;
+		Statement stmt = null;
+		int nombre = 0;
+		try {
+			query = RequetesBaseTestSQL.NOMBRE_COMPANY.toString();
+			stmt = connection.createStatement();
+			results = stmt.executeQuery(query);
+			
+			while (results.next()) {
+				nombre = results.getInt(1);
+			}
+		} catch(SQLException e) {
+			logger.error("Erreur de recuperation du nombre de tuples dans la table Company de la BDD, erreur: "+e);
 		}
 		return nombre;
 	}

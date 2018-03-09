@@ -5,8 +5,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import main.java.com.excilys.computer.database.dao.DAOCompany;
@@ -15,16 +15,18 @@ import test.java.database.TestDatabaseActions;
 
 public class DAOCompanyTest {
 	
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		TestDatabaseActions testDatabaseActions = TestDatabaseActions.getInstance();
 		testDatabaseActions.initDatabaseCompany();
+		testDatabaseActions.initDatabaseComputer();
 	}
 
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		TestDatabaseActions testDatabaseActions = TestDatabaseActions.getInstance();
 		testDatabaseActions.dropCompanyDatabase();
+		testDatabaseActions.dropComputerDatabase();
 	}
 	
 	@Test
@@ -45,5 +47,28 @@ public class DAOCompanyTest {
 		
 		Company company2 = new Company(2,"Dell");
 		assertEquals(company2, companys.get(2));
+	}
+	
+	@Test
+	public void testRmCompany() {
+		TestDatabaseActions testDatabaseActions = TestDatabaseActions.getInstance();
+		int nbrTuplesModifie = 0;
+		
+		assertEquals(3, testDatabaseActions.getNombreCompany());
+		
+		Company company0 = new Company(0,"Apple Inc");
+		nbrTuplesModifie = DAOCompany.getInstance().rmCompany(company0);
+		assertEquals(2, testDatabaseActions.getNombreCompany());
+		assertEquals(1, nbrTuplesModifie);
+		
+		Company company2 = new Company(2,"Dell");
+		nbrTuplesModifie = DAOCompany.getInstance().rmCompany(company2);
+		assertEquals(1, testDatabaseActions.getNombreCompany());
+		assertEquals(3, nbrTuplesModifie);
+		
+		Company company5 = new Company(5,"Yolo");
+		nbrTuplesModifie = DAOCompany.getInstance().rmCompany(company5);
+		assertEquals(1, testDatabaseActions.getNombreCompany());
+		assertEquals(0, nbrTuplesModifie);
 	}
 }

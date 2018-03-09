@@ -8,6 +8,7 @@ import main.java.com.excilys.computer.database.ihm.observable.DetailComputerObse
 import main.java.com.excilys.computer.database.ihm.observable.ListCompanyObservable;
 import main.java.com.excilys.computer.database.ihm.observable.ListComputerObservable;
 import main.java.com.excilys.computer.database.ihm.observable.ReducedListComputerObservable;
+import main.java.com.excilys.computer.database.ihm.observable.RmCompanyObservable;
 import main.java.com.excilys.computer.database.ihm.observable.RmComputerObservable;
 import main.java.com.excilys.computer.database.ihm.observable.UpdateComputerObservable;
 import main.java.com.excilys.computer.database.ihm.observer.Observer;
@@ -43,24 +44,26 @@ public class ComputerDatabaseCLI {
 		Observer observer = new Observer();
 		
 		//INITIALISATION DES OBSERVABLES
-		ListComputerObservable list_Computer_Observable = new ListComputerObservable();
-		ListCompanyObservable list_Company_Observable = new ListCompanyObservable();
-		CreateComputerObservable create_Computer_Observable = new CreateComputerObservable();
-		RmComputerObservable rm_Computer_Observable = new RmComputerObservable();
-		DetailComputerObservable detail_Computer_Observable = new DetailComputerObservable();
-		UpdateComputerObservable update_Computer_Observable = new UpdateComputerObservable();
-		ReducedListComputerObservable reducedList_Computer_Observable = new ReducedListComputerObservable();
+		ListComputerObservable listComputerObservable = new ListComputerObservable();
+		ListCompanyObservable listCompanyObservable = new ListCompanyObservable();
+		CreateComputerObservable createComputerObservable = new CreateComputerObservable();
+		RmComputerObservable rmComputerObservable = new RmComputerObservable();
+		DetailComputerObservable detailComputerObservable = new DetailComputerObservable();
+		UpdateComputerObservable updateComputerObservable = new UpdateComputerObservable();
+		ReducedListComputerObservable reducedListComputerObservable = new ReducedListComputerObservable();
+		RmCompanyObservable rmCompanyObservable =  new RmCompanyObservable();
 		AccueilObservable accueilObservable = new AccueilObservable();
 		
 		//PRISE EN COMPTE DES OBSERVABLES
 		observer.Register("", accueilObservable);
-		observer.Register("1", list_Computer_Observable);
-		observer.Register("2", detail_Computer_Observable);
-		observer.Register("3", list_Company_Observable);
-		observer.Register("4", create_Computer_Observable);
-		observer.Register("5", rm_Computer_Observable);
-		observer.Register("6", update_Computer_Observable);
-		observer.Register("7", reducedList_Computer_Observable);
+		observer.Register("1", listComputerObservable);
+		observer.Register("2", detailComputerObservable);
+		observer.Register("3", listCompanyObservable);
+		observer.Register("4", createComputerObservable);
+		observer.Register("5", rmComputerObservable);
+		observer.Register("6", rmCompanyObservable);
+		observer.Register("7", updateComputerObservable);
+		observer.Register("8", reducedListComputerObservable);
 		
 		affichage(observer);
 		return;

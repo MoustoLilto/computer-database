@@ -12,8 +12,9 @@ public class AccueilObservable implements IObservable{
 		accueil += "3: To display the LIST of companies!\n";
 		accueil += "4: To CREATE a computer!\n";
 		accueil += "5: To DELETE a computer!\n";
-		accueil += "6: To UPDATE a computer!\n";
-		accueil += "7: To display BY PAGE the list of computers!\n";
+		accueil += "6: To DELETE a company!\n";
+		accueil += "7: To UPDATE a computer!\n";
+		accueil += "8: To display BY PAGE the list of computers!\n";
 		accueil += "exit: To quit!\n";
 		accueil += "==================================================================\n";
 		

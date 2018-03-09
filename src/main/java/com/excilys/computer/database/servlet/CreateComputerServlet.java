@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import main.java.com.excilys.computer.database.dto.DTOCompany;
 import main.java.com.excilys.computer.database.dto.DTOComputer;
 import main.java.com.excilys.computer.database.exceptions.DateTimeParseExceptionCDB;
+import main.java.com.excilys.computer.database.exceptions.IllegalCharacterException;
 import main.java.com.excilys.computer.database.exceptions.IntroducedSuperiorException;
 import main.java.com.excilys.computer.database.exceptions.NumberFormatExceptionCDB;
 import main.java.com.excilys.computer.database.exceptions.YearLimitException;
@@ -51,6 +52,7 @@ public class CreateComputerServlet extends HttpServlet {
 		
 		//VERIFICATION DES DONNES
 		try {
+			validator.controleText(name);
 			validator.controleDate(introduced);
 			validator.controleDate(discontinued);
 			validator.controleID(companyID);
@@ -63,6 +65,10 @@ public class CreateComputerServlet extends HttpServlet {
 			doGet(request, response);
 			return;
 		} catch(NumberFormatExceptionCDB e) {
+			request.setAttribute("error", e.getMessage());
+			doGet(request, response);
+			return;
+		} catch (IllegalCharacterException e) {
 			request.setAttribute("error", e.getMessage());
 			doGet(request, response);
 			return;

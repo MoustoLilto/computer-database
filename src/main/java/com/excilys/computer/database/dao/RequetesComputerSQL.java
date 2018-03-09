@@ -7,6 +7,7 @@ public enum RequetesComputerSQL {
 			+ " ORDER BY ? ? LIMIT ? OFFSET ?;"),
 	ADD("INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?);"),
 	DELETE("DELETE FROM computer WHERE id = ?;"),
+	DELETE_COMPANY("DELETE FROM computer WHERE company_id = ?;"),
 	DETAIL("SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id"
 			+ " WHERE computer.id = ?;"),
 	UPDATE("UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?;"),

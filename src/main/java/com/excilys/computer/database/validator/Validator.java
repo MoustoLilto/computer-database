@@ -2,8 +2,10 @@ package main.java.com.excilys.computer.database.validator;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import main.java.com.excilys.computer.database.exceptions.DateTimeParseExceptionCDB;
+import main.java.com.excilys.computer.database.exceptions.IllegalCharacterException;
 import main.java.com.excilys.computer.database.exceptions.IntroducedSuperiorException;
 import main.java.com.excilys.computer.database.exceptions.NumberFormatExceptionCDB;
 import main.java.com.excilys.computer.database.exceptions.PageLimitException;
@@ -28,8 +30,13 @@ public class Validator {
 		if (date.equals("") || date == null) {
 			return true;
 		}
+		LocalDate introd;
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		LocalDate introd = LocalDate.parse(date, formatter);
+		try{
+			introd = LocalDate.parse(date, formatter);
+		} catch(DateTimeParseException e) {
+			throw new DateTimeParseExceptionCDB(date, date, 0);
+		}
 		if (introd.getYear() > 1970) {
 			return true;
 		}
@@ -43,13 +50,32 @@ public class Validator {
 		return true;
 	}
 	
-	public Boolean controleID(String l) throws NumberFormatException{
-		Long.parseLong(l);
+	public Boolean controleID(String l) throws NumberFormatExceptionCDB{
+		try{
+			Long.parseLong(l);
+		} catch(NumberFormatException e) {
+			throw new NumberFormatExceptionCDB();
+		}
+		return true;
+	}
+	
+	public Boolean controleText(String text) throws IllegalCharacterException{
+		char[] interdit = {'[', '!', '@', '#', '%', '^', '&', '*', '(', ')', '<', '>', ']'};
+		for (char lettre : interdit) {
+			if (text.indexOf(lettre) >= 0) {
+				throw new IllegalCharacterException();
+			}
+		}
 		return true;
 	}
 	
 	public Boolean controlePage(String page, int nbrPageMax) throws NumberFormatExceptionCDB, PageLimitException{
-		int numPage = Integer.parseInt(page);
+		int numPage;
+		try {
+			numPage = Integer.parseInt(page);
+		} catch (NumberFormatException e){
+			throw new NumberFormatExceptionCDB();
+		}
 		if (numPage > nbrPageMax || numPage < 1) {
 			throw new PageLimitException();
 		}
@@ -57,7 +83,12 @@ public class Validator {
 	}
 	
 	public Boolean controleNbrTuples(String tuples, int nbrTupleMax) throws NumberFormatExceptionCDB, TuplesLimitException{
-		int nbrTuple = Integer.parseInt(tuples);
+		int nbrTuple;
+		try {
+			nbrTuple = Integer.parseInt(tuples);
+		} catch (NumberFormatException e){
+			throw new NumberFormatExceptionCDB();
+		}
 		if (nbrTuple > nbrTupleMax+100 || nbrTuple < 1) {
 			throw new TuplesLimitException();
 		}

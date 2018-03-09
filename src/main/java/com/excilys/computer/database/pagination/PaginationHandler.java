@@ -7,8 +7,13 @@ import java.util.List;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
 public class PaginationHandler extends BodyTagSupport{
 	private static final long serialVersionUID = 1L;
+	final private static Logger logger = LogManager.getLogger(PaginationHandler.class);	
 	
 	int numPage;
 	int nbrPageMax;
@@ -102,7 +107,7 @@ public class PaginationHandler extends BodyTagSupport{
 						"              </li>");
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("Erreur d'ecriture avec la taglib de pagination, erreur: " + e);
 		}
 		return EVAL_PAGE;
 	}

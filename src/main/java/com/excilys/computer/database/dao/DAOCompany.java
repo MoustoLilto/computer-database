@@ -1,5 +1,6 @@
 package main.java.com.excilys.computer.database.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -95,5 +96,29 @@ public class DAOCompany {
 			connect.closeConnection();
 		}
 		return companys;
+	}
+	
+	public int rmCompany(Company company) {
+		String query1 = RequetesComputerSQL.DELETE_COMPANY.toString();
+		String query = RequetesCompanySQL.DELETE.toString();
+		int  Nbre_Tuples_Modifie=0;
+		
+		try (Connection connection = connect.getConnection()){
+			connection.setAutoCommit(false);
+			PreparedStatement ps1 = connection.prepareStatement(query1);
+			ps1.setLong(1, company.getId());
+			Nbre_Tuples_Modifie = ps1.executeUpdate();
+			
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setLong(1, company.getId());
+			Nbre_Tuples_Modifie += ps.executeUpdate();
+			
+			connection.commit();
+		} catch (SQLException e) {
+			logger.error("Error deleting the company and the computers related to it! erreur:" + e);
+		} finally {
+			connect.closeConnection();
+		}
+		return Nbre_Tuples_Modifie;
 	}
 }

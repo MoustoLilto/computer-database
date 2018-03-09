@@ -107,5 +107,4 @@ public class ServiceComputer {
 	public Computer detailComputer(long id) {
 		return daoComputer.detailComputer(id);
 	}
-
 }

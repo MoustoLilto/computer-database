@@ -65,22 +65,22 @@ public class DAOComputerTest {
 		int nbrTuplesModifie = 0;
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		
-		assertEquals(4, testDatabaseActions.getNombre());
+		assertEquals(4, testDatabaseActions.getNombreComputer());
 		
 		Company company1 = new Company(1,"IBM");
 		Computer computer4 = new Computer("OrdiTest", null, null, company1);
 		nbrTuplesModifie = DAOComputer.getInstance().addComputer(computer4);
-		assertEquals(5, testDatabaseActions.getNombre());
+		assertEquals(5, testDatabaseActions.getNombreComputer());
 		assertEquals(1, nbrTuplesModifie);
 		
 		Computer computer5 = new Computer("Test avec date valide", LocalDate.parse("13/02/1997", formatter), LocalDate.parse("13/05/2050", formatter), company1);
 		nbrTuplesModifie = DAOComputer.getInstance().addComputer(computer5);
-		assertEquals(6, testDatabaseActions.getNombre());
+		assertEquals(6, testDatabaseActions.getNombreComputer());
 		assertEquals(1, nbrTuplesModifie);
 		
 		Computer computer6 = new Computer("Test qui doit retourner Exception avec mysql!", LocalDate.parse("13/02/0001", formatter), LocalDate.parse("13/05/1975", formatter), company1);
 		nbrTuplesModifie = DAOComputer.getInstance().addComputer(computer6);
-		assertEquals(7, testDatabaseActions.getNombre());
+		assertEquals(7, testDatabaseActions.getNombreComputer());
 		assertEquals(1, nbrTuplesModifie);
 	}
 
@@ -89,17 +89,17 @@ public class DAOComputerTest {
 		TestDatabaseActions testDatabaseActions = TestDatabaseActions.getInstance();
 		int nbrTuplesModifie = 0;
 		
-		assertEquals(4, testDatabaseActions.getNombre());
+		assertEquals(4, testDatabaseActions.getNombreComputer());
 		
 		Company company1 = new Company(1,"IBM");
 		Computer computer2 = new Computer(2, "Monster Black", null, null, company1);
 		nbrTuplesModifie = DAOComputer.getInstance().rmComputer(computer2);
-		assertEquals(3, testDatabaseActions.getNombre());
+		assertEquals(3, testDatabaseActions.getNombreComputer());
 		assertEquals(1, nbrTuplesModifie);
 		
 		Computer computer5 = new Computer(5, "Yolo", null, null, company1);
 		nbrTuplesModifie = DAOComputer.getInstance().rmComputer(computer5);
-		assertEquals(3, testDatabaseActions.getNombre());
+		assertEquals(3, testDatabaseActions.getNombreComputer());
 		assertEquals(0, nbrTuplesModifie);
 	}
 

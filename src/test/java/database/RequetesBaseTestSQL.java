@@ -23,7 +23,8 @@ public enum RequetesBaseTestSQL {
 	INSERT_COMPUTER_3("insert into computer (name,introduced,discontinued,company_id) values (  'Monster Black',NULL,NULL,2);"),
 	INSERT_COMPUTER_4("insert into computer (name,introduced,discontinued,company_id) values (  'Asus Boss',NULL,NULL,2);"),
 	
-	NOMBRE("SELECT COUNT(*) FROM computer;");
+	NOMBRE_COMPUTER("SELECT COUNT(*) FROM computer;"),
+	NOMBRE_COMPANY("SELECT COUNT(*) FROM company;");
 	
 	private String requete = "";
 	
