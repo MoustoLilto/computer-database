@@ -1,50 +1,42 @@
 package main.java.com.excilys.computer.database.mapper;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Component;
 
 import main.java.com.excilys.computer.database.dto.DTOCompany;
 import main.java.com.excilys.computer.database.modele.Company;
 
+@Component
 public class MapperCompany {
-	private static MapperCompany mapperCompany = null;
-	
-	private MapperCompany() {
-	}
-	
-	public static MapperCompany getInstance() {
-		if (mapperCompany == null) {
-			mapperCompany = new MapperCompany();
-		}
-		return mapperCompany;
-	}
-	
 	public DTOCompany toDTO(Company company) {
-		DTOCompany dtoCompany = new DTOCompany(company.getId(), company.getName());
-		return dtoCompany;
+		return new DTOCompany(company.getId(), company.getName());
 	}
 	
 	public Company toCompany(DTOCompany dtoCompany) {
-		Company company = new Company(dtoCompany.getId(), dtoCompany.getName());
-		return company;
+		return new Company(dtoCompany.getId(), dtoCompany.getName());
 	}
 	
 	public List<DTOCompany> listToDTO(List<Company> companies){
-		List<DTOCompany> dtoCompanies = new ArrayList<>();
+		return companies.stream().map(c -> toDTO(c)).collect(Collectors.toList());
+		
+		/*List<DTOCompany> dtoCompanies = new ArrayList<>();
 		for (Company company : companies) {
 			DTOCompany dtoCompany = toDTO(company);
 			dtoCompanies.add(dtoCompany);
 		}
-		return dtoCompanies;
+		return dtoCompanies;*/
 	}
 	
 	public List<Company> listToCompany(List<DTOCompany> dtoCompanies){
-		List<Company> companies = new ArrayList<>();
+		return dtoCompanies.stream().map(c -> toCompany(c)).collect(Collectors.toList());
+		
+		/*List<Company> companies = new ArrayList<>();
 		for (DTOCompany dtoCompany : dtoCompanies) {
 			Company company = toCompany(dtoCompany);
 			companies.add(company);
 		}
-		return companies;
+		return companies;*/
 	}
-
 }

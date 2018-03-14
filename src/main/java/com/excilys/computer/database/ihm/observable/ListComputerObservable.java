@@ -1,13 +1,17 @@
 package main.java.com.excilys.computer.database.ihm.observable;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import main.java.com.excilys.computer.database.ihm.ComputerDatabaseCLI;
 import main.java.com.excilys.computer.database.ihm.observer.IObservable;
 import main.java.com.excilys.computer.database.modele.Computer;
 import main.java.com.excilys.computer.database.services.ServiceComputer;
 
+@Component
 public class ListComputerObservable implements IObservable{
-	
-	ServiceComputer service = ServiceComputer.getService();
+	@Autowired
+	ServiceComputer service;
 	
 	public Boolean execute() {
 		ComputerDatabaseCLI.clear(1);

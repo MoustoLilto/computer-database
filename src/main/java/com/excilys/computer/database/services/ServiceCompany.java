@@ -4,36 +4,25 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import main.java.com.excilys.computer.database.dao.DAOCompany;
 import main.java.com.excilys.computer.database.modele.Company;
 
+@Component
 public class ServiceCompany {
 	final static Logger logger = LogManager.getLogger(ServiceCompany.class);
-	private static ServiceCompany service = null;
-	DAOCompany daoCompany = DAOCompany.getInstance();
 	
-	private ServiceCompany() {
-	}
-	
-	public static ServiceCompany getService() {
-		if (service == null) {
-			service = new ServiceCompany();
-		}
-		return service;
-	}
+	@Autowired
+	DAOCompany daoCompany;
 	
 	public int getNombre() {
-		return DAOCompany.getInstance().getNombre();
+		return daoCompany.getNombre();
 	}
 	
-	/**
-	 * Permet de recuperer toutes les compagnies
-	 * @return
-	 */
 	public List<Company> getAllCompany(){
-		List<Company> allCompanies = daoCompany.getAllCompany();
-		return allCompanies;
+		return daoCompany.getAllCompany();
 	}
 	
 	public Company getCompany(long companyID) {

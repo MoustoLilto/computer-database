@@ -5,18 +5,22 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import main.java.com.excilys.computer.database.ihm.observer.IObservable;
 import main.java.com.excilys.computer.database.modele.Computer;
 import main.java.com.excilys.computer.database.services.ServiceComputer;
 
+@Component
 public class UpdateComputerObservable implements IObservable {
-	
 	Scanner sc;
+	
+	@Autowired
 	ServiceComputer service;
 	
 	public Computer getComputerUpdate() {
 		sc = new Scanner(System.in);
-		service = ServiceComputer.getService();
 		System.out.print("Enter the id of the computer: ");
 		Computer computer = null;
 		try {
@@ -123,11 +127,7 @@ public class UpdateComputerObservable implements IObservable {
 		} while(validation==0);
 	}
 	
-	/**
-	 * Modifie un computer et retourne un message en fonction du statut
-	 */
 	public Boolean execute() {
-		service = ServiceComputer.getService();
 		Computer computer = getComputerUpdate();
 
 		if (computer == null) {

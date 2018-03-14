@@ -1,14 +1,15 @@
-package test.java;
+/*package test.java;
 
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.RunWith;
 import org.junit.runner.notification.Failure;
 import org.junit.runners.Suite;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import test.java.dao.DAOCompanyTest;
 import test.java.dao.DAOComputerTest;
-
 
 @RunWith(Suite.class)
 
@@ -20,6 +21,7 @@ import test.java.dao.DAOComputerTest;
 public class TestRunner {
 
 	public static void main(String[] args) {
+		ApplicationContext vApplicationContext = new AnnotationConfigApplicationContext(SpringConfiguration.class);
 		Result result = JUnitCore.runClasses(TestRunner.class);
 		System.out.println("Everything is good: "+result.wasSuccessful());
 		
@@ -31,3 +33,4 @@ public class TestRunner {
 		}
 	}
 }
+*/

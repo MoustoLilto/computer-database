@@ -1,4 +1,4 @@
-package test.java.dao;
+/*package test.java.dao;
 
 
 import static org.junit.Assert.assertEquals;
@@ -8,30 +8,36 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import main.java.com.excilys.computer.database.dao.DAOCompany;
 import main.java.com.excilys.computer.database.modele.Company;
 import test.java.database.TestDatabaseActions;
 
+@Component
 public class DAOCompanyTest {
+	@Autowired
+	TestDatabaseActions testDatabaseActions;
+	@Autowired
+	DAOCompany daoCompany;
 	
 	@Before
 	public void setUp() throws Exception {
-		TestDatabaseActions testDatabaseActions = TestDatabaseActions.getInstance();
+		
 		testDatabaseActions.initDatabaseCompany();
 		testDatabaseActions.initDatabaseComputer();
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		TestDatabaseActions testDatabaseActions = TestDatabaseActions.getInstance();
 		testDatabaseActions.dropCompanyDatabase();
 		testDatabaseActions.dropComputerDatabase();
 	}
 	
 	@Test
 	public void testGetCompany() {
-		Company company = DAOCompany.getInstance().getCompany(0);
+		Company company = daoCompany.getCompany(0);
 		
 		Company company0 = new Company(0,"Apple Inc");
 		assertEquals(company0, company);
@@ -39,7 +45,7 @@ public class DAOCompanyTest {
 
 	@Test
 	public void testGetAllCompany() {
-		List<Company> companys = DAOCompany.getInstance().getAllCompany();
+		List<Company> companys = daoCompany.getAllCompany();
 		assertEquals(3, companys.size());
 		
 		Company company0 = new Company(0,"Apple Inc");
@@ -51,24 +57,23 @@ public class DAOCompanyTest {
 	
 	@Test
 	public void testRmCompany() {
-		TestDatabaseActions testDatabaseActions = TestDatabaseActions.getInstance();
 		int nbrTuplesModifie = 0;
 		
 		assertEquals(3, testDatabaseActions.getNombreCompany());
 		
 		Company company0 = new Company(0,"Apple Inc");
-		nbrTuplesModifie = DAOCompany.getInstance().rmCompany(company0);
+		nbrTuplesModifie = daoCompany.rmCompany(company0);
 		assertEquals(2, testDatabaseActions.getNombreCompany());
 		assertEquals(1, nbrTuplesModifie);
 		
 		Company company2 = new Company(2,"Dell");
-		nbrTuplesModifie = DAOCompany.getInstance().rmCompany(company2);
+		nbrTuplesModifie = daoCompany.rmCompany(company2);
 		assertEquals(1, testDatabaseActions.getNombreCompany());
 		assertEquals(3, nbrTuplesModifie);
 		
 		Company company5 = new Company(5,"Yolo");
-		nbrTuplesModifie = DAOCompany.getInstance().rmCompany(company5);
+		nbrTuplesModifie = daoCompany.rmCompany(company5);
 		assertEquals(1, testDatabaseActions.getNombreCompany());
 		assertEquals(0, nbrTuplesModifie);
 	}
-}
+}*/

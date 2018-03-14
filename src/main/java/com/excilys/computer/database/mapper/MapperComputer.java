@@ -2,26 +2,21 @@ package main.java.com.excilys.computer.database.mapper;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import main.java.com.excilys.computer.database.dao.DAOCompany;
 import main.java.com.excilys.computer.database.dto.DTOComputer;
 import main.java.com.excilys.computer.database.modele.Company;
 import main.java.com.excilys.computer.database.modele.Computer;
 
+@Component
 public class MapperComputer {
-	private static MapperComputer mapperComputer = null;
-	
-	private MapperComputer() {
-	}
-	
-	public static MapperComputer getInstance() {
-		if (mapperComputer == null) {
-			mapperComputer = new MapperComputer();
-		}
-		return mapperComputer;
-	}
+	@Autowired
+	private DAOCompany daoCompany;
 	
 	public DTOComputer toDTO(Computer computer) {
 		long id;
@@ -70,27 +65,29 @@ public class MapperComputer {
 			discontinued = LocalDate.parse(dtoComputer.getDiscontinued(), formatter);
 		}
 		companyID = dtoComputer.getCompanyID();
-		company = DAOCompany.getInstance().getCompany(companyID);
+		company = daoCompany.getCompany(companyID);
 		
 		Computer computer = new Computer(id, name, introduced, discontinued, company);
 		return computer;
 	}
 	
 	public List<DTOComputer> listToDTO(List<Computer> computers){
-		List<DTOComputer> dtoComputers = new ArrayList<>();
+		return computers.stream().map(c -> toDTO(c)).collect(Collectors.toList());
+		/*List<DTOComputer> dtoComputers = new ArrayList<>();
 		for (Computer computer : computers) {
 			DTOComputer dtoComputer = toDTO(computer);
 			dtoComputers.add(dtoComputer);
 		}
-		return dtoComputers;
+		return dtoComputers;*/
 	}
 	
 	public List<Computer> listToComputer(List<DTOComputer> dtoComputers){
-		List<Computer> computers = new ArrayList<>();
+		return dtoComputers.stream().map(c -> toComputer(c)).collect(Collectors.toList());
+		/*List<Computer> computers = new ArrayList<>();
 		for (DTOComputer dtoComputer : dtoComputers) {
 			Computer computer = toComputer(dtoComputer);
 			computers.add(computer);
 		}
-		return computers;
+		return computers;*/
 	}
 }

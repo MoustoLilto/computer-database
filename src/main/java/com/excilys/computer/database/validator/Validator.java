@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+import org.springframework.stereotype.Component;
+
 import main.java.com.excilys.computer.database.exceptions.DateTimeParseExceptionCDB;
 import main.java.com.excilys.computer.database.exceptions.IllegalCharacterException;
 import main.java.com.excilys.computer.database.exceptions.IntroducedSuperiorException;
@@ -13,19 +15,8 @@ import main.java.com.excilys.computer.database.exceptions.TuplesLimitException;
 import main.java.com.excilys.computer.database.exceptions.YearLimitException;
 import main.java.com.excilys.computer.database.exceptions.champInconnueException;
 
+@Component
 public class Validator {
-	private static Validator validator = null;
-	
-	private Validator() {
-	}
-	
-	public static Validator getIntsance() {
-		if (validator == null) {
-			validator = new Validator();
-		}
-		return validator;
-	}
-	
 	public Boolean controleDate(String date) throws YearLimitException, DateTimeParseExceptionCDB{
 		if (date.equals("") || date == null) {
 			return true;

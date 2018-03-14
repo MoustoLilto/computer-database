@@ -2,20 +2,22 @@ package main.java.com.excilys.computer.database.ihm.observable;
 
 import java.util.Scanner;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import main.java.com.excilys.computer.database.ihm.ComputerDatabaseCLI;
 import main.java.com.excilys.computer.database.ihm.observer.IObservable;
 import main.java.com.excilys.computer.database.modele.Computer;
 import main.java.com.excilys.computer.database.services.ServiceComputer;
 
+@Component
 public class DetailComputerObservable implements IObservable {	
-	
 	private Scanner sc;
+	
+	@Autowired
+	ServiceComputer service;
 
-	/**
-	 * Retourne un computer identifie par son id
-	 */
 	public Computer idComputer() {
-		ServiceComputer service = ServiceComputer.getService();
 		sc = new Scanner(System.in);
 		
 		System.out.print("Enter the id of the computer: ");					
@@ -27,18 +29,15 @@ public class DetailComputerObservable implements IObservable {
 		}		
 	}
 	
-	/**
-	 * Affiche les details du computer
-	 */
 	public Boolean execute() {
-		
-		Computer computer = idComputer();
 		ComputerDatabaseCLI.clear(1);
-		if (computer != null)
+		Computer computer = idComputer();
+		if (computer != null) {
 			System.out.println(computer);
-		else 
+		}
+		else {
 			System.out.println("Sorry a computer with this id don't exist!\n");
-		
+		}
 		return true;
 	}
 }

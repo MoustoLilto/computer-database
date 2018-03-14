@@ -2,13 +2,19 @@ package main.java.com.excilys.computer.database.ihm.observable;
 
 import java.util.Scanner;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import main.java.com.excilys.computer.database.ihm.observer.IObservable;
 import main.java.com.excilys.computer.database.modele.Computer;
 import main.java.com.excilys.computer.database.services.ServiceComputer;
 
+@Component
 public class RmComputerObservable implements IObservable {	
-	
 	Scanner sc;
+	
+	@Autowired
+	ServiceComputer service;
 	
 	public int ajoutId(Computer computer) {
 		sc = new Scanner(System.in);
@@ -22,12 +28,8 @@ public class RmComputerObservable implements IObservable {
 		return 0 ;
 	}
 	
-	/**
-	 * Permet de supprimer un computer et retourne un message en fonction de la suppresion!
-	 */
 	public Boolean execute() {
 		Computer computer = new Computer(); 
-		ServiceComputer service = ServiceComputer.getService();
 		
 		if (ajoutId(computer)==0) {
 			if (service.rmComputer(computer)==0) {

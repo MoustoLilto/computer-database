@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
 import main.java.com.excilys.computer.database.dto.DTOComputer;
 import main.java.com.excilys.computer.database.exceptions.IllegalCharacterException;
 import main.java.com.excilys.computer.database.exceptions.NumberFormatExceptionCDB;
@@ -23,14 +26,18 @@ import main.java.com.excilys.computer.database.modele.Computer;
 import main.java.com.excilys.computer.database.services.ServiceComputer;
 import main.java.com.excilys.computer.database.validator.Validator;
 
-@WebServlet("/ComputerDatabase")
+@Controller @WebServlet("/ComputerDatabase")
 public class ComputerDatabase extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	ServiceComputer serviceComputer = ServiceComputer.getService();
-	Validator validator = Validator.getIntsance();
-	MapperCompany mapperCompany = MapperCompany.getInstance();
-	MapperComputer mapperComputer = MapperComputer.getInstance();
+	@Autowired
+	ServiceComputer serviceComputer;
+	@Autowired
+	Validator validator;
+	@Autowired
+	MapperCompany mapperCompany;
+	@Autowired
+	MapperComputer mapperComputer;
 	
 	int nbreTuples = 50;
 	int numeroPage = 1;
@@ -118,7 +125,7 @@ public class ComputerDatabase extends HttpServlet {
 			numeroPage = 1;
 		} 
 		else {
-			numberOfRows = ServiceComputer.getService().getNombre();
+			numberOfRows = serviceComputer.getNombre();
 		}
 		try {
 			nbrTupleManagement(request, response);

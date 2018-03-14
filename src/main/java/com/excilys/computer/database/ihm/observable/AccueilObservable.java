@@ -1,8 +1,11 @@
 package main.java.com.excilys.computer.database.ihm.observable;
 
+import org.springframework.stereotype.Component;
+
 import main.java.com.excilys.computer.database.ihm.ComputerDatabaseCLI;
 import main.java.com.excilys.computer.database.ihm.observer.IObservable;
 
+@Component
 public class AccueilObservable implements IObservable{
 	
 	public String accueil() {

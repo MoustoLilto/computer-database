@@ -1,14 +1,16 @@
 package main.java.com.excilys.computer.database.dao;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import main.java.com.excilys.computer.database.modele.Company;
 import main.java.com.excilys.computer.database.modele.Computer;
@@ -17,35 +19,23 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Types;
 
+@Component
 public class DAOComputer {	
 	final static Logger logger = LogManager.getLogger(DAOComputer.class);
-	private static Connect connect = Connect.getInstance();
-	private static DAOComputer daoComputer = null;
 	
-	private DAOComputer() {
-	}
-	
-	public static DAOComputer getInstance() {
-		if (daoComputer == null) {
-			daoComputer = new DAOComputer();
-		}
-		return daoComputer;
-	}
+	@Autowired
+	private  Connect connect;
 	
 	public int getNombre() {
 		String query = RequetesComputerSQL.NOMBRE.toString();
 		int nombre = 0;
 		
-		try (Statement stmt= connect.getConnection().createStatement()){
-			ResultSet results = stmt.executeQuery(query);
-			
+		try (Connection connection = connect.getConnection(); Statement stmt = connection.createStatement(); ResultSet results = stmt.executeQuery(query)){
 			while (results.next()) {
 				nombre = results.getInt(1);
 			}
 		} catch(SQLException e) {
 			logger.error("Erreur de recuperation du nombre de tuples dans la BDD, erreur: "+e);
-		} finally {
-			connect.closeConnection();
 		}
 		return nombre;
 	}
@@ -54,9 +44,7 @@ public class DAOComputer {
 		List<Computer> computers = new ArrayList<Computer>();
 		String query = RequetesComputerSQL.ALL.toString();
 			
-		try (Statement stmt = connect.getConnection().createStatement()){
-			ResultSet results = stmt.executeQuery(query);
-						
+		try (Connection connection = connect.getConnection(); Statement stmt = connection.createStatement(); ResultSet results = stmt.executeQuery(query)){
 			while (results.next()) {
             	Computer computer = new Computer(); 										//Creation du tuple
             	
@@ -86,22 +74,18 @@ public class DAOComputer {
             }
 		} catch (SQLException e1) {
 			logger.error("Error gettingthe list of computers! erreur:" + e1);
-		} finally {
-			connect.closeConnection();
 		}
 		return computers;
 	}
 	
 	public List<Computer> getSomeComputers(long position, long numberOfRows, String orderBy, String order){
-		//String query = RequetesComputerSQL.SOME.toString();
 		String[] splittedQuerry = RequetesComputerSQL.SOME_WITH_ORDER.toString().split("---");
 		String query = splittedQuerry[0] + orderBy +splittedQuerry[1] + order + splittedQuerry[2];
 		List<Computer> computers = new ArrayList<Computer>();
 		
-		try (PreparedStatement ps = connect.getConnection().prepareStatement(query)){
+		try (Connection connection = connect.getConnection(); PreparedStatement ps = connection.prepareStatement(query); ResultSet results = ps.executeQuery()){
 			ps.setLong(1, (numberOfRows));
 			ps.setLong(2, (position));
-			ResultSet results = ps.executeQuery();
 			
 			while (results.next()) {
 				Computer computer = new Computer();												//Creation du tuple
@@ -130,11 +114,8 @@ public class DAOComputer {
 	        	
 	        	computers.add(computer); 														//Ajout du tuple a la liste
 	        }
-			
 		}catch (SQLException e1) {
 			logger.error("Error getting the reduced list of computers! erreur:" + e1);
-		} finally {
-			connect.closeConnection();
 		}
 		return computers;
 	}
@@ -143,34 +124,29 @@ public class DAOComputer {
 		String query = RequetesComputerSQL.SEARCH_NOMBRE.toString();
 		int nombre = 0;
 		
-		try (PreparedStatement ps = connect.getConnection().prepareStatement(query)){
+		try (Connection connection = connect.getConnection(); PreparedStatement ps = connection.prepareStatement(query); ResultSet results = ps.executeQuery()){
 			ps.setString(1, "%" + recherche + "%");
 			ps.setString(2, "%" + recherche + "%");
-			ResultSet results = ps.executeQuery();
 			
 			while (results.next()) {
 				nombre = results.getInt(1);
 			}
 		} catch(SQLException e) {
 			logger.error("Erreur de recuperation du nombre de tuples dans la BDD lie a la recherche, erreur: "+e);
-		} finally {
-			connect.closeConnection();
 		}
 		return nombre;
 	}
 	
 	public List<Computer> searchComputers(String recherche, long position, long numberOfRows, String orderBy, String order){
-		//String query = RequetesComputerSQL.SEARCH.toString();
 		String[] splittedQuerry = RequetesComputerSQL.SEARCH_WITH_ORDER.toString().split("---");
 		String query = splittedQuerry[0] + orderBy +splittedQuerry[1] + order + splittedQuerry[2];
 		List<Computer> computers = new ArrayList<Computer>();
 		
-		try (PreparedStatement ps = connect.getConnection().prepareStatement(query)){
+		try (Connection connection = connect.getConnection(); PreparedStatement ps = connection.prepareStatement(query); ResultSet results = ps.executeQuery()){
 			ps.setString(1, "%" + recherche + "%");
 			ps.setString(2, "%" + recherche + "%");
 			ps.setLong(3, (numberOfRows));
 			ps.setLong(4, (position));
-			ResultSet results = ps.executeQuery();
 						
 			while (results.next()) {
 				Computer computer = new Computer();
@@ -200,17 +176,15 @@ public class DAOComputer {
 	        }
 		} catch (SQLException e1) {
 			logger.error("Error getting the list related to the search string! erreur:" + e1);
-		} finally {
-			connect.closeConnection();
 		}
 		return computers;
 	}
 	
 	public int addComputer(Computer computer) {
 		String query = RequetesComputerSQL.ADD.toString();
-		int  Nbre_Tuples_Modifie=0;
+		int  nbrTuplesModifies=0;
 		
-		try (PreparedStatement ps = connect.getConnection().prepareStatement(query)){
+		try (Connection connection = connect.getConnection(); PreparedStatement ps = connection.prepareStatement(query)){
 			ps.setString(1, computer.getName());
 			if (computer.getIntroduced() == null) {
 				ps.setDate(2,null);
@@ -231,38 +205,33 @@ public class DAOComputer {
 				ps.setLong(4, computer.getCompany().getId());
 			}
 			
-			Nbre_Tuples_Modifie = ps.executeUpdate();									
+			nbrTuplesModifies = ps.executeUpdate();									
 		} catch (SQLException e1) {
 			logger.error("Error adding the computer! erreur:" + e1);
-		} finally {
-			connect.closeConnection();
 		}
-		return Nbre_Tuples_Modifie;
+		return nbrTuplesModifies;
 	}
 	
 	public int rmComputer(Computer computer) {
 		String query = RequetesComputerSQL.DELETE.toString();
-		int  Nbre_Tuples_Modifie=0;
+		int  nbrTuplesModifies=0;
 		
-		try (PreparedStatement ps = connect.getConnection().prepareStatement(query)){
+		try (Connection connection = connect.getConnection(); PreparedStatement ps = connection.prepareStatement(query)){
 			ps.setLong(1, computer.getId());
 			
-			Nbre_Tuples_Modifie = ps.executeUpdate();
+			nbrTuplesModifies = ps.executeUpdate();
 		} catch (SQLException e) {
 			logger.error("Error deleting the computer! erreur:" + e);
-		} finally {
-			connect.closeConnection();
 		}
-		return Nbre_Tuples_Modifie;
+		return nbrTuplesModifies;
 	}
 	
 	public Computer detailComputer(long id) {
 		String query = RequetesComputerSQL.DETAIL.toString();
 		Computer computer = null;
 		
-		try (PreparedStatement ps = connect.getConnection().prepareStatement(query)){
+		try (Connection connection = connect.getConnection(); PreparedStatement ps = connection.prepareStatement(query); ResultSet results = ps.executeQuery()){
 			ps.setLong(1, id);
-			ResultSet results = ps.executeQuery();
 						
 			while (results.next()) {
 				computer = new Computer();
@@ -291,20 +260,15 @@ public class DAOComputer {
 		} catch (SQLException e1) {
 			computer = null;
 			logger.error("Error getting the details of the computer! erreur:" + e1);
-		} finally {
-			connect.closeConnection();
 		}
-		if (Optional.ofNullable(computer).isPresent()) {
-			return Optional.ofNullable(computer).get();
-		}
-		return null;
+		return computer;
 	}
 	
 	public int updateComputer(Computer computer) {
 		String query = RequetesComputerSQL.UPDATE.toString();
-		int  Nbre_Tuples_Modifie=0;
+		int  nbrTuplesModifies=0;
 		
-		try (PreparedStatement ps = connect.getConnection().prepareStatement(query)){
+		try (Connection connection = connect.getConnection(); PreparedStatement ps = connection.prepareStatement(query)){
 			ps.setString(1, computer.getName());
 			if (computer.getIntroduced() == null) {
 				ps.setDate(2,null);
@@ -326,12 +290,10 @@ public class DAOComputer {
 			}
 			ps.setLong(5, computer.getId());
 			
-			Nbre_Tuples_Modifie = ps.executeUpdate();			
+			nbrTuplesModifies = ps.executeUpdate();			
 		} catch (SQLException e) {
 			logger.error("Error updating the computer! erreur:" + e);
-		} finally {
-			connect.closeConnection();
 		}
-		return Nbre_Tuples_Modifie;
+		return nbrTuplesModifies;
 	}
 }

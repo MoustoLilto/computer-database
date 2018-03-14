@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import main.java.com.excilys.computer.database.dto.DTOCompany;
 import main.java.com.excilys.computer.database.dto.DTOComputer;
 import main.java.com.excilys.computer.database.exceptions.DateTimeParseExceptionCDB;
@@ -29,13 +31,19 @@ import main.java.com.excilys.computer.database.validator.Validator;
 public class UpdateComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	ServiceComputer serviceComputer = ServiceComputer.getService();
-	Validator validator = Validator.getIntsance();
-	MapperCompany mapperCompany = MapperCompany.getInstance();
-	MapperComputer mapperComputer = MapperComputer.getInstance();
+	@Autowired
+	ServiceComputer serviceComputer;
+	@Autowired
+	ServiceCompany serviceCompany;
+	@Autowired
+	Validator validator;
+	@Autowired
+	MapperCompany mapperCompany;
+	@Autowired
+	MapperComputer mapperComputer;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<DTOCompany> allCompanies = mapperCompany.listToDTO(ServiceCompany.getService().getAllCompany());
+		List<DTOCompany> allCompanies = mapperCompany.listToDTO(serviceCompany.getAllCompany());
 		request.setAttribute("allCompanies", allCompanies);
 		
 		String id = request.getParameter("id");
