@@ -83,9 +83,10 @@ public class DAOComputer {
 		String query = splittedQuerry[0] + orderBy +splittedQuerry[1] + order + splittedQuerry[2];
 		List<Computer> computers = new ArrayList<Computer>();
 		
-		try (Connection connection = connect.getConnection(); PreparedStatement ps = connection.prepareStatement(query); ResultSet results = ps.executeQuery()){
+		try (Connection connection = connect.getConnection(); PreparedStatement ps = connection.prepareStatement(query)){
 			ps.setLong(1, (numberOfRows));
 			ps.setLong(2, (position));
+			ResultSet results = ps.executeQuery();
 			
 			while (results.next()) {
 				Computer computer = new Computer();												//Creation du tuple
@@ -114,6 +115,7 @@ public class DAOComputer {
 	        	
 	        	computers.add(computer); 														//Ajout du tuple a la liste
 	        }
+			results.close();
 		}catch (SQLException e1) {
 			logger.error("Error getting the reduced list of computers! erreur:" + e1);
 		}
@@ -124,13 +126,15 @@ public class DAOComputer {
 		String query = RequetesComputerSQL.SEARCH_NOMBRE.toString();
 		int nombre = 0;
 		
-		try (Connection connection = connect.getConnection(); PreparedStatement ps = connection.prepareStatement(query); ResultSet results = ps.executeQuery()){
+		try (Connection connection = connect.getConnection(); PreparedStatement ps = connection.prepareStatement(query)){
 			ps.setString(1, "%" + recherche + "%");
 			ps.setString(2, "%" + recherche + "%");
-			
+			ResultSet results = ps.executeQuery();
+					
 			while (results.next()) {
 				nombre = results.getInt(1);
 			}
+			results.close();
 		} catch(SQLException e) {
 			logger.error("Erreur de recuperation du nombre de tuples dans la BDD lie a la recherche, erreur: "+e);
 		}
@@ -142,12 +146,13 @@ public class DAOComputer {
 		String query = splittedQuerry[0] + orderBy +splittedQuerry[1] + order + splittedQuerry[2];
 		List<Computer> computers = new ArrayList<Computer>();
 		
-		try (Connection connection = connect.getConnection(); PreparedStatement ps = connection.prepareStatement(query); ResultSet results = ps.executeQuery()){
+		try (Connection connection = connect.getConnection(); PreparedStatement ps = connection.prepareStatement(query)){
 			ps.setString(1, "%" + recherche + "%");
 			ps.setString(2, "%" + recherche + "%");
 			ps.setLong(3, (numberOfRows));
 			ps.setLong(4, (position));
-						
+			ResultSet results = ps.executeQuery();
+					
 			while (results.next()) {
 				Computer computer = new Computer();
 	        	computer.setId(results.getLong(1));												//Ajout des attributs au tuple
@@ -174,6 +179,7 @@ public class DAOComputer {
 	        	
 	        	computers.add(computer);
 	        }
+			results.close();
 		} catch (SQLException e1) {
 			logger.error("Error getting the list related to the search string! erreur:" + e1);
 		}
@@ -230,8 +236,9 @@ public class DAOComputer {
 		String query = RequetesComputerSQL.DETAIL.toString();
 		Computer computer = null;
 		
-		try (Connection connection = connect.getConnection(); PreparedStatement ps = connection.prepareStatement(query); ResultSet results = ps.executeQuery()){
+		try (Connection connection = connect.getConnection(); PreparedStatement ps = connection.prepareStatement(query)){
 			ps.setLong(1, id);
+			ResultSet results = ps.executeQuery();
 						
 			while (results.next()) {
 				computer = new Computer();
@@ -257,6 +264,7 @@ public class DAOComputer {
 	        	}
 	        	computer.setCompany(company);
 	        }
+			results.close();
 		} catch (SQLException e1) {
 			computer = null;
 			logger.error("Error getting the details of the computer! erreur:" + e1);

@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import main.java.com.excilys.computer.database.dto.DTOCompany;
 import main.java.com.excilys.computer.database.dto.DTOComputer;
@@ -25,6 +32,7 @@ import main.java.com.excilys.computer.database.mapper.MapperComputer;
 import main.java.com.excilys.computer.database.modele.Computer;
 import main.java.com.excilys.computer.database.services.ServiceCompany;
 import main.java.com.excilys.computer.database.services.ServiceComputer;
+import main.java.com.excilys.computer.database.spring.SpringConfiguration;
 import main.java.com.excilys.computer.database.validator.Validator;
 
 @WebServlet("/CreateComputer")
@@ -114,5 +122,15 @@ public class CreateComputerServlet extends HttpServlet {
 		serviceComputer.addComputer(computer);
 		
 		response.sendRedirect("ComputerDatabase");
+	}
+	
+	@Override
+	public void init() throws ServletException {
+		/*super.init(config);
+		ServletContext servletContext = config.getServletContext();
+		WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
+	    AutowireCapableBeanFactory autowireCapableBeanFactory = webApplicationContext.getAutowireCapableBeanFactory();*/
+		ApplicationContext vApplicationContext = new AnnotationConfigApplicationContext(SpringConfiguration.class);
+		vApplicationContext.getAutowireCapableBeanFactory().autowireBean(this);
 	}
 }

@@ -41,13 +41,14 @@ public class DAOCompany {
 		String query = RequetesCompanySQL.DETAIL.toString();
 		Company company = null;
 		
-		try (Connection connection = connect.getConnection(); PreparedStatement ps = connection.prepareStatement(query); ResultSet results = ps.executeQuery()){
+		try (Connection connection = connect.getConnection(); PreparedStatement ps = connection.prepareStatement(query)){
 			ps.setLong(1, companyId);
+			ResultSet results = ps.executeQuery();
 						
 			while (results.next()) {
 				company = new Company();
 				
-				company.setId(results.getLong(1));	
+				company.setId(results.getLong(1));
 				company.setName(results.getString(2));
 			}
 			results.close();

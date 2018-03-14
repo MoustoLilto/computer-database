@@ -2,12 +2,13 @@ package main.java.com.excilys.computer.database.dao;
 
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.zaxxer.hikari.HikariDataSource;
 
 import java.sql.Connection;
 
@@ -16,7 +17,7 @@ public class Connect {
 	final private static Logger logger = LogManager.getLogger(Connect.class);
 	
 	@Autowired
-	private HikariDataSource ds;
+	private DataSource ds;
 	
 	public Connection getConnection() {
 		Connection connection = null;

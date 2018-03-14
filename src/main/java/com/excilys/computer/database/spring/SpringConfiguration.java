@@ -2,6 +2,8 @@ package main.java.com.excilys.computer.database.spring;
 
 import java.util.ResourceBundle;
 
+import javax.sql.DataSource;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +15,7 @@ import com.zaxxer.hikari.HikariDataSource;
 public class SpringConfiguration {
 	
 	@Bean
-    public HikariDataSource dataSource() {
+    public DataSource getDataSource() {
 		ResourceBundle bundle = ResourceBundle.getBundle("connect");
 		String url = bundle.getString("url");
 		String username = bundle.getString("username");
