@@ -12,10 +12,13 @@ import main.java.com.excilys.computer.database.services.ServiceComputer;
 @Component
 public class RmComputerObservable implements IObservable {	
 	Scanner sc;
+	private final ServiceComputer service;
 	
 	@Autowired
-	ServiceComputer service;
-	
+	public RmComputerObservable(ServiceComputer service) {
+		this.service = service;
+	}
+
 	public int ajoutId(Computer computer) {
 		sc = new Scanner(System.in);
 		System.out.print("Enter the id of the computer: ");				

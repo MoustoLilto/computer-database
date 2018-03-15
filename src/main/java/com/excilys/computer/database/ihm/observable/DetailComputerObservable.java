@@ -13,9 +13,12 @@ import main.java.com.excilys.computer.database.services.ServiceComputer;
 @Component
 public class DetailComputerObservable implements IObservable {	
 	private Scanner sc;
+	final private ServiceComputer service;
 	
 	@Autowired
-	ServiceComputer service;
+	public DetailComputerObservable(ServiceComputer service) {
+		this.service = service;
+	}
 
 	public Computer idComputer() {
 		sc = new Scanner(System.in);

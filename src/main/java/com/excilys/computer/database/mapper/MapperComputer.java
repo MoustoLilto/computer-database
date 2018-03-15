@@ -15,9 +15,13 @@ import main.java.com.excilys.computer.database.modele.Computer;
 
 @Component
 public class MapperComputer {
-	@Autowired
-	private DAOCompany daoCompany;
+	final private DAOCompany daoCompany;
 	
+	@Autowired
+	public MapperComputer(DAOCompany daoCompany) {
+		this.daoCompany = daoCompany;
+	}
+
 	public DTOComputer toDTO(Computer computer) {
 		long id;
 		String name = null;
@@ -73,21 +77,9 @@ public class MapperComputer {
 	
 	public List<DTOComputer> listToDTO(List<Computer> computers){
 		return computers.stream().map(c -> toDTO(c)).collect(Collectors.toList());
-		/*List<DTOComputer> dtoComputers = new ArrayList<>();
-		for (Computer computer : computers) {
-			DTOComputer dtoComputer = toDTO(computer);
-			dtoComputers.add(dtoComputer);
-		}
-		return dtoComputers;*/
 	}
 	
 	public List<Computer> listToComputer(List<DTOComputer> dtoComputers){
 		return dtoComputers.stream().map(c -> toComputer(c)).collect(Collectors.toList());
-		/*List<Computer> computers = new ArrayList<>();
-		for (DTOComputer dtoComputer : dtoComputers) {
-			Computer computer = toComputer(dtoComputer);
-			computers.add(computer);
-		}
-		return computers;*/
 	}
 }

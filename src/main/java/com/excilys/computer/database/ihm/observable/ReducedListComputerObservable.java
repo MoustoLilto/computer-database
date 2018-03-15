@@ -12,9 +12,12 @@ import main.java.com.excilys.computer.database.services.ServiceComputer;
 @Component
 public class ReducedListComputerObservable implements IObservable{
 	private Scanner sc;
+	private final ServiceComputer service;
 	
 	@Autowired
-	ServiceComputer service;
+	public ReducedListComputerObservable(ServiceComputer service) {
+		this.service = service;
+	}
 	
 	public Boolean execute() {
 		sc = new Scanner(System.in);

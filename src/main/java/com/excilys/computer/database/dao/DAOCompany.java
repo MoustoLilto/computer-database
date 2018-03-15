@@ -10,19 +10,22 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import main.java.com.excilys.computer.database.modele.Company;
 
 import java.sql.Statement;
 
-@Component
+@Repository
 public class DAOCompany {
 	final private static Logger logger = LogManager.getLogger(DAOCompany.class);
-	
-	@Autowired
 	private Connect connect;
 	
+	@Autowired
+	public DAOCompany(Connect connect) {
+		this.connect = connect;
+	}
+
 	public int getNombre() {
 		String query = RequetesCompanySQL.NOMBRE.toString();
 		int nombre = 0;

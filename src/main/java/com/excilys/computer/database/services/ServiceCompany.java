@@ -5,18 +5,21 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import main.java.com.excilys.computer.database.dao.DAOCompany;
 import main.java.com.excilys.computer.database.modele.Company;
 
-@Component
+@Service
 public class ServiceCompany {
 	final static Logger logger = LogManager.getLogger(ServiceCompany.class);
+	private final DAOCompany daoCompany;
 	
 	@Autowired
-	DAOCompany daoCompany;
-	
+	public ServiceCompany(DAOCompany daoCompany) {
+		this.daoCompany = daoCompany;
+	}
+
 	public int getNombre() {
 		return daoCompany.getNombre();
 	}

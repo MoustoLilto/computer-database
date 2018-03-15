@@ -10,9 +10,13 @@ import main.java.com.excilys.computer.database.services.ServiceCompany;
 
 @Component
 public class ListCompanyObservable implements IObservable {
-	@Autowired
-	ServiceCompany service;
+	final private ServiceCompany service;
 	
+	@Autowired
+	public ListCompanyObservable(ServiceCompany service) {
+		this.service = service;
+	}
+
 	public Boolean execute() {
 		ComputerDatabaseCLI.clear(1);
 		for (Company company : service.getAllCompany())

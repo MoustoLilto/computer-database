@@ -12,10 +12,13 @@ import main.java.com.excilys.computer.database.services.ServiceCompany;
 @Component
 public class RmCompanyObservable implements IObservable {	
 	private Scanner sc;
+	private final ServiceCompany service;
 	
 	@Autowired
-	ServiceCompany service;
-	
+	public RmCompanyObservable(ServiceCompany service) {
+		this.service = service;
+	}
+
 	public int ajoutId(Company company) {
 		sc = new Scanner(System.in);
 		System.out.print("Enter the id of the company: ");				

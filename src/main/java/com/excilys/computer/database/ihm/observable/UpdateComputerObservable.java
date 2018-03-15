@@ -15,10 +15,13 @@ import main.java.com.excilys.computer.database.services.ServiceComputer;
 @Component
 public class UpdateComputerObservable implements IObservable {
 	Scanner sc;
+	private final ServiceComputer service;
 	
 	@Autowired
-	ServiceComputer service;
-	
+	public UpdateComputerObservable(ServiceComputer service) {
+		this.service = service;
+	}
+
 	public Computer getComputerUpdate() {
 		sc = new Scanner(System.in);
 		System.out.print("Enter the id of the computer: ");

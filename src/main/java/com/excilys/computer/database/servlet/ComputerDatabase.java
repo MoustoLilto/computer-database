@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,12 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import main.java.com.excilys.computer.database.dto.DTOComputer;
 import main.java.com.excilys.computer.database.exceptions.IllegalCharacterException;
@@ -27,7 +23,6 @@ import main.java.com.excilys.computer.database.exceptions.NumberFormatExceptionC
 import main.java.com.excilys.computer.database.exceptions.PageLimitException;
 import main.java.com.excilys.computer.database.exceptions.TuplesLimitException;
 import main.java.com.excilys.computer.database.exceptions.champInconnueException;
-import main.java.com.excilys.computer.database.mapper.MapperCompany;
 import main.java.com.excilys.computer.database.mapper.MapperComputer;
 import main.java.com.excilys.computer.database.modele.Computer;
 import main.java.com.excilys.computer.database.services.ServiceComputer;
@@ -39,22 +34,32 @@ import main.java.com.excilys.computer.database.validator.Validator;
 public class ComputerDatabase extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	@Autowired
-	ServiceComputer serviceComputer;
-	@Autowired
-	Validator validator;
-	@Autowired
-	MapperCompany mapperCompany;
-	@Autowired
-	MapperComputer mapperComputer;
+	/*private static final long serialVersionUID = 1L;
+	private final ServiceComputer serviceComputer;
+	private final Validator validator;
+	private final MapperComputer mapperComputer;
 	
-	int nbreTuples = 50;
-	int numeroPage = 1;
-	int nbrPageMax = 1;
-	int numberOfRows = 1;
-	int numTuple = 0;
-	String orderBy = "computer.id";
-	String order = "ASC";
+	@Autowired
+	public ComputerDatabase(ServiceComputer serviceComputer, Validator validator, MapperComputer mapperComputer) {
+		this.serviceComputer = serviceComputer;
+		this.validator = validator;
+		this.mapperComputer = mapperComputer;
+	}*/
+	
+	@Autowired
+	private ServiceComputer serviceComputer;
+	@Autowired
+	private Validator validator;
+	@Autowired
+	private MapperComputer mapperComputer;
+	
+	private int nbreTuples = 50;
+	private int numeroPage = 1;
+	private int nbrPageMax = 1;
+	private int numberOfRows = 1;
+	private int numTuple = 0;
+	private String orderBy = "computer.id";
+	private String order = "ASC";
 	
 	public void orderManagement(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, champInconnueException {
 		String ordreBy = request.getParameter("orderBy");
@@ -196,10 +201,7 @@ public class ComputerDatabase extends HttpServlet {
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		/*super.init(config);
-		ServletContext servletContext = config.getServletContext();
-		WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
-	    AutowireCapableBeanFactory autowireCapableBeanFactory = webApplicationContext.getAutowireCapableBeanFactory();*/
+		@SuppressWarnings("resource")
 		ApplicationContext vApplicationContext = new AnnotationConfigApplicationContext(SpringConfiguration.class);
 		vApplicationContext.getAutowireCapableBeanFactory().autowireBean(this);
 	}

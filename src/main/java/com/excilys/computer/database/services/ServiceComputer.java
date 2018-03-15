@@ -15,12 +15,15 @@ import main.java.com.excilys.computer.database.modele.Computer;
 @Component
 public class ServiceComputer {
 	final static Logger logger = LogManager.getLogger(ServiceComputer.class);
+	private final DAOComputer daoComputer;
+	private final DAOCompany daoCompany;
 	
 	@Autowired
-	DAOComputer daoComputer;
-	@Autowired
-	DAOCompany daoCompany;
-	
+	public ServiceComputer(DAOComputer daoComputer, DAOCompany daoCompany) {
+		this.daoComputer = daoComputer;
+		this.daoCompany = daoCompany;
+	}
+
 	public int getNombre() {
 		return daoComputer.getNombre();
 	}

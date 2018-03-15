@@ -17,6 +17,9 @@ import main.java.com.excilys.computer.database.exceptions.champInconnueException
 
 @Component
 public class Validator {
+	public Validator() {
+	}
+	
 	public Boolean controleDate(String date) throws YearLimitException, DateTimeParseExceptionCDB{
 		if (date.equals("") || date == null) {
 			return true;

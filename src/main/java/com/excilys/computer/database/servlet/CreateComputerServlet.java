@@ -5,8 +5,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,11 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import main.java.com.excilys.computer.database.dto.DTOCompany;
 import main.java.com.excilys.computer.database.dto.DTOComputer;
@@ -39,16 +34,33 @@ import main.java.com.excilys.computer.database.validator.Validator;
 public class CreateComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
+	/*private final ServiceComputer serviceComputer;
+	private final ServiceCompany serviceCompany;
+	private final Validator validator;
+	private final MapperCompany mapperCompany;
+	private final MapperComputer mapperComputer;
+	
 	@Autowired
-	ServiceComputer serviceComputer;
+	public CreateComputerServlet(ServiceComputer serviceComputer, ServiceCompany serviceCompany, Validator validator,
+			MapperCompany mapperCompany, MapperComputer mapperComputer) {
+		super();
+		this.serviceComputer = serviceComputer;
+		this.serviceCompany = serviceCompany;
+		this.validator = validator;
+		this.mapperCompany = mapperCompany;
+		this.mapperComputer = mapperComputer;
+	}*/
+	
 	@Autowired
-	ServiceCompany serviceCompany;
+	private ServiceComputer serviceComputer;
 	@Autowired
-	Validator validator;
+	private ServiceCompany serviceCompany;
 	@Autowired
-	MapperCompany mapperCompany;
+	private Validator validator;
 	@Autowired
-	MapperComputer mapperComputer;
+	private MapperCompany mapperCompany;
+	@Autowired
+	private MapperComputer mapperComputer;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<DTOCompany> allCompanies = mapperCompany.listToDTO(serviceCompany.getAllCompany());
@@ -126,10 +138,7 @@ public class CreateComputerServlet extends HttpServlet {
 	
 	@Override
 	public void init() throws ServletException {
-		/*super.init(config);
-		ServletContext servletContext = config.getServletContext();
-		WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
-	    AutowireCapableBeanFactory autowireCapableBeanFactory = webApplicationContext.getAutowireCapableBeanFactory();*/
+		@SuppressWarnings("resource")
 		ApplicationContext vApplicationContext = new AnnotationConfigApplicationContext(SpringConfiguration.class);
 		vApplicationContext.getAutowireCapableBeanFactory().autowireBean(this);
 	}

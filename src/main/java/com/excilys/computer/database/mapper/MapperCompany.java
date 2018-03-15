@@ -10,6 +10,9 @@ import main.java.com.excilys.computer.database.modele.Company;
 
 @Component
 public class MapperCompany {
+	public MapperCompany() {
+	}
+
 	public DTOCompany toDTO(Company company) {
 		return new DTOCompany(company.getId(), company.getName());
 	}
@@ -20,23 +23,9 @@ public class MapperCompany {
 	
 	public List<DTOCompany> listToDTO(List<Company> companies){
 		return companies.stream().map(c -> toDTO(c)).collect(Collectors.toList());
-		
-		/*List<DTOCompany> dtoCompanies = new ArrayList<>();
-		for (Company company : companies) {
-			DTOCompany dtoCompany = toDTO(company);
-			dtoCompanies.add(dtoCompany);
-		}
-		return dtoCompanies;*/
 	}
 	
 	public List<Company> listToCompany(List<DTOCompany> dtoCompanies){
 		return dtoCompanies.stream().map(c -> toCompany(c)).collect(Collectors.toList());
-		
-		/*List<Company> companies = new ArrayList<>();
-		for (DTOCompany dtoCompany : dtoCompanies) {
-			Company company = toCompany(dtoCompany);
-			companies.add(company);
-		}
-		return companies;*/
 	}
 }

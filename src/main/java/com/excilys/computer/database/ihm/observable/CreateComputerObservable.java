@@ -14,11 +14,15 @@ import main.java.com.excilys.computer.database.services.ServiceComputer;
 
 @Component
 public class CreateComputerObservable implements IObservable {	
-	private Scanner sc = new Scanner(System.in);
+	private Scanner sc;
+	final private ServiceComputer service;
 	
 	@Autowired
-	ServiceComputer service;
-	
+	public CreateComputerObservable(ServiceComputer service) {
+		this.service = service;
+		this.sc = new Scanner(System.in);
+	}
+
 	public void ajoutNom(Computer computer) {
 		System.out.print("Enter the name of the computer: ");					
 		String str = sc.nextLine();

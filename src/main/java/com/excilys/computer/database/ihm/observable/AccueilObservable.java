@@ -7,6 +7,8 @@ import main.java.com.excilys.computer.database.ihm.observer.IObservable;
 
 @Component
 public class AccueilObservable implements IObservable{
+	public AccueilObservable() {
+	}
 	
 	public String accueil() {
 		String accueil = "=======================     MENU     ==========================\n";

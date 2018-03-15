@@ -10,9 +10,14 @@ import main.java.com.excilys.computer.database.services.ServiceComputer;
 
 @Component
 public class ListComputerObservable implements IObservable{
-	@Autowired
-	ServiceComputer service;
+	private final ServiceComputer service;
 	
+	@Autowired
+	public ListComputerObservable(ServiceComputer service) {
+		super();
+		this.service = service;
+	}
+
 	public Boolean execute() {
 		ComputerDatabaseCLI.clear(1);
 		for (Computer computer : service.getAllComputer())
