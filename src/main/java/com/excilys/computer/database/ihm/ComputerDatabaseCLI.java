@@ -15,7 +15,7 @@ import main.java.com.excilys.computer.database.ihm.observable.RmCompanyObservabl
 import main.java.com.excilys.computer.database.ihm.observable.RmComputerObservable;
 import main.java.com.excilys.computer.database.ihm.observable.UpdateComputerObservable;
 import main.java.com.excilys.computer.database.ihm.observer.Observer;
-import main.java.com.excilys.computer.database.spring.SpringConfiguration;
+import main.java.com.excilys.computer.database.spring.CliSpringConfiguration;
 
 public class ComputerDatabaseCLI {
 	public static void clear(int nbre) {
@@ -41,7 +41,7 @@ public class ComputerDatabaseCLI {
 	
 	public static void main(String[] args) {
 		@SuppressWarnings("resource")
-		ApplicationContext vApplicationContext = new AnnotationConfigApplicationContext(SpringConfiguration.class);
+		ApplicationContext vApplicationContext = new AnnotationConfigApplicationContext(CliSpringConfiguration.class);
 		
 		Observer observer = vApplicationContext.getBean(Observer.class);
 		

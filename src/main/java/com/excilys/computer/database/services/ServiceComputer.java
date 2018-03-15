@@ -2,19 +2,16 @@ package main.java.com.excilys.computer.database.services;
 
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import main.java.com.excilys.computer.database.dao.DAOCompany;
 import main.java.com.excilys.computer.database.dao.DAOComputer;
 import main.java.com.excilys.computer.database.modele.Company;
 import main.java.com.excilys.computer.database.modele.Computer;
 
-@Component
+@Service
 public class ServiceComputer {
-	final static Logger logger = LogManager.getLogger(ServiceComputer.class);
 	private final DAOComputer daoComputer;
 	private final DAOCompany daoCompany;
 	
@@ -49,10 +46,7 @@ public class ServiceComputer {
 	}
 	
 	public int addComputer(Computer computer)  {
-		if (daoComputer.addComputer(computer)==0) {
-			logger.info("No rows have been added!\n\n");
-			return -1;
-		}
+		daoComputer.addComputer(computer);
 		return 0;
 	}
 	
@@ -60,18 +54,12 @@ public class ServiceComputer {
 		if (detailComputer(computer.getId())==null) {
 			return -1;
 		}
-		if (daoComputer.rmComputer(computer)==0) {
-			logger.info("No rows have been deleted!\n\n");
-			return -1;
-		}
+		daoComputer.rmComputer(computer);
 		return 0;
 	}
 	
 	public int updateComputer(Computer computer) {
-		if (daoComputer.updateComputer(computer)==0) {
-			logger.info("No rows have been updated!\n\n");
-			return -1;
-		}
+		daoComputer.updateComputer(computer);
 		return 0;
 	}
 	

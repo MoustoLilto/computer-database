@@ -8,7 +8,7 @@
   
 	<context-param>
 	    <param-name>contextConfigLocation</param-name>
-	    <param-value>main.java.com.excilys.computer.database.spring.SpringConfiguration</param-value>
+	    <param-value>main.java.com.excilys.computer.database.spring.WebSpringConfiguration</param-value>
 	</context-param>
 	
 	<context-param>

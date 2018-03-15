@@ -6,18 +6,22 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import main.java.com.excilys.computer.database.dao.DAOCompany;
+import main.java.com.excilys.computer.database.dao.DAOComputer;
 import main.java.com.excilys.computer.database.modele.Company;
 
 @Service
 public class ServiceCompany {
 	final static Logger logger = LogManager.getLogger(ServiceCompany.class);
 	private final DAOCompany daoCompany;
+	private final DAOComputer daocomputer;
 	
 	@Autowired
-	public ServiceCompany(DAOCompany daoCompany) {
+	public ServiceCompany(DAOCompany daoCompany,DAOComputer daocomputer) {
 		this.daoCompany = daoCompany;
+		this.daocomputer = daocomputer;
 	}
 
 	public int getNombre() {
@@ -32,14 +36,13 @@ public class ServiceCompany {
 		return daoCompany.getCompany(companyID);
 	}
 	
+	@Transactional
 	public int rmCompany(Company company) {
 		if (getCompany(company.getId())==null) {
 			return -1;
 		}
-		if (daoCompany.rmCompany(company)==0) {
-			logger.info("No rows have been deleted!\n\n");
-			return -1;
-		}
+		daocomputer.rmComputerByCompany(company);
+		daoCompany.rmCompany(company);
 		return 0;
 	}
 }

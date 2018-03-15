@@ -27,7 +27,7 @@ import main.java.com.excilys.computer.database.mapper.MapperComputer;
 import main.java.com.excilys.computer.database.modele.Computer;
 import main.java.com.excilys.computer.database.services.ServiceCompany;
 import main.java.com.excilys.computer.database.services.ServiceComputer;
-import main.java.com.excilys.computer.database.spring.SpringConfiguration;
+import main.java.com.excilys.computer.database.spring.WebSpringConfiguration;
 import main.java.com.excilys.computer.database.validator.Validator;
 
 @WebServlet("/CreateComputer")
@@ -139,7 +139,7 @@ public class CreateComputerServlet extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		@SuppressWarnings("resource")
-		ApplicationContext vApplicationContext = new AnnotationConfigApplicationContext(SpringConfiguration.class);
+		ApplicationContext vApplicationContext = new AnnotationConfigApplicationContext(WebSpringConfiguration.class);
 		vApplicationContext.getAutowireCapableBeanFactory().autowireBean(this);
 	}
 }

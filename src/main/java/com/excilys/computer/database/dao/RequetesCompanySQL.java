@@ -3,8 +3,11 @@ package main.java.com.excilys.computer.database.dao;
 public enum RequetesCompanySQL {
 	
 	ALL("SELECT id, name FROM company;"),
+	
 	NOMBRE("SELECT COUNT(*) FROM company;"),
+	
 	DETAIL("SELECT id, name FROM company WHERE id = ?;"),
+	
 	DELETE("DELETE FROM company WHERE id = ?;");
 	
 	private String requete = "";
