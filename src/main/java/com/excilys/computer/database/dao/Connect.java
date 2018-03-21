@@ -1,22 +1,19 @@
 package main.java.com.excilys.computer.database.dao;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import java.sql.Connection;
 
 @Repository
 public class Connect {		
 	final private static Logger logger = LogManager.getLogger(Connect.class);
-	private DataSource ds;
+	private final DataSource ds;
 	
-	@Autowired
 	public Connect(DataSource ds) {
 		this.ds = ds;
 	}

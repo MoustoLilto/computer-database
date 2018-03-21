@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import main.java.com.excilys.computer.database.ihm.observer.IObservable;
@@ -17,7 +16,6 @@ public class UpdateComputerObservable implements IObservable {
 	Scanner sc;
 	private final ServiceComputer service;
 	
-	@Autowired
 	public UpdateComputerObservable(ServiceComputer service) {
 		this.service = service;
 	}

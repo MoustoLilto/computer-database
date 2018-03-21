@@ -14,11 +14,13 @@ public class MapperCompany {
 	}
 
 	public DTOCompany toDTO(Company company) {
-		return new DTOCompany(company.getId(), company.getName());
+		String dtoCompanyID = String.valueOf(company.getId());
+		return new DTOCompany(dtoCompanyID, company.getName());
 	}
 	
 	public Company toCompany(DTOCompany dtoCompany) {
-		return new Company(dtoCompany.getId(), dtoCompany.getName());
+		long companyId = Long.parseLong(dtoCompany.getId());
+		return new Company(companyId, dtoCompany.getName());
 	}
 	
 	public List<DTOCompany> listToDTO(List<Company> companies){

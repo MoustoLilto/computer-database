@@ -2,7 +2,6 @@ package main.java.com.excilys.computer.database.dao;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +12,6 @@ public class DAOCompany {
 	private final JdbcTemplate jdbcTemplate;
 	private final CompanyRowMapper companyRowMapper;
 	
-	@Autowired
 	public DAOCompany(JdbcTemplate jdbcTemplate, CompanyRowMapper companyRowMapper) {
 		this.jdbcTemplate = jdbcTemplate;
 		this.companyRowMapper = companyRowMapper;

@@ -13,10 +13,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @ComponentScan("main.java.com.excilys.computer.database.dao,"
-		+ " main.java.com.excilys.computer.database.mapper,"
-		+ " main.java.com.excilys.computer.database.services,"
-		+ " main.java.com.excilys.computer.database.servlet,"
-		+ " main.java.com.excilys.computer.database.validator")
+		+ " main.java.com.excilys.computer.database.services")
 public class WebSpringConfiguration {
 	
 	@Bean

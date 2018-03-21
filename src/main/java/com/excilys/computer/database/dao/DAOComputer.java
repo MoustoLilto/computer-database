@@ -3,7 +3,6 @@ package main.java.com.excilys.computer.database.dao;
 import java.sql.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -15,7 +14,6 @@ public class DAOComputer {
 	private final JdbcTemplate jdbcTemplate;
 	private final ComputerRowMapper computerRowMapper;
 	
-	@Autowired
 	public DAOComputer(JdbcTemplate jdbcTemplate, ComputerRowMapper computerRowMapper) {
 		this.jdbcTemplate = jdbcTemplate;
 		this.computerRowMapper = computerRowMapper;

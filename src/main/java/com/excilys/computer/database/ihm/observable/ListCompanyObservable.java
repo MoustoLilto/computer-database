@@ -1,6 +1,5 @@
 package main.java.com.excilys.computer.database.ihm.observable;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import main.java.com.excilys.computer.database.ihm.ComputerDatabaseCLI;
@@ -12,7 +11,6 @@ import main.java.com.excilys.computer.database.services.ServiceCompany;
 public class ListCompanyObservable implements IObservable {
 	final private ServiceCompany service;
 	
-	@Autowired
 	public ListCompanyObservable(ServiceCompany service) {
 		this.service = service;
 	}

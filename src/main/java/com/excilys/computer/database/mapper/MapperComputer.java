@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import main.java.com.excilys.computer.database.dao.DAOCompany;
@@ -17,20 +16,19 @@ import main.java.com.excilys.computer.database.modele.Computer;
 public class MapperComputer {
 	final private DAOCompany daoCompany;
 	
-	@Autowired
 	public MapperComputer(DAOCompany daoCompany) {
 		this.daoCompany = daoCompany;
 	}
 
 	public DTOComputer toDTO(Computer computer) {
-		long id;
+		String id;
 		String name = null;
 		String introduced = null;
 		String discontinued = null;
-		long companyID = 10000;
+		String companyID = "10000";
 		String companyName = null;
 		
-		id = computer.getId();
+		id = String.valueOf(computer.getId());
 		if (computer.getName() != null) {
 			name = computer.getName();
 		}
@@ -41,7 +39,7 @@ public class MapperComputer {
 			discontinued = computer.getDiscontinued().toString();
 		}
 		if(computer.getCompany() != null) {
-			companyID = computer.getCompany().getId();
+			companyID = String.valueOf(computer.getCompany().getId());
 			companyName = computer.getCompany().getName();
 		}
 		
@@ -58,7 +56,7 @@ public class MapperComputer {
 		long companyID = 10000;
 		Company company = null;
 		
-		id = dtoComputer.getId();
+		id = Long.parseLong(dtoComputer.getId());
 		if (dtoComputer.getName() != null) {
 			name = dtoComputer.getName();
 		}
@@ -68,7 +66,7 @@ public class MapperComputer {
 		if (!dtoComputer.getDiscontinued().equals("") && dtoComputer.getDiscontinued() != null) {
 			discontinued = LocalDate.parse(dtoComputer.getDiscontinued(), formatter);
 		}
-		companyID = dtoComputer.getCompanyID();
+		companyID = Long.parseLong(dtoComputer.getCompanyID());
 		company = daoCompany.getCompany(companyID);
 		
 		Computer computer = new Computer(id, name, introduced, discontinued, company);

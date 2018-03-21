@@ -1,21 +1,21 @@
 package main.java.com.excilys.computer.database.dto;
 
 public class DTOComputer {
-	private long id;
+	private String id="0";
 	private String name;
 	private String introduced;  
 	private String discontinued; 
-	private long companyID;
+	private String companyID;
 	private String companyName;
 	
-	public DTOComputer(String name, String introduced, String discontinued, long companyID, String companyName) {
+	public DTOComputer(String name, String introduced, String discontinued, String companyID, String companyName) {
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;
 		this.companyID = companyID;
 		this.companyName = companyName;
 	}
-	public DTOComputer(long id, String name, String introduced, String discontinued, long companyID,
+	public DTOComputer(String id, String name, String introduced, String discontinued, String companyID,
 			String companyName) {
 		this.id = id;
 		this.name = name;
@@ -26,12 +26,11 @@ public class DTOComputer {
 	}
 	public DTOComputer() {
 	}
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
-		long goodID = Long.parseLong(id);
-		this.id = goodID;
+		this.id = id;
 	}
 	public String getName() {
 		return name;
@@ -51,12 +50,11 @@ public class DTOComputer {
 	public void setDiscontinued(String discontinued) {
 		this.discontinued = discontinued;
 	}
-	public long getCompanyID() {
+	public String getCompanyID() {
 		return companyID;
 	}
 	public void setCompanyID(String companyID) {
-		long goodID = Long.parseLong(companyID);
-		this.companyID = goodID;
+		this.companyID = companyID;
 	}
 	public String getCompanyName() {
 		return companyName;
@@ -73,10 +71,10 @@ public class DTOComputer {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (companyID ^ (companyID >>> 32));
+		result = prime * result + ((companyID == null) ? 0 : companyID.hashCode());
 		result = prime * result + ((companyName == null) ? 0 : companyName.hashCode());
 		result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
-		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
@@ -90,7 +88,10 @@ public class DTOComputer {
 		if (getClass() != obj.getClass())
 			return false;
 		DTOComputer other = (DTOComputer) obj;
-		if (companyID != other.companyID)
+		if (companyID == null) {
+			if (other.companyID != null)
+				return false;
+		} else if (!companyID.equals(other.companyID))
 			return false;
 		if (companyName == null) {
 			if (other.companyName != null)
@@ -102,7 +103,10 @@ public class DTOComputer {
 				return false;
 		} else if (!discontinued.equals(other.discontinued))
 			return false;
-		if (id != other.id)
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		if (introduced == null) {
 			if (other.introduced != null)

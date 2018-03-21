@@ -2,7 +2,6 @@ package main.java.com.excilys.computer.database.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import main.java.com.excilys.computer.database.dao.DAOCompany;
@@ -15,7 +14,6 @@ public class ServiceComputer {
 	private final DAOComputer daoComputer;
 	private final DAOCompany daoCompany;
 	
-	@Autowired
 	public ServiceComputer(DAOComputer daoComputer, DAOCompany daoCompany) {
 		this.daoComputer = daoComputer;
 		this.daoCompany = daoCompany;

@@ -2,7 +2,6 @@ package main.java.com.excilys.computer.database.ihm.observable;
 
 import java.util.Scanner;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import main.java.com.excilys.computer.database.ihm.observer.IObservable;
@@ -14,7 +13,6 @@ public class ReducedListComputerObservable implements IObservable{
 	private Scanner sc;
 	private final ServiceComputer service;
 	
-	@Autowired
 	public ReducedListComputerObservable(ServiceComputer service) {
 		this.service = service;
 	}
