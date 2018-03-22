@@ -37,9 +37,11 @@ public class DashboardController {
 	}
 
 	public void orderManagement(ReqAttribute reqAttribute, Attribute attribute) throws champInconnueException{
-		if ( reqAttribute.beforeOrderBy!= null && !reqAttribute.beforeOrderBy.equals("")) {
+		if ( reqAttribute.beforeOrderBy!= null && !reqAttribute.beforeOrderBy.equals("") && reqAttribute.order!= null && !reqAttribute.order.equals("")) {
 			validator.controleAttribute(reqAttribute.beforeOrderBy);
+			validator.controleOrder(reqAttribute.order);
 			attribute.orderBy = reqAttribute.beforeOrderBy;
+			attribute.order = reqAttribute.order;
 		}
 		if ( reqAttribute.orderBy!= null && !reqAttribute.orderBy.equals("") && !reqAttribute.orderBy.equals("computer.id")) {
 			validator.controleAttribute(reqAttribute.orderBy);
@@ -112,9 +114,9 @@ public class DashboardController {
 		String nbreTupleReq = params.get("tuples");
 		String numPageReq = params.get("page");
 		String rechercheReq = params.get("search");
-		
-		ReqAttribute attributeReq = new ReqAttribute(ordreByReq,beforeOrderBy, nbreTupleReq, numPageReq, rechercheReq);
-		Attribute attribute = new Attribute();
+		String order = params.get("order");
+		ReqAttribute attributeReq = new ReqAttribute(ordreByReq, beforeOrderBy, order, nbreTupleReq, numPageReq, rechercheReq);
+		Attribute attribute = new Attribute(); 
 		
 		orderManagement(attributeReq, attribute);
 		rechercheManagement(attributeReq, attribute);

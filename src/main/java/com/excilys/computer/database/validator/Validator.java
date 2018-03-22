@@ -20,12 +20,13 @@ public class Validator {
 	public Validator() {
 	}
 	
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	
 	public Boolean controleDate(String date) throws YearLimitException, DateTimeParseExceptionCDB{
 		if (date.equals("") || date == null) {
 			return true;
 		}
 		LocalDate introd;
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		try{
 			introd = LocalDate.parse(date, formatter);
 		} catch(DateTimeParseException e) {
@@ -37,9 +38,17 @@ public class Validator {
 		throw new YearLimitException();
 	}
 	
-	public Boolean compareDate(LocalDate introduced, LocalDate discontinued) throws IntroducedSuperiorException{
-		if (introduced.isAfter(discontinued)) {
-			throw new IntroducedSuperiorException();
+	public Boolean compareDate(String introd, String discont) throws IntroducedSuperiorException{
+		
+		if (!discont.equals("") && discont != null) {
+			if(!introd.equals("") && introd != null) {
+				if ((LocalDate.parse(introd, formatter)).isAfter(LocalDate.parse(discont, formatter))) {
+					throw new IntroducedSuperiorException();
+				}
+			}
+			else {
+				throw new IntroducedSuperiorException();
+			}
 		}
 		return true;
 	}
@@ -92,6 +101,13 @@ public class Validator {
 	public Boolean controleAttribute(String attribute) throws champInconnueException{
 		if (attribute.equals("computer.id") || attribute.equals("company.name") || attribute.equals("computer.name") 
 				|| attribute.equals("introduced") || attribute.equals("discontinued")) {
+			return true;
+		}
+		throw new champInconnueException(); 
+	}
+	
+	public Boolean controleOrder(String order) throws champInconnueException{
+		if (order.equals("ASC") || order.equals("DESC")) {
 			return true;
 		}
 		throw new champInconnueException(); 

@@ -1,7 +1,5 @@
 package main.java.com.excilys.computer.database.controllers;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import main.java.com.excilys.computer.database.dto.DTOCompany;
 import main.java.com.excilys.computer.database.dto.DTOComputer;
@@ -27,7 +26,6 @@ import main.java.com.excilys.computer.database.validator.Validator;
 
 @Controller
 public class ComputerController {
-	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
 	private final ServiceComputer serviceComputer;
 	private final ServiceCompany serviceCompany;
@@ -50,20 +48,13 @@ public class ComputerController {
 		validator.controleDate(dtoComputer.getIntroduced());
 		validator.controleDate(dtoComputer.getDiscontinued());
 		validator.controleID(dtoComputer.getCompanyID());
-		if (!dtoComputer.getDiscontinued().equals("") && dtoComputer.getDiscontinued() != null) {
-			if(!dtoComputer.getIntroduced().equals("") && dtoComputer.getIntroduced() != null) {
-				validator.compareDate(LocalDate.parse(dtoComputer.getIntroduced(), formatter), LocalDate.parse(dtoComputer.getDiscontinued(), formatter)); 
-			}
-			else {
-				throw new IntroducedSuperiorException();
-			}
-		}
+		validator.compareDate(dtoComputer.getIntroduced(), dtoComputer.getDiscontinued());
 		Computer computer = mapperComputer.toComputer(dtoComputer);
 		return computer;
 	}
 	
 	@GetMapping("addComputer")
-	public String getAddComputer(ModelMap model, @RequestParam Map<String, String> params) {
+	public String getAddComputer(ModelMap model, @RequestParam Map<String, String> params, RedirectAttributes redir) {
 		List<DTOCompany> allCompanies = mapperCompany.listToDTO(serviceCompany.getAllCompany());
 		
 		model.addAttribute("DTOComputer", new DTOComputer());
@@ -73,15 +64,21 @@ public class ComputerController {
 	}
 	
 	@PostMapping("addComputer")
-	public String postAddComputer(@ModelAttribute("DTOComputer") DTOComputer dtoComputer, ModelMap model) throws IllegalCharacterException, DateTimeParseExceptionCDB, YearLimitException, IntroducedSuperiorException {
-		Computer computer = enteredComputer(dtoComputer);
+	public String postAddComputer(@ModelAttribute("DTOComputer") DTOComputer dtoComputer, ModelMap model, RedirectAttributes redir){
+		Computer computer = null;
+		try {
+			computer = enteredComputer(dtoComputer);
+		} catch (DateTimeParseExceptionCDB | IntroducedSuperiorException | IllegalCharacterException
+				| YearLimitException e) {
+			redir.addFlashAttribute("error", e.getMessage());
+			return "redirect:addComputer";
+		}
 		serviceComputer.addComputer(computer);
-		
 		return "redirect:dashboard";
 	}
 	
 	@GetMapping("editComputer")
-	public String getEditComputer(ModelMap model, @RequestParam Map<String, String> params) {
+	public String getEditComputer(ModelMap model, @RequestParam Map<String, String> params, RedirectAttributes redir) {
 		String id = params.get("id");
 		
 		List<DTOCompany> allCompanies = mapperCompany.listToDTO(serviceCompany.getAllCompany());
@@ -96,10 +93,16 @@ public class ComputerController {
 	}
 	
 	@PostMapping("editComputer")
-	public String postEditComputer(@ModelAttribute("DTOComputer") DTOComputer dtoComputer, ModelMap model) throws IllegalCharacterException, DateTimeParseExceptionCDB, YearLimitException, IntroducedSuperiorException {
-		Computer computer = enteredComputer(dtoComputer);
+	public String postEditComputer(@ModelAttribute("DTOComputer") DTOComputer dtoComputer, ModelMap model, RedirectAttributes redir){
+		Computer computer = null;
+		try {
+			computer = enteredComputer(dtoComputer);
+		} catch (DateTimeParseExceptionCDB | IntroducedSuperiorException | IllegalCharacterException
+				| YearLimitException e) {
+			redir.addFlashAttribute("error", e.getMessage());
+			return "redirect:editComputer";
+		}
 		serviceComputer.updateComputer(computer);
-		
 		return "redirect:dashboard";
 	}
 }

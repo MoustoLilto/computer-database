@@ -29,18 +29,6 @@ public class ControllerExceptionHandler {
     public ModelAndView PageLimitExceptionHandler(final PageLimitException e) {
 		return page404(e.getMessage());
     }
-	@ExceptionHandler(YearLimitException.class)
-    public ModelAndView YearLimitExceptionHandler(final YearLimitException e) {
-		return pageAddComputer(e.getMessage());
-    }
-	@ExceptionHandler(DateTimeParseExceptionCDB.class)
-    public ModelAndView DateTimeParseExceptionCDBHandler(final DateTimeParseExceptionCDB e) {
-		return pageAddComputer(e.getMessage());
-    }
-	@ExceptionHandler(IntroducedSuperiorException.class)
-    public ModelAndView IntroducedSuperiorExceptionHandler(final IntroducedSuperiorException e) {
-		return pageAddComputer(e.getMessage());
-    }
 	
 	public ModelAndView page404(String message) {
 		ModelAndView mav = new ModelAndView();
@@ -60,20 +48,6 @@ public class ControllerExceptionHandler {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("error", message);
 		mav.setViewName("403");
-		return mav;
-	}
-	
-	public ModelAndView pageAddComputer(String message) {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("error", message);
-		mav.setViewName("addComputer");
-		return mav;
-	}
-	
-	public ModelAndView pageEditComputer(String message) {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("error", message);
-		mav.setViewName("editComputer");
 		return mav;
 	}
 }

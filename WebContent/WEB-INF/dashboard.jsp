@@ -58,16 +58,16 @@
                             </span>
                         </th>
                         <th>
-                            <a href="dashboard?tuples=${attribute.nbreTuples}&search=${attribute.recherche}&page=${attribute.numeroPage}&beforeOrderBy=${attribute.orderBy}&orderBy=computer.name">Computer name</a>
+                            <a href="dashboard?tuples=${attribute.nbreTuples}&search=${attribute.recherche}&page=${attribute.numeroPage}&beforeOrderBy=${attribute.orderBy}&order=${attribute.order}&orderBy=computer.name">Computer name</a>
                         </th>
                         <th>
-                            <a href="dashboard?tuples=${attribute.nbreTuples}&search=${attribute.recherche}&page=${attribute.numeroPage}&beforeOrderBy=${attribute.orderBy}&orderBy=introduced">Introduced date</a>
+                            <a href="dashboard?tuples=${attribute.nbreTuples}&search=${attribute.recherche}&page=${attribute.numeroPage}&beforeOrderBy=${attribute.orderBy}&order=${attribute.order}&orderBy=introduced">Introduced date</a>
                         </th>
                         <th>
-                            <a href="dashboard?tuples=${attribute.nbreTuples}&search=${attribute.recherche}&page=${attribute.numeroPage}&beforeOrderBy=${attribute.orderBy}&orderBy=discontinued">Discontinued date</a>
+                            <a href="dashboard?tuples=${attribute.nbreTuples}&search=${attribute.recherche}&page=${attribute.numeroPage}&beforeOrderBy=${attribute.orderBy}&order=${attribute.order}&orderBy=discontinued">Discontinued date</a>
                         </th>
                         <th>
-                            <a href="dashboard?tuples=${attribute.nbreTuples}&search=${attribute.recherche}&page=${attribute.numeroPage}&beforeOrderBy=${attribute.orderBy}&orderBy=company.name">Company</a>
+                            <a href="dashboard?tuples=${attribute.nbreTuples}&search=${attribute.recherche}&page=${attribute.numeroPage}&beforeOrderBy=${attribute.orderBy}&order=${attribute.order}&orderBy=company.name">Company</a>
                         </th>
 
                     </tr>
