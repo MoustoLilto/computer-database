@@ -11,23 +11,23 @@ public class ControllerExceptionHandler {
 	
 	@ExceptionHandler(champInconnueException.class)
     public ModelAndView champInconnueExceptionHandler(final champInconnueException e) {
-		return page500(e.getMessage());
+		return page500(e.getClass().getSimpleName());
     }
 	@ExceptionHandler(IllegalCharacterException.class)
     public ModelAndView IllegalCharacterExceptionHandler(final IllegalCharacterException e) {
-		return page500(e.getMessage());
+		return page500(e.getClass().getSimpleName());
     }
 	@ExceptionHandler(NumberFormatExceptionCDB.class)
     public ModelAndView NumberFormatExceptionCDBHandler(final NumberFormatExceptionCDB e) {
-		return page500(e.getMessage());
+		return page500(e.getClass().getSimpleName());
     }
 	@ExceptionHandler(TuplesLimitException.class)
     public ModelAndView TuplesLimitExceptionHandler(final TuplesLimitException e) {
-		return page404(e.getMessage());
+		return page404(e.getClass().getSimpleName());
     }
 	@ExceptionHandler(PageLimitException.class)
     public ModelAndView PageLimitExceptionHandler(final PageLimitException e) {
-		return page404(e.getMessage());
+		return page404(e.getClass().getSimpleName());
     }
 	
 	public ModelAndView page404(String message) {

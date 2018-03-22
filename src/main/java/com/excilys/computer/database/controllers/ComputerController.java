@@ -1,6 +1,7 @@
 package main.java.com.excilys.computer.database.controllers;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
@@ -54,7 +55,7 @@ public class ComputerController {
 	}
 	
 	@GetMapping("addComputer")
-	public String getAddComputer(ModelMap model, @RequestParam Map<String, String> params, RedirectAttributes redir) {
+	public String getAddComputer(ModelMap model, @RequestParam Map<String, String> params, RedirectAttributes redir, Locale locale) {
 		List<DTOCompany> allCompanies = mapperCompany.listToDTO(serviceCompany.getAllCompany());
 		
 		model.addAttribute("DTOComputer", new DTOComputer());
@@ -64,13 +65,13 @@ public class ComputerController {
 	}
 	
 	@PostMapping("addComputer")
-	public String postAddComputer(@ModelAttribute("DTOComputer") DTOComputer dtoComputer, ModelMap model, RedirectAttributes redir){
+	public String postAddComputer(@ModelAttribute("DTOComputer") DTOComputer dtoComputer, ModelMap model, RedirectAttributes redir, Locale locale){
 		Computer computer = null;
 		try {
 			computer = enteredComputer(dtoComputer);
 		} catch (DateTimeParseExceptionCDB | IntroducedSuperiorException | IllegalCharacterException
 				| YearLimitException e) {
-			redir.addFlashAttribute("error", e.getMessage());
+			redir.addFlashAttribute("error", e.getClass().getSimpleName());
 			return "redirect:addComputer";
 		}
 		serviceComputer.addComputer(computer);
@@ -78,7 +79,7 @@ public class ComputerController {
 	}
 	
 	@GetMapping("editComputer")
-	public String getEditComputer(ModelMap model, @RequestParam Map<String, String> params, RedirectAttributes redir) {
+	public String getEditComputer(ModelMap model, @RequestParam Map<String, String> params, RedirectAttributes redir, Locale locale) {
 		String id = params.get("id");
 		
 		List<DTOCompany> allCompanies = mapperCompany.listToDTO(serviceCompany.getAllCompany());
@@ -93,13 +94,13 @@ public class ComputerController {
 	}
 	
 	@PostMapping("editComputer")
-	public String postEditComputer(@ModelAttribute("DTOComputer") DTOComputer dtoComputer, ModelMap model, RedirectAttributes redir){
+	public String postEditComputer(@ModelAttribute("DTOComputer") DTOComputer dtoComputer, ModelMap model, RedirectAttributes redir, Locale locale){
 		Computer computer = null;
 		try {
 			computer = enteredComputer(dtoComputer);
 		} catch (DateTimeParseExceptionCDB | IntroducedSuperiorException | IllegalCharacterException
 				| YearLimitException e) {
-			redir.addFlashAttribute("error", e.getMessage());
+			redir.addFlashAttribute("error", e.getClass().getSimpleName());
 			return "redirect:editComputer";
 		}
 		serviceComputer.updateComputer(computer);

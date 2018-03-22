@@ -7,7 +7,7 @@ public class IllegalCharacterException extends Exception{
 	private static final long serialVersionUID = 1L;
 	final private static Logger logger = LogManager.getLogger(IllegalCharacterException.class);
 	
-	final private String message = "Speacial characters are not allowed!";
+	final private String message = "Special characters are not allowed!";
 	
 	public IllegalCharacterException() {
 		logger.info("Speacial characters are not allowed!");

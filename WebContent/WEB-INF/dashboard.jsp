@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="/WEB-INF/tld/cdb.tld" prefix="cdbTagLib" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <!DOCTYPE html>
 <html>
@@ -15,13 +16,17 @@
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <a class="navbar-brand" href="dashboard"> Application - Computer Database </a>
+            <div class="pull-right">
+            	<a href="?lang=fr">FR</a>
+            	<a href="?lang=en">EN</a>
+			</div>
         </div>
     </header>
     
     <section id="main">
         <div class="container">
             <h1 id="homeTitle">
-            	${attribute.numberOfRows} Computers found
+            	${attribute.numberOfRows} <spring:message code="label"/>
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
@@ -30,13 +35,13 @@
                         <input type="hidden" name="tuples" value="${attribute.nbreTuples}">
                         <input type="hidden" name="page" value="1">
                         <input type="hidden" name="orderBy" value="${attribute.orderBy}">
-                        <input type="submit" id="searchsubmit" value="Filter by name"
+                        <input type="submit" id="searchsubmit" value=<spring:message code="Filter"/>
                         class="btn btn-primary" />
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="addComputer">Add Computer</a> 
-                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
+                    <a class="btn btn-success" id="addComputer" href="addComputer"><spring:message code="AddComputer"/></a> 
+                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message code="Edit"/></a>
                 </div>
             </div>
         </div>
@@ -58,16 +63,16 @@
                             </span>
                         </th>
                         <th>
-                            <a href="dashboard?tuples=${attribute.nbreTuples}&search=${attribute.recherche}&page=${attribute.numeroPage}&beforeOrderBy=${attribute.orderBy}&order=${attribute.order}&orderBy=computer.name">Computer name</a>
+                            <a href="dashboard?tuples=${attribute.nbreTuples}&search=${attribute.recherche}&page=${attribute.numeroPage}&beforeOrderBy=${attribute.orderBy}&order=${attribute.order}&orderBy=computer.name"><spring:message code="ComputerName"/></a>
                         </th>
                         <th>
-                            <a href="dashboard?tuples=${attribute.nbreTuples}&search=${attribute.recherche}&page=${attribute.numeroPage}&beforeOrderBy=${attribute.orderBy}&order=${attribute.order}&orderBy=introduced">Introduced date</a>
+                            <a href="dashboard?tuples=${attribute.nbreTuples}&search=${attribute.recherche}&page=${attribute.numeroPage}&beforeOrderBy=${attribute.orderBy}&order=${attribute.order}&orderBy=introduced"><spring:message code="IntroducedDate"/></a>
                         </th>
                         <th>
-                            <a href="dashboard?tuples=${attribute.nbreTuples}&search=${attribute.recherche}&page=${attribute.numeroPage}&beforeOrderBy=${attribute.orderBy}&order=${attribute.order}&orderBy=discontinued">Discontinued date</a>
+                            <a href="dashboard?tuples=${attribute.nbreTuples}&search=${attribute.recherche}&page=${attribute.numeroPage}&beforeOrderBy=${attribute.orderBy}&order=${attribute.order}&orderBy=discontinued"><spring:message code="DiscontinuedDate"/></a>
                         </th>
                         <th>
-                            <a href="dashboard?tuples=${attribute.nbreTuples}&search=${attribute.recherche}&page=${attribute.numeroPage}&beforeOrderBy=${attribute.orderBy}&order=${attribute.order}&orderBy=company.name">Company</a>
+                            <a href="dashboard?tuples=${attribute.nbreTuples}&search=${attribute.recherche}&page=${attribute.numeroPage}&beforeOrderBy=${attribute.orderBy}&order=${attribute.order}&orderBy=company.name"><spring:message code="Company"/></a>
                         </th>
 
                     </tr>

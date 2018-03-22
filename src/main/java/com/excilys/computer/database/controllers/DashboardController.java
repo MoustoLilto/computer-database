@@ -3,6 +3,7 @@ package main.java.com.excilys.computer.database.controllers;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
@@ -130,7 +131,7 @@ public class DashboardController {
 	}
 
 	@GetMapping("dashboard")
-	public String getDashboardPage(ModelMap model, @RequestParam Map<String, String> params) throws NumberFormatExceptionCDB, IllegalCharacterException, TuplesLimitException, PageLimitException, champInconnueException {
+	public String getDashboardPage(ModelMap model, @RequestParam Map<String, String> params, Locale locale) throws NumberFormatExceptionCDB, IllegalCharacterException, TuplesLimitException, PageLimitException, champInconnueException {
 		Attribute attribute = attributeManager(params);
 		model.addAttribute("attribute", attribute);
 		
@@ -138,7 +139,7 @@ public class DashboardController {
 	}
 
 	@PostMapping("dashboard")
-	public String deleteComputer(ModelMap model, @RequestParam Map<String, String> params) throws NumberFormatExceptionCDB, IllegalCharacterException, TuplesLimitException, PageLimitException, champInconnueException {
+	public String deleteComputer(ModelMap model, @RequestParam Map<String, String> params, Locale locale) throws NumberFormatExceptionCDB, IllegalCharacterException, TuplesLimitException, PageLimitException, champInconnueException {
 		String selection = params.get("selection");		
 		if (selection != null && !selection.equals("")) {
 			List<String> computersIDString = new ArrayList<String>(Arrays.asList(selection.split(",")));
