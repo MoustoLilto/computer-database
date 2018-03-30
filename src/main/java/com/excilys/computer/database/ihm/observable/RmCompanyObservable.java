@@ -23,25 +23,26 @@ public class RmCompanyObservable implements IObservable {
 		try {
 			long id = sc.nextLong();
 			company.setId(id);
+			company = service.getCompany(id);
 		} catch(Exception e) {
-			return -1;
+			System.out.println("erreur: "+ e);
 		}
 		return 0 ;
 	}
 	
 	public Boolean execute() {
 		Company company = new Company(); 
-		
-		if (ajoutId(company)==0) {
-			if (service.rmCompany(company)==0) {
-				System.out.print("Company and all computers related to it are deleted!\n\n");
-				return true;
-			}
-			
-			System.out.print("Error deleting the company, check the input ID!\n\n");
-			return true;
-		}
-		System.out.print("Please enter next time a valid ID!\n\n");
+		ajoutId(company);
+//		if (ajoutId(company)==0) {
+//			if (service.rmCompany(company)==0) {
+//				System.out.print("Company and all computers related to it are deleted!\n\n");
+//				return true;
+//			}
+//			
+//			System.out.print("Error deleting the company, check the input ID!\n\n");
+//			return true;
+//		}
+//		System.out.print("Please enter next time a valid ID!\n\n");
 		return true;
 	}
 }

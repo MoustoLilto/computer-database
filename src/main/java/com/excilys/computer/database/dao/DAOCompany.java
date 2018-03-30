@@ -1,40 +1,48 @@
 package main.java.com.excilys.computer.database.dao;
 
 import java.util.List;
+import java.util.function.Supplier;
 
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 
 import main.java.com.excilys.computer.database.modele.Company;
+import main.java.com.excilys.computer.database.modele.QCompany;
 
 @Repository
 public class DAOCompany {
-	private final JdbcTemplate jdbcTemplate;
-	private final CompanyRowMapper companyRowMapper;
+	private SessionFactory sessionFactory;
+	private static QCompany qcompany = QCompany.company;
 	
-	public DAOCompany(JdbcTemplate jdbcTemplate, CompanyRowMapper companyRowMapper) {
-		this.jdbcTemplate = jdbcTemplate;
-		this.companyRowMapper = companyRowMapper;
+	private Supplier<HibernateQueryFactory> queryFactory =
+			() -> new HibernateQueryFactory(sessionFactory.getCurrentSession());
+	
+	@Autowired
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+			
+	@Transactional
+	public Company getCompany(long companyId) {	
+		return queryFactory.get().select(qcompany).from(qcompany).where(qcompany.id.eq(companyId)).fetchOne();
+	}
+	
+	@Transactional
+	public int getNombre() {
+		return (int) queryFactory.get().select(qcompany).from(qcompany).fetchCount();
+	}
+	
+	@Transactional
+	public List<Company> getAllCompany() {
+		return queryFactory.get().select(qcompany).from(qcompany).fetch();
 	}
 
-	public int getNombre() {
-		String query = RequetesCompanySQL.NOMBRE.toString();
-		return jdbcTemplate.queryForObject(query, Integer.class);
-	}
-	
-	public Company getCompany(long companyId) {
-		String query = RequetesCompanySQL.DETAIL.toString();
-		List<Company> companys = jdbcTemplate.query(query, new Object[] { companyId }, companyRowMapper);
-		return companys.get(0);
-	}
-	
-	public List<Company> getAllCompany() {
-		String query = RequetesCompanySQL.ALL.toString();
-		return jdbcTemplate.query(query, companyRowMapper);
-	}
-	
+	@Transactional
 	public void rmCompany(Company company) {
-		String query = RequetesCompanySQL.DELETE.toString();
-		jdbcTemplate.update(query, new Object[] { company.getId() });
+		queryFactory.get().delete(qcompany).where(qcompany.id.eq(company.getId()));
 	}
 }

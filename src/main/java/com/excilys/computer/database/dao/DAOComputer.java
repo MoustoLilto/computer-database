@@ -2,12 +2,19 @@ package main.java.com.excilys.computer.database.dao;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.function.Supplier;
 
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 
 import main.java.com.excilys.computer.database.modele.Company;
 import main.java.com.excilys.computer.database.modele.Computer;
+import main.java.com.excilys.computer.database.modele.QComputer;
 
 @Repository
 public class DAOComputer {	
@@ -18,21 +25,32 @@ public class DAOComputer {
 		this.jdbcTemplate = jdbcTemplate;
 		this.computerRowMapper = computerRowMapper;
 	}
+	
+	private SessionFactory sessionFactory;
+	private static QComputer qcomputer = QComputer.computer;
+	
+	private Supplier<HibernateQueryFactory> queryFactory =
+			() -> new HibernateQueryFactory(sessionFactory.getCurrentSession());
+			
+	@Autowired
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
 
+	@Transactional
 	public int getNombre() {
-		String query = RequetesComputerSQL.NOMBRE.toString();
-		return jdbcTemplate.queryForObject(query, Integer.class);
+		return (int) queryFactory.get().select(qcomputer).from(qcomputer).fetchCount();
 	}
 	
+	@Transactional
 	public List<Computer> getAllComputer() {
-		String query = RequetesComputerSQL.ALL.toString();
-		return jdbcTemplate.query(query, computerRowMapper);
+		return queryFactory.get().select(qcomputer).from(qcomputer).fetch();
 	}
 	
+	@Transactional
 	public List<Computer> getSomeComputers(long position, long numberOfRows, String orderBy, String order){
-		String[] splittedQuerry = RequetesComputerSQL.SOME_WITH_ORDER.toString().split("---");
-		String query = splittedQuerry[0] + orderBy +splittedQuerry[1] + order + splittedQuerry[2];
-		return jdbcTemplate.query(query, new Object[] { numberOfRows, position},  computerRowMapper);
+		return queryFactory.get().select(qcomputer).from(qcomputer).offset(position).limit(numberOfRows).fetch();
+		//queryFactory.get().select(qcomputer).from(qcomputer).offset(position).limit(numberOfRows).orderBy(qcomputer.id.asc())
 	}
 	
 	public int getSearchNumber(String recherche) {
