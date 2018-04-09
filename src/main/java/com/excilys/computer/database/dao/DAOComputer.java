@@ -1,99 +1,146 @@
 package main.java.com.excilys.computer.database.dao;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.function.Supplier;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.querydsl.jpa.hibernate.HibernateQuery;
 import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 
 import main.java.com.excilys.computer.database.modele.Company;
 import main.java.com.excilys.computer.database.modele.Computer;
+import main.java.com.excilys.computer.database.modele.QCompany;
 import main.java.com.excilys.computer.database.modele.QComputer;
 
 @Repository
+@Transactional
 public class DAOComputer {	
-	private final JdbcTemplate jdbcTemplate;
-	private final ComputerRowMapper computerRowMapper;
-	
-	public DAOComputer(JdbcTemplate jdbcTemplate, ComputerRowMapper computerRowMapper) {
-		this.jdbcTemplate = jdbcTemplate;
-		this.computerRowMapper = computerRowMapper;
-	}
-	
 	private SessionFactory sessionFactory;
 	private static QComputer qcomputer = QComputer.computer;
+	private static QCompany qcompany = QCompany.company;
 	
 	private Supplier<HibernateQueryFactory> queryFactory =
 			() -> new HibernateQueryFactory(sessionFactory.getCurrentSession());
-			
+	
 	@Autowired
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-
-	@Transactional
+	
+	public HibernateQuery<Computer> ordermanagement(HibernateQuery<Computer> request, String orderBy, String order) {
+		switch (order) {
+        case "ASC":
+            switch (orderBy) {
+            case "computer.id":
+            	request = request.orderBy(qcomputer.id.asc());
+            	break;
+            case "company.name":
+            	request = request.orderBy(qcompany.name.asc());
+                break;
+            case "computer.name":
+            	request = request.orderBy(qcomputer.name.asc());
+                break;
+            case "introduced":
+            	request = request.orderBy(qcomputer.introduced.asc());
+                break;
+            case "discontinued":
+            	request = request.orderBy(qcomputer.discontinued.asc());
+                break;
+            }
+            break;
+        case "DESC":
+            switch (orderBy) {
+            case "computer.id":
+            	request = request.orderBy(qcomputer.id.desc());
+            	break;
+            case "company.name":
+            	request = request.orderBy(qcompany.name.desc());
+                break;
+            case "computer.name":
+            	request = request.orderBy(qcomputer.name.desc());
+                break;
+            case "introduced":
+            	request = request.orderBy(qcomputer.introduced.desc());
+                break;
+            case "discontinued":
+            	request = request.orderBy(qcomputer.discontinued.desc());
+                break;
+            }
+            break;
+		}
+		return request;
+	}
+			
 	public int getNombre() {
-		return (int) queryFactory.get().select(qcomputer).from(qcomputer).fetchCount();
+		return (int) queryFactory.get().select(qcomputer).from(qcomputer)
+				.leftJoin(qcompany)
+				.on(qcompany.id.eq(qcomputer.company.id))
+				.fetchCount();
 	}
 	
-	@Transactional
 	public List<Computer> getAllComputer() {
-		return queryFactory.get().select(qcomputer).from(qcomputer).fetch();
+		return queryFactory.get().select(qcomputer).from(qcomputer)
+				.leftJoin(qcompany)
+				.on(qcompany.id.eq(qcomputer.company.id))
+				.fetch();
 	}
 	
-	@Transactional
 	public List<Computer> getSomeComputers(long position, long numberOfRows, String orderBy, String order){
-		return queryFactory.get().select(qcomputer).from(qcomputer).offset(position).limit(numberOfRows).fetch();
-		//queryFactory.get().select(qcomputer).from(qcomputer).offset(position).limit(numberOfRows).orderBy(qcomputer.id.asc())
+		HibernateQuery<Computer> request = queryFactory.get().select(qcomputer).from(qcomputer)
+															.leftJoin(qcompany)
+															.on(qcompany.id.eq(qcomputer.company.id))
+															.limit(numberOfRows)
+															.offset(position);
+
+        return ordermanagement(request, orderBy, order).fetch();
 	}
 	
 	public int getSearchNumber(String recherche) {
-		String query = RequetesComputerSQL.SEARCH_NOMBRE.toString();
-		return jdbcTemplate.queryForObject(query, new Object[] { "%" + recherche + "%", "%" + recherche + "%"},  Integer.class);
+		return (int) queryFactory.get().select(qcomputer).from(qcomputer)
+							.where(qcomputer.name.like(recherche + "%").or(qcomputer.company.name.like(recherche + "%")))
+							.fetchCount();
 	}
 	
 	public List<Computer> searchComputers(String recherche, long position, long numberOfRows, String orderBy, String order){
-		String[] splittedQuerry = RequetesComputerSQL.SEARCH_WITH_ORDER.toString().split("---");
-		String query = splittedQuerry[0] + orderBy +splittedQuerry[1] + order + splittedQuerry[2];
-		return jdbcTemplate.query(query, new Object[] { "%" + recherche + "%", "%" + recherche + "%", numberOfRows, position},  computerRowMapper);
+		HibernateQuery<Computer> request = queryFactory.get().select(qcomputer).from(qcomputer)
+															.where(qcomputer.name.like(recherche + "%").or(qcomputer.company.name.like(recherche + "%")))
+															.limit(numberOfRows)
+															.offset(position);
+
+        return ordermanagement(request, orderBy, order).fetch();
 	}
 	
 	public void addComputer(Computer computer) {
-		String query = RequetesComputerSQL.ADD.toString();
-		jdbcTemplate.update(query, new Object[] { computer.getName(),
-						computer.getIntroduced() == null ? null : Date.valueOf(computer.getIntroduced()),
-						computer.getDiscontinued() == null ? null : computer.getDiscontinued(),
-						computer.getCompany().getId() == 0 ? null : computer.getCompany().getId() });
+		sessionFactory.getCurrentSession().save(computer);
 	}
 	
 	public void rmComputer(Computer computer) {
-		String query = RequetesComputerSQL.DELETE.toString();
-		jdbcTemplate.update(query, new Object[] { computer.getId() });
+		queryFactory.get().delete(qcomputer).where(qcomputer.id.eq(computer.getId())).execute();
 	}
 	
 	public void rmComputerByCompany(Company company) {
-		String query = RequetesComputerSQL.DELETE_COMPANY.toString();
-		jdbcTemplate.update(query, new Object[] { company.getId() });
+		queryFactory.get().delete(qcomputer).where(qcomputer.company.id.eq(company.getId())).execute();
 	}
 	
 	public Computer detailComputer(long id) {
-		String query = RequetesComputerSQL.DETAIL.toString();
-		List<Computer> computers = jdbcTemplate.query(query, new Object[] { id }, computerRowMapper);
-		return computers.get(0);
+		return queryFactory.get().select(qcomputer).from(qcomputer)
+				.leftJoin(qcompany)
+				.on(qcompany.id.eq(qcomputer.company.id))
+				.where(qcomputer.id.eq(id))
+				.fetchOne();
 	}
 	
 	public void updateComputer(Computer computer) {
-		String query = RequetesComputerSQL.UPDATE.toString();
-		jdbcTemplate.update(query, new Object[] { computer.getName(),
-				computer.getIntroduced() == null ? null : Date.valueOf(computer.getIntroduced()),
-				computer.getDiscontinued() == null ? null : computer.getDiscontinued(),
-				computer.getCompany().getId() == 0 ? null : computer.getCompany().getId(),
-				computer.getId()});
+		queryFactory.get().update(qcomputer)
+		 .where(qcomputer.id.eq(computer.getId()))
+		 .set(qcomputer.name, computer.getName())
+		 .set(qcomputer.introduced, computer.getIntroduced())
+		 .set(qcomputer.discontinued, computer.getDiscontinued())
+		 .set(qcomputer.company, computer.getCompany())
+		 .execute();
 	}
 }

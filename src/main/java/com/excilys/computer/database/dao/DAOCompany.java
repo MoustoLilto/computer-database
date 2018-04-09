@@ -14,6 +14,7 @@ import main.java.com.excilys.computer.database.modele.Company;
 import main.java.com.excilys.computer.database.modele.QCompany;
 
 @Repository
+@Transactional
 public class DAOCompany {
 	private SessionFactory sessionFactory;
 	private static QCompany qcompany = QCompany.company;
@@ -26,22 +27,18 @@ public class DAOCompany {
 		this.sessionFactory = sessionFactory;
 	}
 			
-	@Transactional
 	public Company getCompany(long companyId) {	
 		return queryFactory.get().select(qcompany).from(qcompany).where(qcompany.id.eq(companyId)).fetchOne();
 	}
 	
-	@Transactional
 	public int getNombre() {
 		return (int) queryFactory.get().select(qcompany).from(qcompany).fetchCount();
 	}
 	
-	@Transactional
 	public List<Company> getAllCompany() {
 		return queryFactory.get().select(qcompany).from(qcompany).fetch();
 	}
 
-	@Transactional
 	public void rmCompany(Company company) {
 		queryFactory.get().delete(qcompany).where(qcompany.id.eq(company.getId()));
 	}

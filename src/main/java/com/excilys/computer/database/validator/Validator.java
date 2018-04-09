@@ -79,7 +79,7 @@ public class Validator {
 		} catch (NumberFormatException e){
 			throw new NumberFormatExceptionCDB();
 		}
-		if (numPage > nbrPageMax || numPage < 1) {
+		if (numPage > (nbrPageMax+10) || numPage < 0) {
 			throw new PageLimitException();
 		}
 		return true;

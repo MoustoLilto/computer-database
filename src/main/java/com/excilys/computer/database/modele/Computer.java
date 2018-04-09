@@ -2,13 +2,12 @@ package main.java.com.excilys.computer.database.modele;
 
 import java.time.LocalDate;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,22 +15,15 @@ import javax.persistence.Table;
 public class Computer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
 	private long id;
 	
-	@Column(name = "name")
 	private String name;
-	
-	@Column(name = "introduced")
 	private LocalDate introduced;
-	
-	@Column(name = "discontinued")
 	private LocalDate discontinued;
 	
-	@OneToOne
-	@PrimaryKeyJoinColumn
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "company_id")
 	private Company company;
-	
 	
 	public Computer(long id, String name, LocalDate introduced, LocalDate discontinued, Company company) {
 		this.id = id;
@@ -78,7 +70,6 @@ public class Computer {
 	public void setCompany(Company company) {
 		this.company = company;
 	}
-	
 	@Override
 	public String toString() {
 		return "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
@@ -128,5 +119,4 @@ public class Computer {
 			return false;
 		return true;
 	}
-	
 }
