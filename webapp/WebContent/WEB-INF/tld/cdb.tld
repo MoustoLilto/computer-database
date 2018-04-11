@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN" 
+"http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_2.dtd">
+	
+<taglib>
+	<tlibversion>1.0</tlibversion>
+	<jspversion>1.2</jspversion>
+	<shortname>cdbtaglib</shortname>
+	<uri>http://localhost:8080/computer-database/ComputerDatabase#</uri>
+	<info>Bibliotheque de notre taglib personalise</info>
+	
+	<tag>
+		<name>pagination</name>
+		<tagclass>com.excilys.computer.database.pagination.PaginationHandler</tagclass>
+		<info>Tag qui s'occupe de la pagination!</info>
+		
+		<attribute>
+			<name>attribute</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>
