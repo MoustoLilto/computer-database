@@ -11,11 +11,25 @@
 <link href="lib/css/font-awesome.css" rel="stylesheet" media="screen">
 <link href="lib/css/main.css" rel="stylesheet" media="screen">
 </head>
+
+<c:url value="/logout" var="logoutUrl" />
+<form action="${logoutUrl}" method="post" id="logoutForm">
+	<input type="hidden" name="${_csrf.parameterName}"
+		value="${_csrf.token}" />
+</form>
+<script>
+	function formSubmit() {
+		document.getElementById("logoutForm").submit();
+	}
+</script>
+
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <a class="navbar-brand" href="dashboard"> Application - Computer Database </a>
             <div class="pull-right">
+            	${username}
+            	<a href="javascript:formSubmit()"> Logout</a>
             	<a href="?lang=fr">FR</a>
             	<a href="?lang=en">EN</a>
 			</div>

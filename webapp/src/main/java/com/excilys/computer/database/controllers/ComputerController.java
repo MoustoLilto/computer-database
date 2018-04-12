@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,6 +62,12 @@ public class ComputerController {
 	public String getAddComputer(ModelMap model, @RequestParam Map<String, String> params, RedirectAttributes redir, Locale locale) {
 		List<DTOCompany> allCompanies = mapperCompany.listToDTO(serviceCompany.getAllCompany());
 		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();	
+			model.addAttribute("username", userDetail.getUsername());
+		}
+		
 		model.addAttribute("DTOComputer", new DTOComputer());
 		model.addAttribute("allCompanies", allCompanies);
 		
@@ -85,6 +95,12 @@ public class ComputerController {
 		List<DTOCompany> allCompanies = mapperCompany.listToDTO(serviceCompany.getAllCompany());
 		Computer computerBase = serviceComputer.detailComputer(Long.parseLong(id));
 		DTOComputer dtoComputerBase = mapperComputer.toDTO(computerBase);
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();	
+			model.addAttribute("username", userDetail.getUsername());
+		}
 		
 		model.addAttribute("DTOComputer", new DTOComputer());
 		model.addAttribute("allCompanies", allCompanies);
