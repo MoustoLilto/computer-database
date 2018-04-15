@@ -24,6 +24,10 @@ public class UserRoles {
 	
 	private String role;
 	
+	public UserRoles() {
+		this.role = "ROLE_USER";
+	}
+	
 	public UserRoles(Users user, String role) {
 		this.user = user;
 		this.role = role;

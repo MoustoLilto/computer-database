@@ -12,13 +12,34 @@
 <link href="lib/css/font-awesome.css" rel="stylesheet" media="screen">
 <link href="lib/css/main.css" rel="stylesheet" media="screen">
 </head>
+
+<c:url value="/logout" var="logoutUrl" />
+<form action="${logoutUrl}" method="post" id="logoutForm">
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+</form>
+<script>
+	function formSubmit() {
+		document.getElementById("logoutForm").submit();
+	}
+</script>
+
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <a class="navbar-brand" href="dashboard"> Application - Computer Database </a>
+            <a href="?lang=fr">FR</a>
+           	<a href="?lang=en">EN</a>
             <div class="pull-right">
-            	<a href="?lang=fr">FR</a>
-            	<a href="?lang=en">EN</a>
+            	<c:choose>
+				    <c:when test="${not empty username}">
+				        ${username}
+	            		<a href="javascript:formSubmit()"><spring:message code="logout"/></a>
+				    </c:when>    
+				    <c:otherwise>
+				        <a href="login"><spring:message code="LogIn"/></a>
+				        <a href="addUser"><spring:message code="Register"/></a>
+				    </c:otherwise>
+				</c:choose>
 			</div>
         </div>
     </header>
@@ -49,6 +70,7 @@
 
         <form id="deleteForm" action="#" method="POST">
             <input type="hidden" name="selection" value="">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </form>
 
         <div class="container" style="margin-top: 10px;">

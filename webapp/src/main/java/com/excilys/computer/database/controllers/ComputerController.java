@@ -116,8 +116,6 @@ public class ComputerController {
 			computer = enteredComputer(dtoComputer);
 		} catch (DateTimeParseExceptionCDB | IntroducedSuperiorException | IllegalCharacterException
 				| YearLimitException e) {
-			//model.addAttribute("id", Long.parseLong(dtoComputer.getId()));
-			//redir.addFlashAttribute("id", Long.parseLong(dtoComputer.getId()));
 			redir.addFlashAttribute("error", e.getClass().getSimpleName());
 			return "redirect:editComputer?id="+Long.parseLong(dtoComputer.getId());
 		}

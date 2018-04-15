@@ -7,17 +7,17 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.excilys.computer.database.persistence.dao.DAOCompany;
-import com.excilys.computer.database.dto.DTOComputer;
 import com.excilys.computer.database.core.modele.Company;
 import com.excilys.computer.database.core.modele.Computer;
+import com.excilys.computer.database.dto.DTOComputer;
+import com.excilys.computer.database.services.ServiceCompany;
 
 @Component
 public class MapperComputer {
-	final private DAOCompany daoCompany;
+	final private ServiceCompany serviceCompany;
 	
-	public MapperComputer(DAOCompany daoCompany) {
-		this.daoCompany = daoCompany;
+	public MapperComputer(ServiceCompany serviceCompany) {
+		this.serviceCompany = serviceCompany;
 	}
 
 	public DTOComputer toDTO(Computer computer) {
@@ -67,7 +67,7 @@ public class MapperComputer {
 			discontinued = LocalDate.parse(dtoComputer.getDiscontinued(), formatter);
 		}
 		companyID = Long.parseLong(dtoComputer.getCompanyID());
-		company = daoCompany.getCompany(companyID);
+		company = serviceCompany.getCompany(companyID);
 		
 		Computer computer = new Computer(id, name, introduced, discontinued, company);
 		return computer;

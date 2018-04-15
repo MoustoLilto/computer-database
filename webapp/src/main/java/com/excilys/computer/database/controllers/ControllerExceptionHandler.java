@@ -30,6 +30,11 @@ public class ControllerExceptionHandler {
 		return page404(e.getClass().getSimpleName());
     }
 	
+	@ExceptionHandler(DroitInsuffisantException.class)
+    public ModelAndView DroitInsuffisantExceptionHandler(final DroitInsuffisantException e) {
+		return page403(e.getClass().getSimpleName());
+    }
+	
 	public ModelAndView page404(String message) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("error", message);

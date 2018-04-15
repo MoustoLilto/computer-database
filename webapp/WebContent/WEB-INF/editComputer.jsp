@@ -14,8 +14,7 @@
 
 <c:url value="/logout" var="logoutUrl" />
 <form action="${logoutUrl}" method="post" id="logoutForm">
-	<input type="hidden" name="${_csrf.parameterName}"
-		value="${_csrf.token}" />
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 </form>
 <script>
 	function formSubmit() {
@@ -27,11 +26,11 @@
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <a class="navbar-brand" href="dashboard"> Application - Computer Database </a>
+            <a href="?lang=fr">FR</a>
+           	<a href="?lang=en">EN</a>
             <div class="pull-right">
             	${username}
-            	<a href="javascript:formSubmit()"> Logout</a>
-            	<a href="?lang=fr">FR</a>
-            	<a href="?lang=en">EN</a>
+            	<a href="javascript:formSubmit()"><spring:message code="logout"/></a>
 			</div>
         </div>
     </header>

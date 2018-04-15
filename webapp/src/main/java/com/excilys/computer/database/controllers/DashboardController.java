@@ -6,21 +6,26 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.excilys.computer.database.dto.Attribute;
-import com.excilys.computer.database.dto.ReqAttribute;
+import com.excilys.computer.database.core.exceptions.DroitInsuffisantException;
 import com.excilys.computer.database.core.exceptions.IllegalCharacterException;
 import com.excilys.computer.database.core.exceptions.NumberFormatExceptionCDB;
 import com.excilys.computer.database.core.exceptions.PageLimitException;
 import com.excilys.computer.database.core.exceptions.TuplesLimitException;
 import com.excilys.computer.database.core.exceptions.champInconnueException;
-import com.excilys.computer.database.mapper.MapperComputer;
 import com.excilys.computer.database.core.modele.Computer;
+import com.excilys.computer.database.dto.Attribute;
+import com.excilys.computer.database.dto.ReqAttribute;
+import com.excilys.computer.database.mapper.MapperComputer;
 import com.excilys.computer.database.services.ServiceComputer;
 import com.excilys.computer.database.validator.Validator;
 
@@ -141,13 +146,21 @@ public class DashboardController {
 	@GetMapping("dashboard")
 	public String getDashboardPage(ModelMap model, @RequestParam Map<String, String> params, Locale locale) throws NumberFormatExceptionCDB, IllegalCharacterException, TuplesLimitException, PageLimitException, champInconnueException {
 		Attribute attribute = attributeManager(params);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();	
+			model.addAttribute("username", userDetail.getUsername());
+		}
 		model.addAttribute("attribute", attribute);
 		
 		return "dashboard";
 	}
 
 	@PostMapping("dashboard")
-	public String deleteComputer(ModelMap model, @RequestParam Map<String, String> params, Locale locale) throws NumberFormatExceptionCDB, IllegalCharacterException, TuplesLimitException, PageLimitException, champInconnueException {
+	public String deleteComputer(ModelMap model, @RequestParam Map<String, String> params, Locale locale) throws NumberFormatExceptionCDB, IllegalCharacterException, TuplesLimitException, PageLimitException, champInconnueException, DroitInsuffisantException {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		validator.controleAuth(auth);
+		
 		String selection = params.get("selection");		
 		if (selection != null && !selection.equals("")) {
 			List<String> computersIDString = new ArrayList<String>(Arrays.asList(selection.split(",")));

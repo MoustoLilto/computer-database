@@ -4,9 +4,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import com.excilys.computer.database.core.exceptions.DateTimeParseExceptionCDB;
+import com.excilys.computer.database.core.exceptions.DroitInsuffisantException;
 import com.excilys.computer.database.core.exceptions.IllegalCharacterException;
 import com.excilys.computer.database.core.exceptions.IntroducedSuperiorException;
 import com.excilys.computer.database.core.exceptions.NumberFormatExceptionCDB;
@@ -111,5 +114,12 @@ public class Validator {
 			return true;
 		}
 		throw new champInconnueException(); 
+	}
+	
+	public Boolean controleAuth(Authentication auth) throws DroitInsuffisantException {
+		if ((auth instanceof AnonymousAuthenticationToken)) {
+			throw new DroitInsuffisantException();
+		}
+		return true;
 	}
 }

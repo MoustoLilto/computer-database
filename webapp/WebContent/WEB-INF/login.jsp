@@ -1,5 +1,4 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="/WEB-INF/tld/cdb.tld" prefix="cdbTagLib" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <!DOCTYPE html>
@@ -27,27 +26,21 @@
 	<c:url value="/login" var="loginUrl"/>
 	<form action="${loginUrl}" method="post">       
 	    <c:if test="${param.error != null}">        
-	        <p>
-	            Invalid username and password.
-	        </p>
+	        <p><spring:message code="autherror"/></p>
 	    </c:if>
 	    <c:if test="${param.logout != null}">       
-	        <p>
-	            You have been logged out.
-	        </p>
+	        <p><spring:message code="logedout"/></p>
 	    </c:if>
 	    <p>
-	        <label for="username">Username</label>
+	        <label for="username"><spring:message code="Username"/></label>
 	        <input type="text" id="username" name="username"/>	
 	    </p>
 	    <p>
-	        <label for="password">Password</label>
+	        <label for="password"><spring:message code="Password"/></label>
 	        <input type="password" id="password" name="password"/>	
 	    </p>
-	    <input type="hidden"                        
-	        name="${_csrf.parameterName}"
-	        value="${_csrf.token}"/>
-	    <button type="submit" class="btn btn-primary">Log in</button>
+	    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+	    <button type="submit" class="btn btn-primary"><spring:message code="LogIn"/></button>
 	</form>
 	
 <script src="lib/js/jquery.min.js"></script>
