@@ -14,6 +14,7 @@ import com.excilys.computer.database.core.exceptions.IllegalCharacterException;
 import com.excilys.computer.database.core.exceptions.IntroducedSuperiorException;
 import com.excilys.computer.database.core.exceptions.NumberFormatExceptionCDB;
 import com.excilys.computer.database.core.exceptions.PageLimitException;
+import com.excilys.computer.database.core.exceptions.RequestNotFoundException;
 import com.excilys.computer.database.core.exceptions.TuplesLimitException;
 import com.excilys.computer.database.core.exceptions.UserAlreadyExistException;
 import com.excilys.computer.database.core.exceptions.YearLimitException;
@@ -131,6 +132,14 @@ public class Validator {
 	public Boolean isUserExist(String username) throws UserAlreadyExistException {
 		if (serviceUser.getUser(username) != null) {
 			throw new UserAlreadyExistException();
+		}
+		return true;
+	}
+	
+	public Boolean restRessource(Object object) throws RequestNotFoundException {
+		if (object ==null) {
+			System.out.println("LAHZLEIHAZEIL");
+			throw new RequestNotFoundException();
 		}
 		return true;
 	}

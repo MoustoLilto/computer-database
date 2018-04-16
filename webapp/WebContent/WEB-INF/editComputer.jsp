@@ -29,8 +29,16 @@
             <a href="?lang=fr">FR</a>
            	<a href="?lang=en">EN</a>
             <div class="pull-right">
-            	<a href="updateUser?username=${username}">${username}</a>
-            	<a href="javascript:formSubmit()"><spring:message code="logout"/></a>
+            	<c:choose>
+				    <c:when test="${not empty username}">
+				        <a href="updateUser?username=${username}">${username}</a>
+	            		<a href="javascript:formSubmit()"><spring:message code="logout"/></a>
+				    </c:when>    
+				    <c:otherwise>
+				        <a href="login"><spring:message code="LogIn"/></a>
+				        <a href="addUser"><spring:message code="Register"/></a>
+				    </c:otherwise>
+				</c:choose>
 			</div>
         </div>
     </header>

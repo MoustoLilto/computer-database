@@ -31,6 +31,8 @@
 	<joda-time>2.9.9</joda-time>
 	<joda-time-hibernate>1.4</joda-time-hibernate>
 	<module-versioning>0.0.1-SNAPSHOT</module-versioning>
+	<jackson.version>2.9.5</jackson.version>
+   	<jaxb-api.version>2.3.0</jaxb-api.version>
   </properties>
 
   <modules>
@@ -232,6 +234,19 @@
 		    <groupId>joda-time</groupId>
 		    <artifactId>joda-time-hibernate</artifactId>
 		    <version>${joda-time-hibernate}</version>
+		</dependency>
+		
+		<!-- Jackson Databind -->
+		<dependency>
+		   <groupId>com.fasterxml.jackson.core</groupId>
+		   <artifactId>jackson-databind</artifactId>
+		   <version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+		   <groupId>javax.xml.bind</groupId>
+		   <artifactId>jaxb-api</artifactId>
+		   <version>${jaxb-api.version}</version>
+		   <scope>runtime</scope>
 		</dependency>
 	  </dependencies>
   </dependencyManagement>

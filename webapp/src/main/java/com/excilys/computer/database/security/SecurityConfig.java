@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.zaxxer.hikari.HikariDataSource;
 
+@SuppressWarnings("deprecation")
 @Configuration
 @EnableTransactionManagement
 @ComponentScan("com.excilys.computer.database.persistence.dao,"
@@ -43,14 +44,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return ds;
     }
 	
-	@SuppressWarnings("deprecation")
 	@Bean
 	public static NoOpPasswordEncoder passwordEncoder() {
 		return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
 	}
 	
 	@Autowired
-	public void configAuthentication(AuthenticationManagerBuilder auth, @SuppressWarnings("deprecation") NoOpPasswordEncoder passwordEncoder) throws Exception {
+	public void configAuthentication(AuthenticationManagerBuilder auth, NoOpPasswordEncoder passwordEncoder) throws Exception {
 	    auth.jdbcAuthentication().dataSource(getDataSource())
 	        .usersByUsernameQuery("select username,password, enabled from users where username=?")
 	        .authoritiesByUsernameQuery("select username, role from user_roles where username=?")
@@ -59,7 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-	    http.authorizeRequests()
+	    http.csrf().ignoringAntMatchers("/companies**", "/companies/**", "/computers**", "/computers/**")
+	    	.and().authorizeRequests()
 	        .antMatchers("/", "/dashboard").permitAll()
 	        .antMatchers("/addComputer", "/editComputer").hasAnyRole("ADMIN", "USER")
 	        .and().formLogin().loginPage("/login").defaultSuccessUrl("/dashboard")

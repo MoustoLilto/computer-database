@@ -20,7 +20,8 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @EnableWebMvc
 @ComponentScan("com.excilys.computer.database.controllers,"
 		+ " com.excilys.computer.database.validator,"
-		+ " com.excilys.computer.database.mapper")
+		+ " com.excilys.computer.database.mapper,"
+		+ " com.excilys.computer.database.rest")
 
 public class WebMvcConfig implements WebMvcConfigurer{
 	@Bean
