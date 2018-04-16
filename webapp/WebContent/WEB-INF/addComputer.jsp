@@ -29,7 +29,7 @@
             <a href="?lang=fr">FR</a>
            	<a href="?lang=en">EN</a>
             <div class="pull-right">
-            	${username}
+            	<a href="updateUser?username=${username}">${username}</a>
             	<a href="javascript:formSubmit()"><spring:message code="logout"/></a>
 			</div>
         </div>

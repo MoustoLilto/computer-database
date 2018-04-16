@@ -15,9 +15,14 @@ public class ServiceUser {
 
 	public void addUser(Users user) {
 		daouser.addUser(user);
+		daouser.adduserRole(user);
 	}
 	
-	public void upateUser(Users user) {
+	public void updateUser(Users user) {
 		daouser.updateUser(user);
+	}
+	
+	public Users getUser(String username) {
+		return daouser.getUser(username);
 	}
 }

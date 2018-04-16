@@ -26,11 +26,18 @@ public class DAOUsers {
 		this.sessionFactory = sessionFactory;
 	}
 	
-	public void addUser(Users user) {
-		sessionFactory.getCurrentSession().save(user);
+	public void adduserRole(Users user) {
 		UserRoles userRole = new UserRoles();
 		userRole.setUser(user);
 		sessionFactory.getCurrentSession().save(userRole);
+	}
+	
+	public void addUser(Users user) {
+		sessionFactory.getCurrentSession().save(user);
+	}
+	
+	public Users getUser(String username) {
+		return queryFactory.get().select(quser).from(quser).where(quser.username.eq(username)).fetchOne();
 	}
 	
 	public void updateUser(Users user) {

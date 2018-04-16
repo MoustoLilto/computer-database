@@ -32,7 +32,7 @@
             <div class="pull-right">
             	<c:choose>
 				    <c:when test="${not empty username}">
-				        ${username}
+				        <a href="updateUser?username=${username}">${username}</a>
 	            		<a href="javascript:formSubmit()"><spring:message code="logout"/></a>
 				    </c:when>    
 				    <c:otherwise>

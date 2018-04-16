@@ -15,12 +15,17 @@ import com.excilys.computer.database.core.exceptions.IntroducedSuperiorException
 import com.excilys.computer.database.core.exceptions.NumberFormatExceptionCDB;
 import com.excilys.computer.database.core.exceptions.PageLimitException;
 import com.excilys.computer.database.core.exceptions.TuplesLimitException;
+import com.excilys.computer.database.core.exceptions.UserAlreadyExistException;
 import com.excilys.computer.database.core.exceptions.YearLimitException;
 import com.excilys.computer.database.core.exceptions.champInconnueException;
+import com.excilys.computer.database.services.ServiceUser;
 
 @Component
 public class Validator {
-	public Validator() {
+	private final ServiceUser serviceUser;
+	
+	public Validator(ServiceUser serviceUser) {
+		this.serviceUser = serviceUser;
 	}
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -119,6 +124,13 @@ public class Validator {
 	public Boolean controleAuth(Authentication auth) throws DroitInsuffisantException {
 		if ((auth instanceof AnonymousAuthenticationToken)) {
 			throw new DroitInsuffisantException();
+		}
+		return true;
+	}
+	
+	public Boolean isUserExist(String username) throws UserAlreadyExistException {
+		if (serviceUser.getUser(username) != null) {
+			throw new UserAlreadyExistException();
 		}
 		return true;
 	}

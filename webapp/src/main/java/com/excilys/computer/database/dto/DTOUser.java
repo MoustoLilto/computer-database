@@ -1,8 +1,8 @@
 package com.excilys.computer.database.dto;
 
 public class DTOUser {
-	String username;
-	String password;
+	private String username;
+	private String password;
 	
 	public DTOUser(String username, String password) {
 		this.username = username;

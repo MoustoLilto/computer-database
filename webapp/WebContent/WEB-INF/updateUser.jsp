@@ -29,8 +29,7 @@
             <a href="?lang=fr">FR</a>
            	<a href="?lang=en">EN</a>
             <div class="pull-right">
-            	${username}
-            	<a href="javascript:formSubmit()"><spring:message code="logout"/></a>
+            <a href="javascript:formSubmit()"><spring:message code="logout"/></a>
 			</div>
         </div>
     </header>
@@ -39,35 +38,23 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
-                    <h1><spring:message code="AddComputer"/></h1>
+                	<div class="label label-default pull-right">
+                        <spring:message code="Username"/>: ${dtoUser.username}
+                    </div>
+                    <h1><spring:message code="UpdateUser"/></h1>
                     <c:if test="${not empty error}">
                     	<p><spring:message code="${error}"/></p>
                     </c:if>
-                    <form:form action="addComputer" method="POST" modelAttribute="DTOComputer">
+                    <form:form action="updateUser" method="POST" modelAttribute="DTOUser">
                         <fieldset>
+                        	<form:input type="hidden" path="username" name="userName" id="userName" value="${dtoUser.username}" />
                             <div class="form-group">
-                                <label for="computerName"><spring:message code="ComputerName"/></label>
-                                <form:input type="text" class="form-control" path="name" name="computerName" id="computerName" placeholder="Computer name"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="introduced"><spring:message code="IntroducedDate"/></label>
-                                <form:input type="date" class="form-control" path="introduced" name="introduced" id="introduced" min="1970-01-01" placeholder="Introduced date"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="discontinued"><spring:message code="DiscontinuedDate"/></label>
-                                <form:input type="date" class="form-control" path="discontinued" name="discontinued" id="discontinued" placeholder="Discontinued date"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="companyId"><spring:message code="Company"/></label>
-                                <form:select class="form-control" path="companyID" name="companyId" id="companyId">
-                                	 <c:forEach items="${allCompanies}" var="company">
-                                    	<option value="${company.id}">${company.name}</option>
-                                    </c:forEach> 
-                                </form:select>
-                            </div>                  
+                                <label for="password"><spring:message code="Password"/></label>
+                                <form:input type="text" class="form-control" path="password" name="password" id="password" placeholder="Password"/>
+                            </div>                
                         </fieldset>
                         <div class="actions pull-right">
-                            <input type="submit" value=<spring:message code="Add"/> class="btn btn-primary">
+                            <input type="submit" value=<spring:message code="Edit"/> class="btn btn-primary">
                             or
                             <a href="dashboard" class="btn btn-default"><spring:message code="Cancel"/></a>
                         </div>
