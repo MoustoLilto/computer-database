@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.excilys.computer.database.dto.DTOCompany;
-import com.excilys.computer.database.dto.DTOComputer;
+import com.excilys.computer.database.binding.dto.DTOCompany;
+import com.excilys.computer.database.binding.dto.DTOComputer;
 import com.excilys.computer.database.core.exceptions.DateTimeParseExceptionCDB;
 import com.excilys.computer.database.core.exceptions.IllegalCharacterException;
 import com.excilys.computer.database.core.exceptions.IntroducedSuperiorException;
 import com.excilys.computer.database.core.exceptions.YearLimitException;
-import com.excilys.computer.database.mapper.MapperCompany;
-import com.excilys.computer.database.mapper.MapperComputer;
+import com.excilys.computer.database.binding.mapper.MapperCompany;
+import com.excilys.computer.database.binding.mapper.MapperComputer;
 import com.excilys.computer.database.core.modele.Computer;
 import com.excilys.computer.database.services.ServiceCompany;
 import com.excilys.computer.database.services.ServiceComputer;

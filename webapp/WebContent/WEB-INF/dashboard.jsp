@@ -123,7 +123,7 @@
     <footer class="navbar-fixed-bottom">
         <div class="container text-center">
             <ul class="pagination">
-               <cdbTagLib:pagination attribute="${attribute}"/>
+            	<cdbTagLib:pagination attribute="${attribute}"></cdbTagLib:pagination>
         	</ul>
 
 	        <div class="btn-group btn-group-sm pull-right" role="group" >

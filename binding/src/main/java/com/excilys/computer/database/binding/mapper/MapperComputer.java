@@ -1,4 +1,4 @@
-package com.excilys.computer.database.mapper;
+package com.excilys.computer.database.binding.mapper;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.excilys.computer.database.core.modele.Company;
 import com.excilys.computer.database.core.modele.Computer;
-import com.excilys.computer.database.dto.DTOComputer;
+import com.excilys.computer.database.binding.dto.DTOComputer;
 import com.excilys.computer.database.services.ServiceCompany;
 
 @Component
@@ -60,10 +60,10 @@ public class MapperComputer {
 		if (dtoComputer.getName() != null) {
 			name = dtoComputer.getName();
 		}
-		if (!dtoComputer.getIntroduced().equals("") && dtoComputer.getIntroduced() != null) {
+		if (dtoComputer.getIntroduced() != null && !dtoComputer.getIntroduced().equals("")) {
 			introduced = LocalDate.parse(dtoComputer.getIntroduced(), formatter);
 		}
-		if (!dtoComputer.getDiscontinued().equals("") && dtoComputer.getDiscontinued() != null) {
+		if (dtoComputer.getDiscontinued() != null && !dtoComputer.getDiscontinued().equals("")) {
 			discontinued = LocalDate.parse(dtoComputer.getDiscontinued(), formatter);
 		}
 		companyID = Long.parseLong(dtoComputer.getCompanyID());

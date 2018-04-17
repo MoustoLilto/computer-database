@@ -18,8 +18,8 @@ import com.excilys.computer.database.core.exceptions.DroitInsuffisantException;
 import com.excilys.computer.database.core.exceptions.IllegalCharacterException;
 import com.excilys.computer.database.core.exceptions.UserAlreadyExistException;
 import com.excilys.computer.database.core.modele.Users;
-import com.excilys.computer.database.dto.DTOUser;
-import com.excilys.computer.database.mapper.MapperUser;
+import com.excilys.computer.database.binding.dto.DTOUser;
+import com.excilys.computer.database.binding.mapper.MapperUser;
 import com.excilys.computer.database.services.ServiceUser;
 import com.excilys.computer.database.validator.Validator;
 

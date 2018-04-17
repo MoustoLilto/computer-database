@@ -16,8 +16,8 @@ import com.excilys.computer.database.core.exceptions.IntroducedSuperiorException
 import com.excilys.computer.database.core.exceptions.RequestNotFoundException;
 import com.excilys.computer.database.core.exceptions.YearLimitException;
 import com.excilys.computer.database.core.modele.Computer;
-import com.excilys.computer.database.dto.DTOComputer;
-import com.excilys.computer.database.mapper.MapperComputer;
+import com.excilys.computer.database.binding.dto.DTOComputer;
+import com.excilys.computer.database.binding.mapper.MapperComputer;
 import com.excilys.computer.database.services.ServiceComputer;
 import com.excilys.computer.database.validator.Validator;
 import com.google.common.base.Preconditions;
@@ -46,13 +46,13 @@ public class ComputerControllerRest {
 	}
 	
 	@GetMapping("/computers")
-	public List<Computer> getAllComputer(){
-		return serviceComputer.getAllComputer();
+	public List<DTOComputer> getAllComputer(){
+		return mapperComputer.listToDTO(serviceComputer.getAllComputer());
 	}
 	
 	@GetMapping("/computers/{id}")
-	public Computer getComputer(@PathVariable("id") Long id){
-		return serviceComputer.detailComputer(id);
+	public DTOComputer getComputer(@PathVariable("id") Long id){
+		return mapperComputer.toDTO(serviceComputer.detailComputer(id));
 	}
 	
 	@GetMapping("/computers/nombre")
@@ -61,8 +61,8 @@ public class ComputerControllerRest {
 	}
 	
 	@GetMapping("/computers/{numTuple}/{nbreTuples}")
-	public List<Computer> getSomeComputer(@PathVariable("numTuple") int numTuple, @PathVariable("nbreTuples") int nbreTuples){
-		return serviceComputer.getSomeComputers(numTuple, nbreTuples, "computer.id", "ASC");
+	public List<DTOComputer> getSomeComputer(@PathVariable("numTuple") int numTuple, @PathVariable("nbreTuples") int nbreTuples){
+		return mapperComputer.listToDTO(serviceComputer.getSomeComputers(numTuple, nbreTuples, "computer.id", "ASC"));
 	}
 	
 	@DeleteMapping("/computers/delete/{id}")

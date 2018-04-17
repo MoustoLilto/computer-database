@@ -5,44 +5,40 @@ import java.util.Scanner;
 import org.springframework.stereotype.Component;
 
 import com.excilys.computer.database.console.observer.IObservable;
-import com.excilys.computer.database.core.modele.Company;
-import com.excilys.computer.database.services.ServiceCompany;
+import com.excilys.computer.database.console.rest.CompanyRestClient;
 
 @Component
 public class RmCompanyObservable implements IObservable {	
 	private Scanner sc;
-	private final ServiceCompany service;
+	private final CompanyRestClient restClient;
 	
-	public RmCompanyObservable(ServiceCompany service) {
-		this.service = service;
+	public RmCompanyObservable(CompanyRestClient restClient) {
+		this.restClient = restClient;
 	}
 
-	public int ajoutId(Company company) {
+	public long ajoutId() {
+		long id = -1;
 		sc = new Scanner(System.in);
 		System.out.print("Enter the id of the company: ");				
 		try {
-			long id = sc.nextLong();
-			company.setId(id);
-			company = service.getCompany(id);
+			id = sc.nextLong();
 		} catch(Exception e) {
 			System.out.println("erreur: "+ e);
 		}
-		return 0 ;
+		return id;
 	}
 	
 	public Boolean execute() {
-		Company company = new Company(); 
-		ajoutId(company);
-//		if (ajoutId(company)==0) {
-//			if (service.rmCompany(company)==0) {
-//				System.out.print("Company and all computers related to it are deleted!\n\n");
-//				return true;
-//			}
-//			
-//			System.out.print("Error deleting the company, check the input ID!\n\n");
-//			return true;
-//		}
-//		System.out.print("Please enter next time a valid ID!\n\n");
+		long id = ajoutId();
+		if (id != -1) {
+			if (restClient.rmCompany(id)==0) {
+				System.out.print("Company and all computers related to it are deleted!\n\n");
+				return true;
+			}
+			System.out.print("Error deleting the company, check the input ID!\n\n");
+			return true;
+		}
+		System.out.print("Please enter next time a valid ID!\n\n");
 		return true;
 	}
 }

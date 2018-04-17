@@ -23,9 +23,9 @@ import com.excilys.computer.database.core.exceptions.PageLimitException;
 import com.excilys.computer.database.core.exceptions.TuplesLimitException;
 import com.excilys.computer.database.core.exceptions.champInconnueException;
 import com.excilys.computer.database.core.modele.Computer;
-import com.excilys.computer.database.dto.Attribute;
-import com.excilys.computer.database.dto.ReqAttribute;
-import com.excilys.computer.database.mapper.MapperComputer;
+import com.excilys.computer.database.binding.dto.Attribute;
+import com.excilys.computer.database.binding.dto.ReqAttribute;
+import com.excilys.computer.database.binding.mapper.MapperComputer;
 import com.excilys.computer.database.services.ServiceComputer;
 import com.excilys.computer.database.validator.Validator;
 

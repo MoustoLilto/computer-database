@@ -1,4 +1,4 @@
-package com.excilys.computer.database.dto;
+package com.excilys.computer.database.binding.dto;
 
 public class DTOComputer {
 	private String id="0";

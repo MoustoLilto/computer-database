@@ -1,4 +1,4 @@
-package com.excilys.computer.database.dto;
+package com.excilys.computer.database.binding.dto;
 
 public class ReqAttribute {
 	public String orderBy;

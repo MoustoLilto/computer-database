@@ -8,7 +8,7 @@ public class ApplicationConfig extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] { SecurityConfig.class };
+        return new Class<?>[] { WebSpringConfiguration.class, SecurityConfig.class };
     }
 
     @Override

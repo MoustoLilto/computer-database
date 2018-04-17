@@ -20,7 +20,8 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableTransactionManagement
 @ComponentScan("com.excilys.computer.database.persistence.dao,"
 		+ " com.excilys.computer.database.services,"
-		+ " com.excilys.computer.database.console")
+		+ " com.excilys.computer.database.console,"
+		+ " com.excilys.computer.database.binding")
 public class CliSpringConfiguration {
 	
 	@Bean

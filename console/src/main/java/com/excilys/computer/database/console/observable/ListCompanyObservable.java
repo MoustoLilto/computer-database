@@ -4,20 +4,20 @@ import org.springframework.stereotype.Component;
 
 import com.excilys.computer.database.console.ComputerDatabaseCLI;
 import com.excilys.computer.database.console.observer.IObservable;
+import com.excilys.computer.database.console.rest.CompanyRestClient;
 import com.excilys.computer.database.core.modele.Company;
-import com.excilys.computer.database.services.ServiceCompany;
 
 @Component
 public class ListCompanyObservable implements IObservable {
-	final private ServiceCompany service;
+	final private CompanyRestClient restClient;
 	
-	public ListCompanyObservable(ServiceCompany service) {
-		this.service = service;
+	public ListCompanyObservable(CompanyRestClient restClient) {
+		this.restClient = restClient;
 	}
 
 	public Boolean execute() {
 		ComputerDatabaseCLI.clear(1);
-		for (Company company : service.getAllCompany())
+		for (Company company : restClient.getAllCompany())
 		{
 			System.out.println(company);
 		}

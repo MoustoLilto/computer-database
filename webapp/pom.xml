@@ -22,7 +22,7 @@
     <!-- == Modules == -->
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>services</artifactId>
+      <artifactId>binding</artifactId>
     </dependency>
 
     <!-- === Libs Tierces == -->

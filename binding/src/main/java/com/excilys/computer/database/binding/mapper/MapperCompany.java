@@ -1,11 +1,11 @@
-package com.excilys.computer.database.mapper;
+package com.excilys.computer.database.binding.mapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.excilys.computer.database.dto.DTOCompany;
+import com.excilys.computer.database.binding.dto.DTOCompany;
 import com.excilys.computer.database.core.modele.Company;
 
 @Component

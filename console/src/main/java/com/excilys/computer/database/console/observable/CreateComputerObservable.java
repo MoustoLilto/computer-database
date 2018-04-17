@@ -8,16 +8,16 @@ import java.util.Scanner;
 import org.springframework.stereotype.Component;
 
 import com.excilys.computer.database.console.observer.IObservable;
+import com.excilys.computer.database.console.rest.ComputerRestClient;
 import com.excilys.computer.database.core.modele.Computer;
-import com.excilys.computer.database.services.ServiceComputer;
 
 @Component
 public class CreateComputerObservable implements IObservable {	
 	private Scanner sc;
-	final private ServiceComputer service;
+	private final ComputerRestClient restClient;
 	
-	public CreateComputerObservable(ServiceComputer service) {
-		this.service = service;
+	public CreateComputerObservable(ComputerRestClient restClient) {
+		this.restClient = restClient;
 		this.sc = new Scanner(System.in);
 	}
 
@@ -114,7 +114,7 @@ public class CreateComputerObservable implements IObservable {
 		ajoutIntroduced(computer);		
 		ajoutDiscontinued(computer);
 		
-		if (service.addComputer(computer)==0) {
+		if (restClient.createComputer(computer)==0) {
 			System.out.print("Computer '" + computer.getName() + "' is added!\n\n");
 			return true;
 		}

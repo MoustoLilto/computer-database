@@ -26,17 +26,6 @@ public class AccueilObservable implements IObservable{
 		return accueil;
 	}
 	
-	/*
-	 {
-	  "id": 1,
-	  "name": "MacBook Pro 15.4 inch ",
-	  "introduced": "1997-02-13",
-	  "discontinued": "2019-03-12",
-	  "companyID": "2",
-	  "companyName": "Thinking Machines"
-	}
-	 */
-	
 	public Boolean execute() {
 		ComputerDatabaseCLI.clear(20);
 		System.out.print(accueil());
