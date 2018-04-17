@@ -5,11 +5,10 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.excilys.computer.database.core.modele.Company;
 import com.excilys.computer.database.persistence.dao.DAOCompany;
 import com.excilys.computer.database.persistence.dao.DAOComputer;
-import com.excilys.computer.database.core.modele.Company;
 
 @Service
 public class ServiceCompany {
@@ -34,7 +33,6 @@ public class ServiceCompany {
 		return daoCompany.getCompany(companyID);
 	}
 	
-	@Transactional
 	public int rmCompany(Company company) {
 		if (getCompany(company.getId())==null) {
 			return -1;

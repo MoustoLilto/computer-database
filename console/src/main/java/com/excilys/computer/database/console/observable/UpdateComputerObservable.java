@@ -8,16 +8,16 @@ import java.util.Scanner;
 import org.springframework.stereotype.Component;
 
 import com.excilys.computer.database.console.observer.IObservable;
+import com.excilys.computer.database.console.rest.ComputerRestClient;
 import com.excilys.computer.database.core.modele.Computer;
-import com.excilys.computer.database.services.ServiceComputer;
 
 @Component
 public class UpdateComputerObservable implements IObservable {
 	Scanner sc;
-	private final ServiceComputer service;
+	private final ComputerRestClient restClient;
 	
-	public UpdateComputerObservable(ServiceComputer service) {
-		this.service = service;
+	public UpdateComputerObservable(ComputerRestClient restClient) {
+		this.restClient = restClient;
 	}
 
 	public Computer getComputerUpdate() {
@@ -26,7 +26,7 @@ public class UpdateComputerObservable implements IObservable {
 		Computer computer = null;
 		try {
 			long id = sc.nextLong();
-			computer = service.detailComputer(id);
+			computer = restClient.getComputer(id);
 		} catch(Exception e) {
 		}
 		return computer;
@@ -140,7 +140,7 @@ public class UpdateComputerObservable implements IObservable {
 		updateIntroduced(computer);
 		updateDiscontinued(computer);
 		
-		if (service.updateComputer(computer)==0) {
+		if (restClient.updateComputer(computer)==0) {
 			System.out.print("Computer '" + computer.getName() + "' is updated!\n\n");
 			return true;
 		}

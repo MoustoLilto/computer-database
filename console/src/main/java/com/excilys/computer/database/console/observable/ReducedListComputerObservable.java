@@ -5,16 +5,16 @@ import java.util.Scanner;
 import org.springframework.stereotype.Component;
 
 import com.excilys.computer.database.console.observer.IObservable;
+import com.excilys.computer.database.console.rest.ComputerRestClient;
 import com.excilys.computer.database.core.modele.Computer;
-import com.excilys.computer.database.services.ServiceComputer;
 
 @Component
 public class ReducedListComputerObservable implements IObservable{
 	private Scanner sc;
-	private final ServiceComputer service;
+	private final ComputerRestClient restClient;
 	
-	public ReducedListComputerObservable(ServiceComputer service) {
-		this.service = service;
+	public ReducedListComputerObservable(ComputerRestClient restClient) {
+		this.restClient = restClient;
 	}
 	
 	public Boolean execute() {
@@ -35,7 +35,7 @@ public class ReducedListComputerObservable implements IObservable{
 		do {
 			System.out.print("\n<<<<<<<<<<<<<<<<<<< PAGE "+numPage+" (From row "+(numTuple+1)+" to row "+(numTuple+nbreTuples+1)+") <<<<<<<<<<<<<<<<<<<\n");
 			
-			for (Computer computer : service.getSomeComputers(numTuple, (nbreTuples), "computer.id", "ASC")) {
+			for (Computer computer : restClient.getSomeComputer(numTuple, nbreTuples)){
 				System.out.println(computer);
 			}
 			

@@ -4,20 +4,29 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import com.excilys.computer.database.core.exceptions.DateTimeParseExceptionCDB;
+import com.excilys.computer.database.core.exceptions.DroitInsuffisantException;
 import com.excilys.computer.database.core.exceptions.IllegalCharacterException;
 import com.excilys.computer.database.core.exceptions.IntroducedSuperiorException;
 import com.excilys.computer.database.core.exceptions.NumberFormatExceptionCDB;
 import com.excilys.computer.database.core.exceptions.PageLimitException;
+import com.excilys.computer.database.core.exceptions.RequestNotFoundException;
 import com.excilys.computer.database.core.exceptions.TuplesLimitException;
+import com.excilys.computer.database.core.exceptions.UserAlreadyExistException;
 import com.excilys.computer.database.core.exceptions.YearLimitException;
 import com.excilys.computer.database.core.exceptions.champInconnueException;
+import com.excilys.computer.database.services.ServiceUser;
 
 @Component
 public class Validator {
-	public Validator() {
+	private final ServiceUser serviceUser;
+	
+	public Validator(ServiceUser serviceUser) {
+		this.serviceUser = serviceUser;
 	}
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -111,5 +120,27 @@ public class Validator {
 			return true;
 		}
 		throw new champInconnueException(); 
+	}
+	
+	public Boolean controleAuth(Authentication auth) throws DroitInsuffisantException {
+		if ((auth instanceof AnonymousAuthenticationToken)) {
+			throw new DroitInsuffisantException();
+		}
+		return true;
+	}
+	
+	public Boolean isUserExist(String username) throws UserAlreadyExistException {
+		if (serviceUser.getUser(username) != null) {
+			throw new UserAlreadyExistException();
+		}
+		return true;
+	}
+	
+	public Boolean restRessource(Object object) throws RequestNotFoundException {
+		if (object ==null) {
+			System.out.println("LAHZLEIHAZEIL");
+			throw new RequestNotFoundException();
+		}
+		return true;
 	}
 }

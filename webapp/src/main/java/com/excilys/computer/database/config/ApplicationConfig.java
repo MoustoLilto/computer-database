@@ -2,11 +2,13 @@ package com.excilys.computer.database.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import com.excilys.computer.database.security.SecurityConfig;
+
 public class ApplicationConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] { WebSpringConfiguration.class };
+        return new Class<?>[] { WebSpringConfiguration.class, SecurityConfig.class };
     }
 
     @Override

@@ -10,7 +10,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.excilys.computer.database.dto.Attribute;
+import com.excilys.computer.database.binding.dto.Attribute;
 
 public class PaginationHandler extends BodyTagSupport{
 	private static final long serialVersionUID = 1L;
