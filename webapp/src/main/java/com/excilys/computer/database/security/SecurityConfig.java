@@ -31,9 +31,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	    http.csrf().ignoringAntMatchers("/companies**", "/companies/**", "/computers**", "/computers/**")
 	    	.and().authorizeRequests()
 	        .antMatchers("/", "/dashboard").permitAll()
-	        .antMatchers("/addComputer", "/editComputer").hasAnyRole("ADMIN", "USER")
+	        .antMatchers("/addComputer").hasAnyRole("ADMIN", "USER")
+	        .antMatchers("/editComputer").hasAnyRole("ADMIN")
 	        .and().formLogin().loginPage("/login").defaultSuccessUrl("/dashboard")
 	        .and().logout().logoutUrl("/logout").logoutSuccessUrl("/dashboard")
-	        .permitAll();
+	        .permitAll()
+	        .and().exceptionHandling().accessDeniedPage("/403");
 	}
 }

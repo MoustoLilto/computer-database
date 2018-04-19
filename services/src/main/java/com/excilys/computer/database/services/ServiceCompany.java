@@ -41,5 +41,13 @@ public class ServiceCompany {
 		daoCompany.rmCompany(company);
 		return 0;
 	}
+	
+	public void updateCompany(Company company) {
+		daoCompany.updateCompany(company);
+	}
+	
+	public void addCompany(Company company) {
+		daoCompany.addCompany(company);
+	}
 }
 

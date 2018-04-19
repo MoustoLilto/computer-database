@@ -35,7 +35,6 @@ public class UserController {
 		this.mapperUser = mapperUser;
 	}
 	
-	
 	@GetMapping("login")
 	public ModelAndView login(@RequestParam(value = "error", required = false) String error, @RequestParam(value = "logout", required = false) String logout) {
 	  ModelAndView model = new ModelAndView();
@@ -88,7 +87,7 @@ public class UserController {
 	@GetMapping("updateUser")
 	public String updateUser(ModelMap model, @RequestParam Map<String, String> params, RedirectAttributes redir, Locale locale) throws DroitInsuffisantException {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		validator.controleAuth(auth);
+		validator.controleAuth(auth, "ROLE_USER");
 		
 		String username = params.get("username");
 		Users user = serviceUser.getUser(username);

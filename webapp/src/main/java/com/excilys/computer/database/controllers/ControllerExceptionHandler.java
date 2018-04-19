@@ -4,7 +4,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.excilys.computer.database.core.exceptions.*;
+import com.excilys.computer.database.core.exceptions.DroitInsuffisantException;
+import com.excilys.computer.database.core.exceptions.IllegalCharacterException;
+import com.excilys.computer.database.core.exceptions.NumberFormatExceptionCDB;
+import com.excilys.computer.database.core.exceptions.PageLimitException;
+import com.excilys.computer.database.core.exceptions.TuplesLimitException;
+import com.excilys.computer.database.core.exceptions.champInconnueException;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {

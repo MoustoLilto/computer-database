@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -122,11 +121,11 @@ public class Validator {
 		throw new champInconnueException(); 
 	}
 	
-	public Boolean controleAuth(Authentication auth) throws DroitInsuffisantException {
-		if ((auth instanceof AnonymousAuthenticationToken)) {
-			throw new DroitInsuffisantException();
+	public Boolean controleAuth(Authentication auth, String role) throws DroitInsuffisantException {
+		if (auth.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals(role))) {
+			return true;
 		}
-		return true;
+		throw new DroitInsuffisantException();		
 	}
 	
 	public Boolean isUserExist(String username) throws UserAlreadyExistException {
@@ -138,7 +137,6 @@ public class Validator {
 	
 	public Boolean restRessource(Object object) throws RequestNotFoundException {
 		if (object ==null) {
-			System.out.println("LAHZLEIHAZEIL");
 			throw new RequestNotFoundException();
 		}
 		return true;

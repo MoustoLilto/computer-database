@@ -8,10 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.querydsl.jpa.hibernate.HibernateQueryFactory;
-
 import com.excilys.computer.database.core.modele.Company;
 import com.excilys.computer.database.core.modele.QCompany;
+import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 
 @Repository
 @Transactional
@@ -27,7 +26,7 @@ public class DAOCompany {
 		this.sessionFactory = sessionFactory;
 	}
 			
-	public com.excilys.computer.database.core.modele.Company getCompany(long companyId) {	
+	public Company getCompany(long companyId) {	
 		return queryFactory.get().select(qcompany).from(qcompany).where(qcompany.id.eq(companyId)).fetchOne();
 	}
 	
@@ -41,5 +40,16 @@ public class DAOCompany {
 
 	public void rmCompany(Company company) {
 		queryFactory.get().delete(qcompany).where(qcompany.id.eq(company.getId()));
+	}
+	
+	public void addCompany(Company company) {
+		sessionFactory.getCurrentSession().save(company);
+	}
+	
+	public void updateCompany(Company company) {
+		queryFactory.get().update(qcompany)
+		 .where(qcompany.id.eq(company.getId()))
+		 .set(qcompany.name, company.getName())
+		 .execute();
 	}
 }

@@ -93,11 +93,6 @@ public class ComputerControllerRest {
 			return HttpStatus.METHOD_NOT_ALLOWED;
 		}
 		
-		try {
-			validator.restRessource(serviceComputer.detailComputer(computer.getId()));
-		} catch (RequestNotFoundException e) {
-			return HttpStatus.NOT_FOUND;
-		}
 		serviceComputer.addComputer(computer);
 		return HttpStatus.OK;
 	}
@@ -123,6 +118,7 @@ public class ComputerControllerRest {
 		} catch (RequestNotFoundException e) {
 			return HttpStatus.NOT_FOUND;
 		}
+		
 		serviceComputer.updateComputer(computer);
 		return HttpStatus.OK;
 	}

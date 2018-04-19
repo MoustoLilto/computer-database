@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.excilys.computer.database.binding.dto.Attribute;
+import com.excilys.computer.database.binding.dto.ReqAttribute;
+import com.excilys.computer.database.binding.mapper.MapperComputer;
 import com.excilys.computer.database.core.exceptions.DroitInsuffisantException;
 import com.excilys.computer.database.core.exceptions.IllegalCharacterException;
 import com.excilys.computer.database.core.exceptions.NumberFormatExceptionCDB;
@@ -23,9 +26,6 @@ import com.excilys.computer.database.core.exceptions.PageLimitException;
 import com.excilys.computer.database.core.exceptions.TuplesLimitException;
 import com.excilys.computer.database.core.exceptions.champInconnueException;
 import com.excilys.computer.database.core.modele.Computer;
-import com.excilys.computer.database.binding.dto.Attribute;
-import com.excilys.computer.database.binding.dto.ReqAttribute;
-import com.excilys.computer.database.binding.mapper.MapperComputer;
 import com.excilys.computer.database.services.ServiceComputer;
 import com.excilys.computer.database.validator.Validator;
 
@@ -159,7 +159,7 @@ public class DashboardController {
 	@PostMapping("dashboard")
 	public String deleteComputer(ModelMap model, @RequestParam Map<String, String> params, Locale locale) throws NumberFormatExceptionCDB, IllegalCharacterException, TuplesLimitException, PageLimitException, champInconnueException, DroitInsuffisantException {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		validator.controleAuth(auth);
+		validator.controleAuth(auth, "ROLE_ADMIN");
 		
 		String selection = params.get("selection");		
 		if (selection != null && !selection.equals("")) {
@@ -172,7 +172,6 @@ public class DashboardController {
 				}
 			}
 		}
-		
 		return "redirect:dashboard";
 	}
 }
