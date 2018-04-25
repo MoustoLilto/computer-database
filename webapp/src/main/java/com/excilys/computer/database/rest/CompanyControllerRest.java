@@ -55,16 +55,15 @@ public class CompanyControllerRest {
 	
 	@DeleteMapping("/companies/delete/{id}")
 	public HttpStatus rmCompany(@PathVariable("id") Long companyID) {
-		Company company = null;
+		Company company = serviceCompany.getCompany(companyID);
 		try {
-			validator.restRessource(company = serviceCompany.getCompany(companyID));
+			validator.restRessource(company);
 		} catch (RequestNotFoundException e) {
 			return HttpStatus.NOT_FOUND;
 		}
-		if (serviceCompany.rmCompany(company)==0) {
-			return HttpStatus.OK;
-		}
-		return HttpStatus.NO_CONTENT;
+		
+		serviceCompany.rmCompany(company);
+		return HttpStatus.OK;
 	}
 	
 	@PostMapping("/companies/create")

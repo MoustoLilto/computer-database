@@ -39,7 +39,7 @@ public class DAOCompany {
 	}
 
 	public void rmCompany(Company company) {
-		queryFactory.get().delete(qcompany).where(qcompany.id.eq(company.getId()));
+		queryFactory.get().delete(qcompany).where(qcompany.id.eq(company.getId())).execute();
 	}
 	
 	public void addCompany(Company company) {

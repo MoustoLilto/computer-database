@@ -1,7 +1,7 @@
 package com.excilys.computer.database.binding.dto;
 
 public class DTOCompany {
-	private String id;
+	private String id="0";
 	private String name;
 	
 	public DTOCompany(String name) {

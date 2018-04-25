@@ -31,7 +31,7 @@ public class Validator {
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
 	public Boolean controleDate(String date) throws YearLimitException, DateTimeParseExceptionCDB{
-		if (date.equals("") || date == null) {
+		if (date == null || date.equals("")) {
 			return true;
 		}
 		LocalDate introd;
@@ -48,8 +48,8 @@ public class Validator {
 	
 	public Boolean compareDate(String introd, String discont) throws IntroducedSuperiorException{
 		
-		if (!discont.equals("") && discont != null) {
-			if(!introd.equals("") && introd != null) {
+		if (discont != null && !discont.equals("")) {
+			if(introd != null && !introd.equals("")) {
 				if ((LocalDate.parse(introd, formatter)).isAfter(LocalDate.parse(discont, formatter))) {
 					throw new IntroducedSuperiorException();
 				}
