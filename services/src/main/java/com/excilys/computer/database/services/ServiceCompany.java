@@ -37,7 +37,6 @@ public class ServiceCompany {
 	@Transactional
 	public int rmCompany(Company company) {
 		daocomputer.rmComputerByCompany(company);
-		System.out.println(company);
 		daoCompany.rmCompany(company);
 		return 0;
 	}
